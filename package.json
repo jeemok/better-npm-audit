@@ -11,10 +11,19 @@
   "keywords": [
     "npm",
     "audit",
+    "skip",
+    "ignore",
     "node",
     "security",
     "advisory",
-    "vulnerabilities"
+    "vulnerabilities",
+    "continuous integration",
+    "dependencies",
+    "check",
+    "build",
+    "script",
+    "nsp",
+    "ci"
   ],
   "main": "index.js",
   "dependencies": {
