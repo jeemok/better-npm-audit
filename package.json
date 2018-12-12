@@ -21,6 +21,6 @@
     "commander": "^2.19.0"
   },
   "engines": {
-    "node": "8.2"
+    "node": "8.12"
   }
 }
