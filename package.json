@@ -2,8 +2,20 @@
   "name": "better-npm-audit",
   "version": "0.1.2",
   "author": "Jee Mok <jee.ict@hotmail.com>",
-  "description": "NPM Audit Handler",
+  "description": "Better npm audit",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeemok/better-npm-audit"
+  },
+  "keywords": [
+    "npm",
+    "audit",
+    "node",
+    "security",
+    "advisory",
+    "vulnerabilities"
+  ],
   "main": "index.js",
   "dependencies": {
     "commander": "^2.19.0"
