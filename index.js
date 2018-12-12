@@ -48,7 +48,7 @@ program
       const vulnerabilities = uniqueIds.filter(id => (exceptionIds.indexOf(id) === -1));
 
       if (vulnerabilities.length > 0) {
-        throw new Error('Vulnerabilities found', JSON.stringify(vulnerabilities));
+        throw new Error(`${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`);
       }
       else {
         console.log(data);
