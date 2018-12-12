@@ -1,0 +1,14 @@
+{
+  "name": "npm-audit-handler",
+  "version": "0.1.0",
+  "author": "Jee Mok <jee.ict@hotmail.com>",
+  "description": "NPM Audit Handler",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "commander": "^2.19.0"
+  },
+  "engines": {
+    "node": "8.2"
+  }
+}
