@@ -1,6 +1,6 @@
 {
   "name": "better-npm-audit",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Jee Mok <jee.ict@hotmail.com>",
   "description": "Better npm audit",
   "license": "MIT",
