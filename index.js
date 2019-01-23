@@ -8,7 +8,7 @@ let program = require('commander');
 let { exec } = require('child_process');
 
 const AUDIT_COMMAND = 'npm audit';
-const SPLIT_STRING = 'https://nodesecurity.io/advisories/';
+const SPLIT_REGEX = /(https:\/\/(nodesecurity.io|npmjs.com)\/advisories\/)/;
 
 let exceptionIds = [];
 
@@ -29,7 +29,7 @@ program
 
     // stdout
     audit.stdout.on('data', data => {
-      const ids = data.split(SPLIT_STRING).map(str => str.substring(0, 4).trim());
+      const ids = data.split(SPLIT_REGEX).map(str => str.substring(0, 4).trim());
 
       const numberIds = ids.map(id => {
         if (isNaN(parseInt(id, 10))) {
