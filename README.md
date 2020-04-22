@@ -31,6 +31,12 @@ For skipping certain advisories, you can use `-i` or verbose `--ignore` flags
 node node_modules/better-npm-audit audit -i 118,577
 ```
 
+To avoid waterflow logging on your console, there is a character limit set to the output. To view the full audit logs, you can use `-f` or verbose `--full` flags
+
+```
+node node_modules/better-npm-audit audit -f
+```
+
 ## Examples
 
 Running `node node_modules/better-npm-audit audit` with vulnerabilities, will receive the error:

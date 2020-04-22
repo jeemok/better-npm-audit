@@ -11,6 +11,7 @@ const AUDIT_COMMAND = 'npm audit';
 const SEPARATOR = ',';
 const SPLIT_REGEX = /(https:\/\/(nodesecurity.io|npmjs.com)\/advisories\/)/;
 const DIGIT_REGEX = /^\d+$/;
+const DEFAULT_MESSSAGE_LIMIT = 100000; // characters
 
 function isNumber(string) {
   return DIGIT_REGEX.test(string);
@@ -23,12 +24,13 @@ function unique(value, index, self) {
 let userExceptionIds = [];
 
 program
-  .version('0.1.0')
+  .version('1.1.0')
 
 program
   .command('audit')
   .description('execute npm audit')
-  .option("-i, --ignore <ids>", "Vulnerabilities ID(s) to ignore")
+  .option("-i, --ignore <ids>", 'Vulnerabilities ID(s) to ignore')
+  .option("-f, --full", `Display the full audit logs. Default to ${DEFAULT_MESSSAGE_LIMIT} characters.`)
   .action(function(options) {
     if (options && options.ignore) {
       userExceptionIds = options.ignore.split(SEPARATOR);
@@ -50,13 +52,31 @@ program
       const uniqueIds = numberIds.filter(unique);
       // Check if there is any more exceptions other than the user selected to ignore
       const vulnerabilities = uniqueIds.filter(id => (userExceptionIds.indexOf(id) === -1));
-      // Throw error if found more exceptions
+      // Throw error if we found more exceptions
       if (vulnerabilities.length > 0) {
-        const message = `${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`
+        const message = `${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`;
         throw new Error(message);
       }
       else {
-        console.info(data);
+        // If the display-all flag is passed in, display full audit logs
+        if (options.full) {
+          console.info(data);
+        }
+        // Otherwise, trim audit logs within the maximum characters limit
+        else {
+          const toDisplay = data.substring(0, DEFAULT_MESSSAGE_LIMIT);
+          // Display into console
+          console.info(toDisplay);
+          // Display additional info if it is not the full message
+          if (toDisplay.length < data.length) {
+            console.info('');
+            console.info('...');
+            console.info('');
+            console.info('[MAXIMUM EXCEEDED] Logs exceeded the maximum characters limit. Add the flag `-f` to see the full audit logs.');
+            console.info('');
+          }
+        }
+        // Happy happy, joy joy
         console.info('🤝  All good!');
       }
     });
