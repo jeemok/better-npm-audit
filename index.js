@@ -7,7 +7,7 @@
 const program = require('commander');
 const { exec } = require('child_process');
 
-const AUDIT_COMMAND = 'npm audit';
+const BASE_COMMAND = 'npm audit';
 const SEPARATOR = ',';
 const SPLIT_REGEX = /(https:\/\/(nodesecurity.io|npmjs.com)\/advisories\/)/;
 const DIGIT_REGEX = /^\d+$/;
@@ -31,14 +31,22 @@ program
   .description('execute npm audit')
   .option("-i, --ignore <ids>", 'Vulnerabilities ID(s) to ignore')
   .option("-f, --full", `Display the full audit logs. Default to ${DEFAULT_MESSSAGE_LIMIT} characters.`)
+  .option("-p, --production", "Skip checking devDependencies")
   .action(function(options) {
     if (options && options.ignore) {
       userExceptionIds = options.ignore.split(SEPARATOR);
       console.info('Exception vulnerabilities ID(s): ', userExceptionIds);
     }
 
-    // Execute `npm audit` command to get the security report
-    const audit = exec(AUDIT_COMMAND);
+    let auditCommand = BASE_COMMAND;
+
+    if (options && options.production) {
+      auditCommand += " --production";
+    }
+
+    // Execute `npm audit` command to get the security report, taking into account
+    // any additional flags that have been passed through
+    const audit = exec(auditCommand);
 
     // stdout
     audit.stdout.on('data', data => {
