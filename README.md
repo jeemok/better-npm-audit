@@ -25,16 +25,30 @@ Made to allow skipping certain vulnerabilities, and any extra handling that are 
 
 ## Flags
 
+#### Ignore certain vulnerabilities
 For skipping certain advisories, you can use `-i` or verbose `--ignore` flags
 
 ```
 node node_modules/better-npm-audit audit -i 118,577
 ```
 
-To avoid waterfall logging on your console, there is a character limit set to the output. To view the full audit logs, you can use `-f` or verbose `--full` flags
+#### Display full report
+To avoid waterfall logging on your console screen, there is a character limit set to the output. To view the full audit logs, you can use `-f` or verbose `--full` flags
 
 ```
 node node_modules/better-npm-audit audit -f
+```
+
+#### Minimum audit level (`--audit-level`)
+Fail an audit only if the results include a vulnerability with a level of moderate or higher:
+```
+node node_modules/better-npm-audit audit -l critical
+```
+
+#### Production mode (`--production`)
+Skip checking `devDependencies`
+```
+node node_modules/better-npm-audit audit -p
 ```
 
 ## Examples
@@ -141,3 +155,6 @@ found 5 vulnerabilities (1 low, 4 high) in 30441 scanned packages
 
 🤝  All good
 ```
+
+## Special thanks
+Thank you [@IPWright83](https://github.com/IPWright83) for his solutions in improving the vulnerability validation for us to have the minimum-audit-level and production-mode flags.
