@@ -12,6 +12,7 @@ const SEPARATOR = ",";
 const SPLIT_REGEX = /(https:\/\/(nodesecurity.io|npmjs.com)\/advisories\/)/;
 const DIGIT_REGEX = /^\d+$/;
 const DEFAULT_MESSSAGE_LIMIT = 100000; // characters
+const MAX_BUFFER_SIZE = 1024 * 1000 * 50; // 50 MB
 
 /**
  * Converts an audit level to a numeric value for filtering purposes
@@ -84,7 +85,8 @@ function audit(auditCommand, auditLevel, fullLog) {
   // Execute `npm audit` command to get the security report, taking into account
   // any additional flags that have been passed through. Using the JSON flag
   // to make this easier to process
-  const audit = exec(`${auditCommand} --json`);
+  // NOTE: Increase max buffer size from default 1MB
+  const audit = exec(`${auditCommand} --json` , { maxBuffer: MAX_BUFFER_SIZE });
 
   // Grab the data in chunks and buffer it as we're unable to
   // parse JSON straight from stdout
