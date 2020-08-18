@@ -27,7 +27,7 @@
   ],
   "main": "index.js",
   "bin": {
-    "better-audit": "./index.js"
+    "better-npm-audit": "./index.js"
   },
   "dependencies": {
     "commander": "^2.19.0"
