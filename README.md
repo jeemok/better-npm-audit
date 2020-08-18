@@ -9,10 +9,15 @@ Made to allow skipping certain vulnerabilities, and any extra handling that are 
 
 ## Installation
 
-    $ npm install better-npm-audit --save
+    $ npm install better-npm-audit
 
+or
 
-## Package.json
+    $ npm install -g better-npm-audit
+
+## Useage
+    
+### Package.json
 
 ```JSON
 {
@@ -22,6 +27,11 @@ Made to allow skipping certain vulnerabilities, and any extra handling that are 
   }
 }
 ```
+
+### Run Global
+
+`better-npm-audit audit`
+
 
 ## Flags
 
