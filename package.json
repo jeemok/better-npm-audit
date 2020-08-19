@@ -26,6 +26,9 @@
     "ci"
   ],
   "main": "index.js",
+  "bin": {
+    "better-npm-audit": "./index.js"
+  },
   "dependencies": {
     "commander": "^2.19.0"
   },
