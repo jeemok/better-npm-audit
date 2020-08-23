@@ -4,8 +4,7 @@ Made to allow skipping certain vulnerabilities, and any extra handling that are 
 
 [![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square)
 
 ## Installation
 
@@ -16,7 +15,7 @@ or
     $ npm install -g better-npm-audit
 
 ## Useage
-    
+
 ### Package.json
 
 ```JSON
@@ -32,10 +31,10 @@ or
 
 `better-npm-audit audit`
 
-
 ## Flags
 
 #### Ignore certain vulnerabilities
+
 For skipping certain advisories, you can use `-i` or verbose `--ignore` flags
 
 ```
@@ -43,6 +42,7 @@ node node_modules/better-npm-audit audit -i 118,577
 ```
 
 #### Display full report
+
 To avoid waterfall logging on your console screen, there is a character limit set to the output. To view the full audit logs, you can use `-f` or verbose `--full` flags
 
 ```
@@ -50,13 +50,17 @@ node node_modules/better-npm-audit audit -f
 ```
 
 #### Minimum audit level (`--audit-level`)
+
 Fail an audit only if the results include a vulnerability with a level of moderate or higher:
+
 ```
 node node_modules/better-npm-audit audit -l critical
 ```
 
 #### Production mode (`--production`)
+
 Skip checking `devDependencies`
+
 ```
 node node_modules/better-npm-audit audit -p
 ```
@@ -167,4 +171,11 @@ found 5 vulnerabilities (1 low, 4 high) in 30441 scanned packages
 ```
 
 ## Special thanks
+
 Thank you [@IPWright83](https://github.com/IPWright83) for his solutions in improving the vulnerability validation for us to have the minimum-audit-level and production-mode flags.
+
+---
+
+If you like this project,
+
+<a href="https://www.buymeacoffee.com/jeemok" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
