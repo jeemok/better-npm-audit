@@ -100,7 +100,7 @@ function audit(auditCommand, auditLevel, fullLog) {
     const { advisories } = JSON.parse(jsonBuffer);
 
     // Grab any un-filtered vunerablities at the appropriate level
-    const vulnerabilities = Object.values(advisories || {})
+    const vulnerabilities = Object.values(advisories)
       .filter(advisory => mapLevelToNumber(advisory.severity) >= auditLevel)
       .map(advisory => advisory.id)
       .filter(id => userExceptionIds.indexOf(id) === -1);
