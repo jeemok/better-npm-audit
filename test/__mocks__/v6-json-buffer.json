@@ -1,0 +1,1037 @@
+{
+    "actions": [
+        {
+            "isMajor": true,
+            "action": "install",
+            "resolves": [
+                {
+                    "id": 1084,
+                    "path": "loopback-connector-rest>strong-globalize>os-locale>mem",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                }
+            ],
+            "module": "loopback-connector-rest",
+            "target": "4.0.1"
+        },
+        {
+            "isMajor": true,
+            "action": "install",
+            "resolves": [
+                {
+                    "id": 1179,
+                    "path": "mocha>mkdirp>minimist",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1500,
+                    "path": "mocha>yargs-parser",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1500,
+                    "path": "mocha>yargs-unparser>yargs>yargs-parser",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                }
+            ],
+            "module": "mocha",
+            "target": "8.3.0"
+        },
+        {
+            "isMajor": true,
+            "action": "install",
+            "resolves": [
+                {
+                    "id": 1523,
+                    "path": "loopback-boot>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                }
+            ],
+            "module": "loopback-boot",
+            "target": "3.3.1"
+        },
+        {
+            "isMajor": true,
+            "action": "install",
+            "resolves": [
+                {
+                    "id": 1589,
+                    "path": "nodemon>chokidar>fsevents>node-pre-gyp>rc>ini",
+                    "dev": true,
+                    "optional": true,
+                    "bundled": true
+                }
+            ],
+            "module": "nodemon",
+            "target": "2.0.7"
+        },
+        {
+            "action": "update",
+            "resolves": [
+                {
+                    "id": 1213,
+                    "path": "nodemon>update-notifier>configstore>dot-prop",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                }
+            ],
+            "module": "dot-prop",
+            "target": "4.2.1",
+            "depth": 4
+        },
+        {
+            "action": "update",
+            "resolves": [
+                {
+                    "id": 1523,
+                    "path": "lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>async>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-connector-remote>loopback-datasource-juggler>async>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-datasource-juggler>async>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-connector-remote>strong-remoting>loopback-phase>async>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>strong-remoting>loopback-phase>async>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-phase>async>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-component-explorer>loopback-swagger>async>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-connector-mongodb>async>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-connector-rest>strong-globalize>g11n-pipeline>swagger-client>isomorphic-form-data>form-data>async>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-connector-remote>loopback-datasource-juggler>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-datasource-juggler>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-connector-remote>loopback-datasource-juggler>loopback-connector>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-datasource-juggler>loopback-connector>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-connector-mongodb>loopback-connector>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-connector-remote>loopback-datasource-juggler>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-datasource-juggler>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-connector-remote>strong-remoting>loopback-phase>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>strong-remoting>loopback-phase>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-phase>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-connector-remote>strong-remoting>strong-error-handler>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>strong-remoting>strong-error-handler>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "strong-error-handler>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-boot>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-component-explorer>loopback-swagger>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-component-explorer>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-connector-mongodb>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-connector-remote>strong-remoting>jayson>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>strong-remoting>jayson>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>loopback-connector-remote>strong-remoting>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback>strong-remoting>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-component-explorer>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-component-explorer>loopback-swagger>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-connector-rest>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-connector-rest>strong-globalize>g11n-pipeline>swagger-client>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "loopback-connector-rest>strong-globalize>lodash",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "eslint>inquirer>lodash",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "eslint>lodash",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "eslint>table>lodash",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "mocha>yargs-unparser>lodash",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "sinon>@sinonjs/formatio>@sinonjs/samsam>lodash",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "sinon>nise>@sinonjs/formatio>@sinonjs/samsam>lodash",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1523,
+                    "path": "sinon>@sinonjs/samsam>lodash",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                }
+            ],
+            "module": "lodash",
+            "target": "4.17.21",
+            "depth": 8
+        },
+        {
+            "action": "update",
+            "resolves": [
+                {
+                    "id": 1555,
+                    "path": "loopback>loopback-connector-remote>loopback-datasource-juggler>loopback-connector>msgpack5>bl",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1555,
+                    "path": "loopback>loopback-datasource-juggler>loopback-connector>msgpack5>bl",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1555,
+                    "path": "loopback-connector-mongodb>loopback-connector>msgpack5>bl",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                }
+            ],
+            "module": "bl",
+            "target": "2.2.1",
+            "depth": 6
+        },
+        {
+            "action": "update",
+            "resolves": [
+                {
+                    "id": 1556,
+                    "path": "loopback-connector-rest>strong-globalize>g11n-pipeline>swagger-client>cross-fetch>node-fetch",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                }
+            ],
+            "module": "swagger-client",
+            "target": "3.13.1",
+            "depth": 4
+        },
+        {
+            "action": "update",
+            "resolves": [
+                {
+                    "id": 1589,
+                    "path": "nodemon>update-notifier>is-installed-globally>global-dirs>ini",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1589,
+                    "path": "nodemon>update-notifier>latest-version>package-json>registry-auth-token>rc>ini",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 1589,
+                    "path": "nodemon>update-notifier>latest-version>package-json>registry-url>rc>ini",
+                    "dev": true,
+                    "optional": false,
+                    "bundled": false
+                }
+            ],
+            "module": "ini",
+            "target": "1.3.8",
+            "depth": 7
+        },
+        {
+            "action": "review",
+            "module": "swagger-ui",
+            "resolves": [
+                {
+                    "id": 975,
+                    "path": "loopback-component-explorer>swagger-ui",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 976,
+                    "path": "loopback-component-explorer>swagger-ui",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                },
+                {
+                    "id": 985,
+                    "path": "loopback-component-explorer>swagger-ui",
+                    "dev": false,
+                    "optional": false,
+                    "bundled": false
+                }
+            ]
+        }
+    ],
+    "advisories": {
+        "975": {
+            "findings": [
+                {
+                    "version": "2.2.10",
+                    "paths": [
+                        "loopback-component-explorer>swagger-ui"
+                    ]
+                }
+            ],
+            "id": 975,
+            "created": "2019-06-17T15:17:02.540Z",
+            "updated": "2019-06-20T21:07:38.339Z",
+            "deleted": null,
+            "title": "Reverse Tabnapping",
+            "found_by": {
+                "link": "",
+                "name": "Unknown"
+            },
+            "reported_by": {
+                "link": "",
+                "name": "Unknown"
+            },
+            "module_name": "swagger-ui",
+            "cves": [],
+            "vulnerable_versions": "<3.18.0",
+            "patched_versions": ">=3.18.0",
+            "overview": "Versions of `swagger-ui` prior to 3.18.0 are vulnerable to [Reverse Tabnapping](https://www.owasp.org/index.php/Reverse_Tabnabbing). The package uses `target='_blank'` in anchor tags, allowing attackers to access `window.opener` for the original page. This is commonly used for phishing attacks.",
+            "recommendation": "Upgrade to version 3.18.0 or later.",
+            "references": "- [Swagger-UI Release](https://github.com/swagger-api/swagger-ui/releases/tag/v3.18.0)\n- [Snyk Report](https://snyk.io/vuln/SNYK-JS-SWAGGERUI-449808)",
+            "access": "public",
+            "severity": "moderate",
+            "cwe": "CWE-1022",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 3,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/975"
+        },
+        "976": {
+            "findings": [
+                {
+                    "version": "2.2.10",
+                    "paths": [
+                        "loopback-component-explorer>swagger-ui"
+                    ]
+                }
+            ],
+            "id": 976,
+            "created": "2019-06-17T15:23:48.171Z",
+            "updated": "2019-06-20T21:07:54.116Z",
+            "deleted": null,
+            "title": "Cross-Site Scripting",
+            "found_by": {
+                "link": "",
+                "name": "Unknown"
+            },
+            "reported_by": {
+                "link": "",
+                "name": "Unknown"
+            },
+            "module_name": "swagger-ui",
+            "cves": [],
+            "vulnerable_versions": "<3.20.9",
+            "patched_versions": ">=3.20.9",
+            "overview": "Versions of `swagger-ui` prior to 3.20.9 are vulnerable to Cross-Site Scripting (XSS). The package fails to sanitize URLs used in the OAuth auth flow, which may allow attackers to execute arbitrary JavaScript.",
+            "recommendation": "Upgrade to version 3.20.9 or later.",
+            "references": "- [GitHub PR](https://github.com/swagger-api/swagger-ui/pull/5190)\n- [Snyk Report](https://snyk.io/vuln/SNYK-JS-SWAGGERUI-449921)",
+            "access": "public",
+            "severity": "moderate",
+            "cwe": "CWE-79",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 6,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/976"
+        },
+        "985": {
+            "findings": [
+                {
+                    "version": "2.2.10",
+                    "paths": [
+                        "loopback-component-explorer>swagger-ui"
+                    ]
+                }
+            ],
+            "id": 985,
+            "created": "2019-06-18T21:16:15.759Z",
+            "updated": "2019-07-16T21:49:18.791Z",
+            "deleted": null,
+            "title": "Cross-Site Scripting",
+            "found_by": {
+                "link": "",
+                "name": "webron"
+            },
+            "reported_by": {
+                "link": "",
+                "name": "webron"
+            },
+            "module_name": "swagger-ui",
+            "cves": [],
+            "vulnerable_versions": "<3.0.13",
+            "patched_versions": ">=3.0.13",
+            "overview": "Versions of `swagger-ui` prior to 3.0.13 are vulnerable to Cross-Site Scripting (XSS). The package fails to sanitize YAML files imported from URLs or copied-pasted. This may allow attackers to execute arbitrary JavaScript.",
+            "recommendation": "Upgrade to version 3.0.13 or later.",
+            "references": "- [GitHub Issue](https://github.com/swagger-api/swagger-ui/issues/3163)\n- [Snyk Report](https://snyk.io/vuln/SNYK-JS-SWAGGERUI-449941)",
+            "access": "public",
+            "severity": "moderate",
+            "cwe": "CWE-79",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 5,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/985"
+        },
+        "1084": {
+            "findings": [
+                {
+                    "version": "1.1.0",
+                    "paths": [
+                        "loopback-connector-rest>strong-globalize>os-locale>mem"
+                    ]
+                }
+            ],
+            "id": 1084,
+            "created": "2019-07-18T21:30:31.935Z",
+            "updated": "2019-11-19T23:31:37.349Z",
+            "deleted": null,
+            "title": "Denial of Service",
+            "found_by": {
+                "link": "",
+                "name": "Juan Campa",
+                "email": ""
+            },
+            "reported_by": {
+                "link": "",
+                "name": "Juan Campa",
+                "email": ""
+            },
+            "module_name": "mem",
+            "cves": [],
+            "vulnerable_versions": "<4.0.0",
+            "patched_versions": ">=4.0.0",
+            "overview": "Versions of `mem` prior to 4.0.0 are vulnerable to Denial of Service (DoS).  The package fails to remove old values from the cache even after a value passes its `maxAge` property. This may allow attackers to exhaust the system's memory if they are able to abuse the application logging.",
+            "recommendation": "Upgrade to version 4.0.0 or later.",
+            "references": "- [Snyk Report](https://snyk.io/vuln/npm:mem:20180117)",
+            "access": "public",
+            "severity": "low",
+            "cwe": "CWE-400",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 2,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/1084"
+        },
+        "1179": {
+            "findings": [
+                {
+                    "version": "0.0.8",
+                    "paths": [
+                        "mocha>mkdirp>minimist"
+                    ]
+                }
+            ],
+            "id": 1179,
+            "created": "2019-09-23T15:01:43.049Z",
+            "updated": "2020-03-18T19:41:45.921Z",
+            "deleted": null,
+            "title": "Prototype Pollution",
+            "found_by": {
+                "link": "https://www.checkmarx.com/resources/blog/",
+                "name": "Checkmarx Research Team",
+                "email": ""
+            },
+            "reported_by": {
+                "link": "https://www.checkmarx.com/resources/blog/",
+                "name": "Checkmarx Research Team",
+                "email": ""
+            },
+            "module_name": "minimist",
+            "cves": [],
+            "vulnerable_versions": "<0.2.1 || >=1.0.0 <1.2.3",
+            "patched_versions": ">=0.2.1 <1.0.0 || >=1.2.3",
+            "overview": "Affected versions of `minimist` are vulnerable to prototype pollution. Arguments are not properly sanitized, allowing an attacker to modify the prototype of `Object`, causing the addition or modification of an existing property that will exist on all objects.  \nParsing the argument `--__proto__.y=Polluted` adds a `y` property with value `Polluted` to all objects. The argument `--__proto__=Polluted` raises and uncaught error and crashes the application.  \nThis is exploitable if attackers have control over the arguments being passed to `minimist`.\n",
+            "recommendation": "Upgrade to versions 0.2.1, 1.2.3 or later.",
+            "references": "- [GitHub commit 1](https://github.com/substack/minimist/commit/4cf1354839cb972e38496d35e12f806eea92c11f#diff-a1e0ee62c91705696ddb71aa30ad4f95)\n- [GitHub commit 2](https://github.com/substack/minimist/commit/63e7ed05aa4b1889ec2f3b196426db4500cbda94)",
+            "access": "public",
+            "severity": "low",
+            "cwe": "CWE-471",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 1,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/1179"
+        },
+        "1213": {
+            "findings": [
+                {
+                    "version": "4.2.0",
+                    "paths": [
+                        "nodemon>update-notifier>configstore>dot-prop"
+                    ]
+                }
+            ],
+            "id": 1213,
+            "created": "2019-10-14T17:43:55.291Z",
+            "updated": "2020-08-17T14:06:09.214Z",
+            "deleted": null,
+            "title": "Prototype Pollution",
+            "found_by": {
+                "link": "",
+                "name": "Unknown",
+                "email": ""
+            },
+            "reported_by": {
+                "link": "",
+                "name": "Unknown",
+                "email": ""
+            },
+            "module_name": "dot-prop",
+            "cves": [
+                "CVE-2020-8116"
+            ],
+            "vulnerable_versions": "<4.2.1 || >=5.0.0 <5.1.1",
+            "patched_versions": ">=4.2.1 <5.0.0 || >=5.1.1",
+            "overview": "Versions of `dot-prop` before 4.2.1 or 5.1.1 are vulnerable to prototype pollution. The function `set` does not restrict the modification of an Object's prototype, which may allow an attacker to add or modify an existing property that will exist on all objects.\n\n",
+            "recommendation": "Upgrade to version 4.2.1, 5.1.1 or later.",
+            "references": "- [GitHub advisory](https://github.com/advisories/GHSA-ff7x-qrg7-qggm)\n- [CVE](https://nvd.nist.gov/vuln/detail/CVE-2020-8116)",
+            "access": "public",
+            "severity": "high",
+            "cwe": "CWE-471",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 4,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/1213"
+        },
+        "1500": {
+            "findings": [
+                {
+                    "version": "13.0.0",
+                    "paths": [
+                        "mocha>yargs-parser"
+                    ]
+                },
+                {
+                    "version": "11.1.1",
+                    "paths": [
+                        "mocha>yargs-unparser>yargs>yargs-parser"
+                    ]
+                }
+            ],
+            "id": 1500,
+            "created": "2020-03-26T19:21:50.174Z",
+            "updated": "2020-05-01T01:05:15.020Z",
+            "deleted": null,
+            "title": "Prototype Pollution",
+            "found_by": {
+                "link": "",
+                "name": "Snyk Security Team",
+                "email": ""
+            },
+            "reported_by": {
+                "link": "",
+                "name": "Snyk Security Team",
+                "email": ""
+            },
+            "module_name": "yargs-parser",
+            "cves": [],
+            "vulnerable_versions": "<13.1.2 || >=14.0.0 <15.0.1 || >=16.0.0 <18.1.2",
+            "patched_versions": ">=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2",
+            "overview": "Affected versions of `yargs-parser` are vulnerable to prototype pollution. Arguments are not properly sanitized, allowing an attacker to modify the prototype of `Object`, causing the addition or modification of an existing property that will exist on all objects.  \nParsing the argument `--foo.__proto__.bar baz'` adds a `bar` property with value `baz` to all objects. This is only exploitable if attackers have control over the arguments being passed to `yargs-parser`.\n",
+            "recommendation": "Upgrade to versions 13.1.2, 15.0.1, 18.1.1 or later.",
+            "references": "- [Snyk Report](https://snyk.io/vuln/SNYK-JS-YARGSPARSER-560381)",
+            "access": "public",
+            "severity": "low",
+            "cwe": "CWE-471",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 1,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/1500"
+        },
+        "1523": {
+            "findings": [
+                {
+                    "version": "4.17.15",
+                    "paths": [
+                        "lodash",
+                        "loopback>async>lodash",
+                        "loopback>loopback-connector-remote>loopback-datasource-juggler>async>lodash",
+                        "loopback>loopback-datasource-juggler>async>lodash",
+                        "loopback>loopback-connector-remote>strong-remoting>loopback-phase>async>lodash",
+                        "loopback>strong-remoting>loopback-phase>async>lodash",
+                        "loopback>loopback-phase>async>lodash",
+                        "loopback-component-explorer>loopback-swagger>async>lodash",
+                        "loopback-connector-mongodb>async>lodash",
+                        "loopback-connector-rest>strong-globalize>g11n-pipeline>swagger-client>isomorphic-form-data>form-data>async>lodash",
+                        "loopback>loopback-connector-remote>loopback-datasource-juggler>lodash",
+                        "loopback>loopback-datasource-juggler>lodash",
+                        "loopback>loopback-connector-remote>loopback-datasource-juggler>loopback-connector>strong-globalize>lodash",
+                        "loopback>loopback-datasource-juggler>loopback-connector>strong-globalize>lodash",
+                        "loopback-connector-mongodb>loopback-connector>strong-globalize>lodash",
+                        "loopback>loopback-connector-remote>loopback-datasource-juggler>strong-globalize>lodash",
+                        "loopback>loopback-datasource-juggler>strong-globalize>lodash",
+                        "loopback>loopback-connector-remote>strong-remoting>loopback-phase>strong-globalize>lodash",
+                        "loopback>strong-remoting>loopback-phase>strong-globalize>lodash",
+                        "loopback>loopback-phase>strong-globalize>lodash",
+                        "loopback>loopback-connector-remote>strong-remoting>strong-error-handler>strong-globalize>lodash",
+                        "loopback>strong-remoting>strong-error-handler>strong-globalize>lodash",
+                        "strong-error-handler>strong-globalize>lodash",
+                        "loopback>strong-globalize>lodash",
+                        "loopback-boot>strong-globalize>lodash",
+                        "loopback-component-explorer>loopback-swagger>strong-globalize>lodash",
+                        "loopback-component-explorer>strong-globalize>lodash",
+                        "loopback-connector-mongodb>strong-globalize>lodash",
+                        "loopback>loopback-connector-remote>strong-remoting>jayson>lodash",
+                        "loopback>strong-remoting>jayson>lodash",
+                        "loopback>loopback-connector-remote>strong-remoting>strong-globalize>lodash",
+                        "loopback>strong-remoting>strong-globalize>lodash",
+                        "loopback-boot>lodash",
+                        "loopback-component-explorer>lodash",
+                        "loopback-component-explorer>loopback-swagger>lodash",
+                        "loopback-connector-rest>lodash",
+                        "loopback-connector-rest>strong-globalize>g11n-pipeline>swagger-client>lodash",
+                        "loopback-connector-rest>strong-globalize>lodash",
+                        "eslint>inquirer>lodash",
+                        "eslint>lodash",
+                        "eslint>table>lodash",
+                        "mocha>yargs-unparser>lodash",
+                        "sinon>@sinonjs/formatio>@sinonjs/samsam>lodash",
+                        "sinon>nise>@sinonjs/formatio>@sinonjs/samsam>lodash",
+                        "sinon>@sinonjs/samsam>lodash"
+                    ]
+                }
+            ],
+            "id": 1523,
+            "created": "2020-05-20T01:36:49.357Z",
+            "updated": "2020-07-10T19:23:46.395Z",
+            "deleted": null,
+            "title": "Prototype Pollution",
+            "found_by": {
+                "link": "",
+                "name": "posix",
+                "email": ""
+            },
+            "reported_by": {
+                "link": "",
+                "name": "posix",
+                "email": ""
+            },
+            "module_name": "lodash",
+            "cves": [
+                "CVE-2019-10744"
+            ],
+            "vulnerable_versions": "<4.17.19",
+            "patched_versions": ">=4.17.19",
+            "overview": "Versions of `lodash` prior to 4.17.19 are vulnerable to Prototype Pollution.  The function `zipObjectDeep` allows a malicious user to modify the prototype of `Object` if the property identifiers are user-supplied. Being affected by this issue requires zipping objects based on user-provided property arrays.  \n\nThis vulnerability causes the addition or modification of an existing property that will exist on all objects and may lead to Denial of Service or Code Execution under specific circumstances.",
+            "recommendation": "Upgrade to version 4.17.19 or later.",
+            "references": "- [HackerOne Report](https://hackerone.com/reports/712065)\n- [GitHub Issue](https://github.com/lodash/lodash/issues/4744)",
+            "access": "public",
+            "severity": "low",
+            "cwe": "CWE-471",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 3,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/1523"
+        },
+        "1555": {
+            "findings": [
+                {
+                    "version": "2.2.0",
+                    "paths": [
+                        "loopback>loopback-connector-remote>loopback-datasource-juggler>loopback-connector>msgpack5>bl",
+                        "loopback>loopback-datasource-juggler>loopback-connector>msgpack5>bl",
+                        "loopback-connector-mongodb>loopback-connector>msgpack5>bl"
+                    ]
+                }
+            ],
+            "id": 1555,
+            "created": "2020-09-08T18:24:53.638Z",
+            "updated": "2020-09-08T19:15:40.690Z",
+            "deleted": null,
+            "title": "Remote Memory Exposure",
+            "found_by": {
+                "link": "",
+                "name": "chalker",
+                "email": ""
+            },
+            "reported_by": {
+                "link": "",
+                "name": "chalker",
+                "email": ""
+            },
+            "module_name": "bl",
+            "cves": [],
+            "vulnerable_versions": "<1.2.3 || >2.0.0 < 2.2.1 || >=3.0.0 <3.0.1 || >= 4.0.0 <4.0.3",
+            "patched_versions": ">=1.2.3 <2.0.0 || >=2.2.1 <3.0.0 || >=3.0.1 <4.0.0 || >=4.0.3",
+            "overview": "A buffer over-read vulnerability exists in bl <4.0.3, <3.0.1 <2.2.1 and <1.2.3 which could allow an attacker to supply user input (even typed) that if it ends up in consume() argument and can become negative, the BufferList state can be corrupted, tricking it into exposing uninitialized memory via regular .slice() calls.",
+            "recommendation": "Upgrade to version 4.0.3, 3.0.1, 2.2.1 or 1.2.3.",
+            "references": "- https://github.com/advisories/GHSA-pp7h-53gx-mx7r\n- https://nvd.nist.gov/vuln/detail/CVE-2020-8244\n- https://github.com/rvagg/bl/commit/8a8c13c880e2bef519133ea43e0e9b78b5d0c91e\n- https://github.com/rvagg/bl/commit/d3e240e3b8ba4048d3c76ef5fb9dd1f8872d3190\n- https://github.com/rvagg/bl/commit/dacc4ac7d5fcd6201bcf26fbd886951be9537466\n- https://hackerone.com/reports/966347",
+            "access": "public",
+            "severity": "critical",
+            "cwe": "CWE-126",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 5,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/1555"
+        },
+        "1556": {
+            "findings": [
+                {
+                    "version": "1.7.3",
+                    "paths": [
+                        "loopback-connector-rest>strong-globalize>g11n-pipeline>swagger-client>cross-fetch>node-fetch"
+                    ]
+                }
+            ],
+            "id": 1556,
+            "created": "2020-09-10T17:55:53.926Z",
+            "updated": "2020-09-10T17:55:53.926Z",
+            "deleted": null,
+            "title": "Denial of Service",
+            "found_by": {
+                "link": "",
+                "name": "Unknown",
+                "email": ""
+            },
+            "reported_by": {
+                "link": "",
+                "name": "Unknown",
+                "email": ""
+            },
+            "module_name": "node-fetch",
+            "cves": [
+                "CVE-2020-15168"
+            ],
+            "vulnerable_versions": "< 2.6.1 || >= 3.0.0-beta.1 < 3.0.0-beta.9",
+            "patched_versions": ">=2.6.1 <3.0.0-beta.1|| >= 3.0.0-beta.9",
+            "overview": "Node Fetch did not honor the size option after following a redirect, which means that when a content size was over the limit, a FetchError would never get thrown and the process would end without failure.\n\nFor most people, this fix will have a little or no impact. However, if you are relying on node-fetch to gate files above a size, the impact could be significant, for example: If you don't double-check the size of the data after fetch() has completed, your JS thread could get tied up doing work on a large file (DoS) and/or cost you money in computing.",
+            "recommendation": "Upgrade to version 2.6.1 or 3.0.0-beta.9",
+            "references": "- https://github.com/node-fetch/node-fetch/security/advisories/GHSA-w7rc-rwvf-8q5r",
+            "access": "public",
+            "severity": "low",
+            "cwe": "CWE-400",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 3,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/1556"
+        },
+        "1589": {
+            "findings": [
+                {
+                    "version": "1.3.5",
+                    "paths": [
+                        "nodemon>chokidar>fsevents>node-pre-gyp>rc>ini"
+                    ]
+                },
+                {
+                    "version": "1.3.5",
+                    "paths": [
+                        "nodemon>update-notifier>is-installed-globally>global-dirs>ini",
+                        "nodemon>update-notifier>latest-version>package-json>registry-auth-token>rc>ini",
+                        "nodemon>update-notifier>latest-version>package-json>registry-url>rc>ini"
+                    ]
+                }
+            ],
+            "id": 1589,
+            "created": "2020-12-09T22:25:48.568Z",
+            "updated": "2020-12-10T16:49:29.595Z",
+            "deleted": null,
+            "title": "Prototype Pollution",
+            "found_by": {
+                "link": "",
+                "name": "Anonymous",
+                "email": ""
+            },
+            "reported_by": {
+                "link": "",
+                "name": "Gur Shafriri",
+                "email": ""
+            },
+            "module_name": "ini",
+            "cves": [],
+            "vulnerable_versions": "<1.3.6",
+            "patched_versions": ">1.3.6",
+            "overview": "`ini` before version 1.3.6 has a Prototype Pollution vulnerability.\n\n### Impact\n\nIf an attacker submits a malicious INI file to an application that parses it with `ini.parse`, they will pollute the prototype on the application. This can be exploited further depending on the context.\n\n### Patches\n\nThis has been patched in 1.3.6\n\n### Steps to reproduce\n\npayload.ini\n```\n[__proto__]\npolluted = \"polluted\"\n```\n\npoc.js:\n```\nvar fs = require('fs')\nvar ini = require('ini')\n\nvar parsed = ini.parse(fs.readFileSync('./payload.ini', 'utf-8'))\nconsole.log(parsed)\nconsole.log(parsed.__proto__)\nconsole.log(polluted)\n```\n\n```\n> node poc.js\n{}\n{ polluted: 'polluted' }\n{ polluted: 'polluted' }\npolluted\n\n```",
+            "recommendation": "Upgrade to version 1.3.6 or later.",
+            "references": "- [Fix Commit](https://github.com/npm/ini/commit/56d2805e07ccd94e2ba0984ac9240ff02d44b6f1)\n- [GitHub Advisory](https://github.com/advisories/GHSA-qqgx-2p2h-9c37)",
+            "access": "public",
+            "severity": "low",
+            "cwe": "CWE-471",
+            "metadata": {
+                "module_type": "",
+                "exploitability": 3,
+                "affected_components": ""
+            },
+            "url": "https://npmjs.com/advisories/1589"
+        }
+    },
+    "muted": [],
+    "metadata": {
+        "vulnerabilities": {
+            "info": 0,
+            "low": 54,
+            "moderate": 3,
+            "high": 4,
+            "critical": 0
+        },
+        "dependencies": 450,
+        "devDependencies": 529,
+        "optionalDependencies": 70,
+        "totalDependencies": 979
+    },
+    "runId": "67fb6ca1-285d-4c17-8acc-16f83d0f2c6b"
+}

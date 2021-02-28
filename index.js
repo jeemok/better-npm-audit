@@ -7,75 +7,71 @@
 const program = require('commander');
 const { exec } = require('child_process');
 const packageJson = require('./package');
+const { isWholeNumber, mapLevelToNumber, getVulnerabilities } = require('./utils/common');
 
 const BASE_COMMAND = 'npm audit';
 const SEPARATOR = ',';
 const DEFAULT_MESSSAGE_LIMIT = 100000; // characters
 const MAX_BUFFER_SIZE = 1024 * 1000 * 50; // 50 MB
+const SUCCESS_MESSAGE = '🤝  All good!';
+const LOGS_EXCEEDED_MESSAGE = '[MAXIMUM EXCEEDED] Logs exceeded the maximum length limit. Add the flag `-f` to see the full audit logs.';
 
 /**
- * Converts an audit level to a numeric value for filtering purposes
- * @param  {String} auditLevel  The npm audit level
- * @return {Number}             The numeric value, higher is more severe
+ * Handle the analyzed result
+ * @param  {Array} vulnerabilities  List of found vulerabilities
  */
-function mapLevelToNumber(auditLevel) {
-  switch (auditLevel) {
-    case 'low':
-      return 1;
-    case 'moderate':
-      return 2;
-    case 'high':
-      return 3;
-    case 'critical':
-      return 4;
-    default:
-      return 0;
+function handleFinish(vulnerabilities) {
+  // Display the error if found vulnerabilities
+  if (vulnerabilities.length > 0) {
+    const message = `${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`;
+    throw new Error(message);
+  } else {
+    // Happy happy, joy joy
+    console.info(SUCCESS_MESSAGE);
+  }
+}
+
+/**
+ * Handle the log display on user's console
+ * @param  {String} data        String logs
+ * @param  {Boolean} fullLog    If it should display all logs
+ * @param  {Integer} maxLength  Maxiumum characters allowed to display
+ */
+function handleLogDisplay(data, fullLog, maxLength = DEFAULT_MESSSAGE_LIMIT) {
+  if (fullLog) {
+    console.info(data);
+  } else {
+    const toDisplay = data.substring(0, maxLength);
+    console.info(toDisplay);
+
+    // Display additional info if it is not the full message
+    if (toDisplay.length < data.length) {
+      console.info('');
+      console.info('...');
+      console.info('');
+      console.info(LOGS_EXCEEDED_MESSAGE);
+      console.info('');
+    }
   }
 }
 
 /**
  * Re-runs the audit in human readable form
- * @param  {String} auditCommand  The NPM audit command to use (with flags)
- * @param  {Boolean} fullLog      True if the full log should be displayed in the case of no vulerabilities
+ * @param  {String} auditCommand    The NPM audit command to use (with flags)
+ * @param  {Boolean} fullLog        True if the full log should be displayed in the case of no vulerabilities
+ * @param  {Array} vulnerabilities  List of vulerabilities
  */
 function auditLog(auditCommand, fullLog, vulnerabilities) {
   // Execute `npm audit` command again, but this time we don't use the JSON flag
   const audit = exec(auditCommand);
 
-  audit.stdout.on('data', data => {
-    if (fullLog) {
-      console.info(data);
-    } else {
-      const toDisplay = data.substring(0, DEFAULT_MESSSAGE_LIMIT);
-      console.info(toDisplay);
-
-      // Display additional info if it is not the full message
-      if (toDisplay.length < data.length) {
-        console.info('');
-        console.info('...');
-        console.info('');
-        console.info('[MAXIMUM EXCEEDED] Logs exceeded the maximum length limit. Add the flag `-f` to see the full audit logs.');
-        console.info('');
-      }
-    }
-  });
+  audit.stdout.on('data', data => handleLogDisplay(data, fullLog));
 
   // Once the stdout has completed
-  audit.stderr.on('close', () => {
-    // Display the error if found vulnerabilities
-    if (vulnerabilities.length > 0) {
-      const message = `${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`;
-      throw new Error(message);
-    } else {
-      // Happy happy, joy joy
-      console.info('🤝  All good!');
-    }
-  });
+  audit.stderr.on('close', () => handleFinish(vulnerabilities));
 
   // stderr
-  audit.stderr.on('data', data => {
-    console.error(data);
-  });
+  audit.stderr.on('data', console.error);
 }
 
 /**
@@ -84,7 +80,7 @@ function auditLog(auditCommand, fullLog, vulnerabilities) {
  * @param  {Number} auditLevel    The level of vulernabilities we care about
  * @param  {Boolean} fullLog      True if the full log should be displayed in the case of no vulerabilities
  */
-function audit(auditCommand, auditLevel, fullLog) {
+function audit(auditCommand, auditLevel, fullLog, exceptionIds) {
   // Execute `npm audit` command to get the security report, taking into account
   // any additional flags that have been passed through. Using the JSON flag
   // to make this easier to process
@@ -97,25 +93,49 @@ function audit(auditCommand, auditLevel, fullLog) {
 
   // Once the stdout has completed process the output
   audit.stderr.on('close', () => {
-    const { advisories } = JSON.parse(jsonBuffer);
-
     // Grab any un-filtered vunerablities at the appropriate level
-    const vulnerabilities = Object.values(advisories)
-      .filter(advisory => mapLevelToNumber(advisory.severity) >= auditLevel)
-      .map(advisory => advisory.id)
-      .filter(id => userExceptionIds.indexOf(id) === -1);
+    const vulnerabilities = getVulnerabilities(jsonBuffer, auditLevel, exceptionIds);
 
     // Display the original audit logs
     auditLog(auditCommand, fullLog, vulnerabilities);
   });
 
   // stderr
-  audit.stderr.on('data', data => {
-    console.error(data);
-  });
+  audit.stderr.on('data', console.error);
 }
 
-let userExceptionIds = [];
+/**
+ * Handle user's input
+ * @param  {Object} options     User's options or flags
+ * @param  {Function} fn        The function to handle the inputs
+ */
+function handleUserInput(options, fn) {
+  let exceptionIds = [];
+
+  if (options && options.ignore) {
+    exceptionIds = options.ignore.split(SEPARATOR).filter(isWholeNumber).map(Number);
+    console.info('Exception vulnerabilities ID(s): ', exceptionIds);
+  }
+
+  // Grab the audit level passed in, or all by default
+  let auditLevel = 0;
+  if (options && options.level) {
+    auditLevel = mapLevelToNumber(options.level);
+  }
+
+  // Modify the audit command to only include production
+  let auditCommand = BASE_COMMAND;
+  if (options && options.production) {
+    auditCommand += ' --production';
+  }
+
+  let fullLog = false;
+  if (options && options.full) {
+    fullLog = true;
+  }
+
+  fn(auditCommand, auditLevel, fullLog, exceptionIds);
+}
 
 program.version(packageJson.version);
 
@@ -126,25 +146,15 @@ program
   .option('-f, --full', `Display the full audit logs. Default to ${DEFAULT_MESSSAGE_LIMIT} characters.`)
   .option('-l, --level <auditLevel>', 'The minimum audit level to include')
   .option('-p, --production', 'Skip checking devDependencies')
-  .action(function (options) {
-    if (options && options.ignore) {
-      userExceptionIds = options.ignore.split(SEPARATOR).map(Number);
-      console.info('Exception vulnerabilities ID(s): ', userExceptionIds);
-    }
-
-    // Grab the audit level passed in, or all by default
-    let auditLevel = 0;
-    if (options && options.level) {
-      auditLevel = mapLevelToNumber(options.level);
-    }
-
-    // Modify the audit command to only include production
-    let auditCommand = BASE_COMMAND;
-    if (options && options.production) {
-      auditCommand += ' --production';
-    }
-
-    audit(auditCommand, auditLevel, options.full);
-  });
+  .action(userOptions => handleUserInput(userOptions, audit));
 
 program.parse(process.argv);
+
+module.exports = {
+  handleLogDisplay,
+  handleFinish,
+  handleUserInput,
+  BASE_COMMAND,
+  SUCCESS_MESSAGE,
+  LOGS_EXCEEDED_MESSAGE,
+};
