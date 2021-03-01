@@ -1,0 +1,380 @@
+{
+    "auditReportVersion": 2,
+    "vulnerabilities": {
+      "bl": {
+        "name": "bl",
+        "severity": "critical",
+        "via": [
+          {
+            "source": 1555,
+            "name": "bl",
+            "dependency": "bl",
+            "title": "Remote Memory Exposure",
+            "url": "https://npmjs.com/advisories/1555",
+            "severity": "critical",
+            "range": "<1.2.3 || >2.0.0 < 2.2.1 || >=3.0.0 <3.0.1 || >= 4.0.0 <4.0.3"
+          }
+        ],
+        "effects": [],
+        "range": "<=1.2.2 || 2.0.1 - 2.2.0 || 3.0.0 || 4.0.0 - 4.0.2",
+        "nodes": [
+          "node_modules/bl"
+        ],
+        "fixAvailable": true
+      },
+      "cross-fetch": {
+        "name": "cross-fetch",
+        "severity": "low",
+        "via": [
+          "node-fetch"
+        ],
+        "effects": [
+          "swagger-client"
+        ],
+        "range": "<=3.0.5",
+        "nodes": [
+          "node_modules/cross-fetch"
+        ],
+        "fixAvailable": true
+      },
+      "dot-prop": {
+        "name": "dot-prop",
+        "severity": "high",
+        "via": [
+          {
+            "source": 1213,
+            "name": "dot-prop",
+            "dependency": "dot-prop",
+            "title": "Prototype Pollution",
+            "url": "https://npmjs.com/advisories/1213",
+            "severity": "high",
+            "range": "<4.2.1 || >=5.0.0 <5.1.1"
+          }
+        ],
+        "effects": [],
+        "range": "<4.2.1 || >=5.0.0 <5.1.1",
+        "nodes": [
+          "node_modules/dot-prop"
+        ],
+        "fixAvailable": true
+      },
+      "ini": {
+        "name": "ini",
+        "severity": "low",
+        "via": [
+          {
+            "source": 1589,
+            "name": "ini",
+            "dependency": "ini",
+            "title": "Prototype Pollution",
+            "url": "https://npmjs.com/advisories/1589",
+            "severity": "low",
+            "range": "<1.3.6"
+          }
+        ],
+        "effects": [],
+        "range": "<1.3.6",
+        "nodes": [
+          "node_modules/fsevents/node_modules/ini",
+          "node_modules/ini"
+        ],
+        "fixAvailable": true
+      },
+      "lodash": {
+        "name": "lodash",
+        "severity": "low",
+        "via": [
+          {
+            "source": 1523,
+            "name": "lodash",
+            "dependency": "lodash",
+            "title": "Prototype Pollution",
+            "url": "https://npmjs.com/advisories/1523",
+            "severity": "low",
+            "range": "<4.17.19"
+          }
+        ],
+        "effects": [],
+        "range": "<4.17.19",
+        "nodes": [
+          "node_modules/lodash"
+        ],
+        "fixAvailable": true
+      },
+      "loopback-component-explorer": {
+        "name": "loopback-component-explorer",
+        "severity": "moderate",
+        "via": [
+          "swagger-ui"
+        ],
+        "effects": [],
+        "range": ">=3.0.0",
+        "nodes": [
+          "node_modules/loopback-component-explorer"
+        ],
+        "fixAvailable": {
+          "name": "loopback-component-explorer",
+          "version": "2.7.0",
+          "isSemVerMajor": true
+        }
+      },
+      "mem": {
+        "name": "mem",
+        "severity": "low",
+        "via": [
+          {
+            "source": 1084,
+            "name": "mem",
+            "dependency": "mem",
+            "title": "Denial of Service",
+            "url": "https://npmjs.com/advisories/1084",
+            "severity": "low",
+            "range": "<4.0.0"
+          }
+        ],
+        "effects": [
+          "os-locale"
+        ],
+        "range": "<4.0.0",
+        "nodes": [
+          "node_modules/loopback-connector-rest/node_modules/mem"
+        ],
+        "fixAvailable": true
+      },
+      "minimist": {
+        "name": "minimist",
+        "severity": "low",
+        "via": [
+          {
+            "source": 1179,
+            "name": "minimist",
+            "dependency": "minimist",
+            "title": "Prototype Pollution",
+            "url": "https://npmjs.com/advisories/1179",
+            "severity": "low",
+            "range": "<0.2.1 || >=1.0.0 <1.2.3"
+          }
+        ],
+        "effects": [
+          "mkdirp"
+        ],
+        "range": "<0.2.1 || >=1.0.0 <1.2.3",
+        "nodes": [
+          "node_modules/mocha/node_modules/minimist"
+        ],
+        "fixAvailable": true
+      },
+      "mkdirp": {
+        "name": "mkdirp",
+        "severity": "low",
+        "via": [
+          "minimist"
+        ],
+        "effects": [
+          "mocha"
+        ],
+        "range": "0.4.1 - 0.5.1",
+        "nodes": [
+          "node_modules/mocha/node_modules/mkdirp"
+        ],
+        "fixAvailable": true
+      },
+      "mocha": {
+        "name": "mocha",
+        "severity": "low",
+        "via": [
+          "mkdirp",
+          "yargs-parser",
+          "yargs-unparser"
+        ],
+        "effects": [],
+        "range": "1.21.5 - 6.2.2 || 7.0.0-esm1 - 7.1.0",
+        "nodes": [
+          "node_modules/mocha"
+        ],
+        "fixAvailable": true
+      },
+      "node-fetch": {
+        "name": "node-fetch",
+        "severity": "low",
+        "via": [
+          {
+            "source": 1556,
+            "name": "node-fetch",
+            "dependency": "node-fetch",
+            "title": "Denial of Service",
+            "url": "https://npmjs.com/advisories/1556",
+            "severity": "low",
+            "range": "< 2.6.1 || >= 3.0.0-beta.1 < 3.0.0-beta.9"
+          }
+        ],
+        "effects": [
+          "cross-fetch"
+        ],
+        "range": "<=2.6.0 || 3.0.0-beta.1 - 3.0.0-beta.8",
+        "nodes": [
+          "node_modules/node-fetch"
+        ],
+        "fixAvailable": true
+      },
+      "os-locale": {
+        "name": "os-locale",
+        "severity": "low",
+        "via": [
+          "mem"
+        ],
+        "effects": [
+          "strong-globalize"
+        ],
+        "range": "2.0.0 - 3.0.0",
+        "nodes": [
+          "node_modules/loopback-connector-rest/node_modules/os-locale"
+        ],
+        "fixAvailable": true
+      },
+      "strong-globalize": {
+        "name": "strong-globalize",
+        "severity": "low",
+        "via": [
+          "os-locale"
+        ],
+        "effects": [],
+        "range": "2.8.4 || 2.10.0 - 4.1.1",
+        "nodes": [
+          "node_modules/loopback-connector-rest/node_modules/strong-globalize"
+        ],
+        "fixAvailable": true
+      },
+      "swagger-client": {
+        "name": "swagger-client",
+        "severity": "low",
+        "via": [
+          "cross-fetch"
+        ],
+        "effects": [],
+        "range": "3.3.2 - 3.10.1 || 3.10.9 - 3.10.11",
+        "nodes": [
+          "node_modules/swagger-client"
+        ],
+        "fixAvailable": true
+      },
+      "swagger-ui": {
+        "name": "swagger-ui",
+        "severity": "moderate",
+        "via": [
+          {
+            "source": 975,
+            "name": "swagger-ui",
+            "dependency": "swagger-ui",
+            "title": "Reverse Tabnapping",
+            "url": "https://npmjs.com/advisories/975",
+            "severity": "moderate",
+            "range": "<3.18.0"
+          },
+          {
+            "source": 976,
+            "name": "swagger-ui",
+            "dependency": "swagger-ui",
+            "title": "Cross-Site Scripting",
+            "url": "https://npmjs.com/advisories/976",
+            "severity": "moderate",
+            "range": "<3.20.9"
+          },
+          {
+            "source": 985,
+            "name": "swagger-ui",
+            "dependency": "swagger-ui",
+            "title": "Cross-Site Scripting",
+            "url": "https://npmjs.com/advisories/985",
+            "severity": "moderate",
+            "range": "<3.0.13"
+          }
+        ],
+        "effects": [
+          "loopback-component-explorer"
+        ],
+        "range": "<=3.20.8",
+        "nodes": [
+          "node_modules/swagger-ui"
+        ],
+        "fixAvailable": {
+          "name": "loopback-component-explorer",
+          "version": "2.7.0",
+          "isSemVerMajor": true
+        }
+      },
+      "yargs": {
+        "name": "yargs",
+        "severity": "low",
+        "via": [
+          "yargs-parser"
+        ],
+        "effects": [
+          "yargs-unparser"
+        ],
+        "range": "4.0.0-alpha1 - 12.0.5 || 14.1.0 || 15.0.0 - 15.2.0",
+        "nodes": [
+          "node_modules/yargs-unparser/node_modules/yargs"
+        ],
+        "fixAvailable": true
+      },
+      "yargs-parser": {
+        "name": "yargs-parser",
+        "severity": "info",
+        "via": [
+          {
+            "source": 1500,
+            "name": "yargs-parser",
+            "dependency": "yargs-parser",
+            "title": "Prototype Pollution",
+            "url": "https://npmjs.com/advisories/1500",
+            "severity": "info",
+            "range": "<13.1.2 || >=14.0.0 <15.0.1 || >=16.0.0 <18.1.2"
+          }
+        ],
+        "effects": [
+          "mocha",
+          "yargs"
+        ],
+        "range": "<=13.1.1 || 14.0.0 - 15.0.0 || 16.0.0 - 18.1.1",
+        "nodes": [
+          "node_modules/mocha/node_modules/yargs-parser",
+          "node_modules/yargs-unparser/node_modules/yargs-parser"
+        ],
+        "fixAvailable": true
+      },
+      "yargs-unparser": {
+        "name": "yargs-unparser",
+        "severity": "low",
+        "via": [
+          "yargs"
+        ],
+        "effects": [
+          "mocha"
+        ],
+        "range": "1.1.0 - 1.5.0",
+        "nodes": [
+          "node_modules/yargs-unparser"
+        ],
+        "fixAvailable": true
+      }
+    },
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 14,
+        "moderate": 2,
+        "high": 2,
+        "critical": 0,
+        "total": 18
+      },
+      "dependencies": {
+        "prod": 448,
+        "dev": 529,
+        "optional": 70,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 976
+      }
+    }
+  }

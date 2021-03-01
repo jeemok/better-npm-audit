@@ -110,26 +110,24 @@ function audit(auditCommand, auditLevel, fullLog, exceptionIds) {
  * @param  {Function} fn        The function to handle the inputs
  */
 function handleUserInput(options, fn) {
+  let auditCommand = BASE_COMMAND;
+  let auditLevel = 0;
   let exceptionIds = [];
+  let fullLog = false;
 
   if (options && options.ignore) {
     exceptionIds = options.ignore.split(SEPARATOR).filter(isWholeNumber).map(Number);
     console.info('Exception vulnerabilities ID(s): ', exceptionIds);
   }
 
-  // Grab the audit level passed in, or all by default
-  let auditLevel = 0;
   if (options && options.level) {
     auditLevel = mapLevelToNumber(options.level);
   }
 
-  // Modify the audit command to only include production
-  let auditCommand = BASE_COMMAND;
   if (options && options.production) {
     auditCommand += ' --production';
   }
 
-  let fullLog = false;
   if (options && options.full) {
     fullLog = true;
   }

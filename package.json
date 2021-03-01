@@ -30,7 +30,8 @@
     "better-npm-audit": "./index.js"
   },
   "dependencies": {
-    "commander": "^2.19.0"
+    "commander": "^2.19.0",
+    "lodash.get": "^4.4.2"
   },
   "engines": {
     "node": ">= 8.12"
