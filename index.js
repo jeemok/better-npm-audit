@@ -7,8 +7,10 @@
 const program = require('commander');
 const { exec } = require('child_process');
 const packageJson = require('./package');
-const { isWholeNumber, mapLevelToNumber, getVulnerabilities } = require('./utils/common');
+const { isWholeNumber, mapLevelToNumber, getVulnerabilities, filterValidException } = require('./utils/common');
+const { readFile } = require('./utils/file')
 
+const EXCEPTION_FILE_PATH = '.nsprc';
 const BASE_COMMAND = 'npm audit';
 const SEPARATOR = ',';
 const DEFAULT_MESSSAGE_LIMIT = 100000; // characters
@@ -115,8 +117,18 @@ function handleUserInput(options, fn) {
   let exceptionIds = [];
   let fullLog = false;
 
+  // Try to use `.nsprc` file if it exists
+  const fileException = readFile(EXCEPTION_FILE_PATH);
+  if (fileException) {
+    exceptionIds = filterValidException(fileException);
+  }
+
   if (options && options.ignore) {
-    exceptionIds = options.ignore.split(SEPARATOR).filter(isWholeNumber).map(Number);
+    const cmdExceptions = options.ignore.split(SEPARATOR).filter(isWholeNumber).map(Number);
+    exceptionIds = exceptionIds.concat(cmdExceptions);
+  }
+  
+  if (Array.isArray(exceptionIds) && exceptionIds.length) {
     console.info('Exception vulnerabilities ID(s): ', exceptionIds);
   }
 

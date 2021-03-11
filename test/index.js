@@ -5,10 +5,18 @@ const V6_JSON_BUFFER = require('./__mocks__/v6-json-buffer.json');
 const V6_JSON_BUFFER_EMPTY = require('./__mocks__/v6-json-buffer-empty.json');
 const V7_JSON_BUFFER = require('./__mocks__/v7-json-buffer.json');
 const V7_JSON_BUFFER_EMPTY = require('./__mocks__/v7-json-buffer-empty.json');
-const { isWholeNumber, mapLevelToNumber, getVulnerabilities } = require('../utils/common');
+const { isWholeNumber, mapLevelToNumber, getVulnerabilities, isJsonString, filterValidException } = require('../utils/common');
 const { handleLogDisplay, handleFinish, handleUserInput, BASE_COMMAND, SUCCESS_MESSAGE, LOGS_EXCEEDED_MESSAGE } = require('../index');
 
 describe('common utils', () => {
+  it('should return true for valid JSON object', () => {
+    expect(isJsonString(JSON.stringify({ a: 1, b: { c: 2 } }))).to.equal(true);
+  });
+
+  it('should return false if it is not a valid JSON object', () => {
+    expect(isJsonString('abc')).to.equal(false);
+  });
+
   it('should be able to determine a whole number', () => {
     expect(isWholeNumber()).to.equal(false);
     expect(isWholeNumber(0.14)).to.equal(false);
@@ -38,6 +46,52 @@ describe('common utils', () => {
     expect(mapLevelToNumber(true)).to.equal(0);
     expect(mapLevelToNumber(false)).to.equal(0);
     expect(mapLevelToNumber({})).to.equal(0);
+  });
+
+  it('should be able to filter valid file exceptions correctly', () => {
+    const exceptions = {
+      137: {
+        ignore: true,
+        reason: 'Ignored since we dont use xxx method',
+      },
+      581: {
+        reason: 'Ignored since we dont use xxx method',
+      },
+      980: 'Ignored since we dont use xxx method',
+      'invalid': 'Ignored since we dont use xxx method',
+    };
+
+    expect(filterValidException(exceptions)).to.deep.equal([137, 980]);
+  });
+
+  it('should be able to filter valid file exceptions with expiry dates correctly', () => {
+    const exceptions = {
+      137: {
+        ignore: true,
+        expiry: 1615462130000,
+      },
+      581: {
+        ignore: true,
+        expiry: 1615462140000,
+      },
+      980: {
+        ignore: true,
+        expiry: 1615462150000,
+      },
+    };
+
+    expect(filterValidException(exceptions)).to.deep.equal([]);
+  
+    let clock = sinon.stub(Date, 'now').returns(1615462140000);
+
+    expect(filterValidException(exceptions)).to.deep.equal([980]);
+
+    clock.restore();
+    clock = sinon.stub(Date, 'now').returns(1615462130000);
+
+    expect(filterValidException(exceptions)).to.deep.equal([581, 980]);
+
+    clock.restore();
   });
 });
 

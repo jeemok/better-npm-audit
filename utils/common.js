@@ -59,6 +59,43 @@ function getVulnerabilities(jsonBuffer = '', auditLevel = 0, exceptionIds = []) 
   return [];
 }
 
+/**
+ * Filter the given list in the `.nsprc` file for valid exceptions
+ * @param  {Object} fileException   The exception object
+ * @return {Array}                  The list of found
+ */
+function filterValidException(fileException) {
+  if (typeof fileException !== 'object') {
+    return [];
+  }
+  return Object.entries(fileException).reduce((acc, [id, details]) => {
+    const numberId = Number(id);
+    // has to be valid number
+    if (isNaN(numberId)) {
+      return acc;
+    }
+    // if the details is not an config object, we will accept this ID
+    if (typeof details !== 'object') {
+      return acc.concat(numberId);
+    }
+    // `ignore` flag has to be true 
+    if (!details.ignore) {
+      return acc;
+    }
+    // if it given an expiry date, validate the date
+    if (details.expiry) {
+      // if the expiry time is in the future, accept it
+      if (details.expiry > new Date(Date.now()).getTime()) {
+        return acc.concat(numberId);
+      }
+      // else it is expired, so don't accept it
+      return acc;
+    }
+    // Accept the ID
+    return acc.concat(numberId);
+  }, []);
+}
+
 function isWholeNumber(value) {
   if (!Number(value)) {
     return false;
@@ -66,8 +103,19 @@ function isWholeNumber(value) {
   return value % 1 === 0;
 }
 
+function isJsonString(string) {
+  try {
+    JSON.parse(string);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
 module.exports = {
+  filterValidException,
   isWholeNumber,
+  isJsonString,
   mapLevelToNumber,
   getVulnerabilities,
 };

@@ -41,13 +41,33 @@ or
 }
 ```
 
-### Run Global
+### Run global
 
 ```bash
 better-npm-audit audit
 ```
 
-## Flags
+## Using file to manage exception
+
+You may add a file `.nsprc` to your project root directory to manage the exceptions. For example:
+
+```json
+{
+    "1337": {
+        "ignore": true,
+        "reason": "Ignored since we don't use xxx method",
+        "expiry": 1615462134681
+    },
+    "4501": {
+        "ignore": false,
+        "reason": "Ignored since we don't use xxx method"
+    },
+    "980": "Ignored since we don't use xxx method",
+    "Note": "Any non number key will be ignored"
+}
+```
+
+## Command flags
 
 #### Ignore certain vulnerabilities
 
