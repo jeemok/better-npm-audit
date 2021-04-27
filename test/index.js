@@ -50,14 +50,14 @@ describe('common utils', () => {
 
   it('should be able to filter valid file exceptions correctly', () => {
     const exceptions = {
-      137: {
+      '137': {
         ignore: true,
         reason: 'Ignored since we dont use xxx method',
       },
-      581: {
+      '581': {
         reason: 'Ignored since we dont use xxx method',
       },
-      980: 'Ignored since we dont use xxx method',
+      '980': 'Ignored since we dont use xxx method',
       'invalid': 'Ignored since we dont use xxx method',
     };
 
@@ -66,22 +66,21 @@ describe('common utils', () => {
 
   it('should be able to filter valid file exceptions with expiry dates correctly', () => {
     const exceptions = {
-      137: {
+      '137': {
         ignore: true,
         expiry: 1615462130000,
       },
-      581: {
+      '581': {
         ignore: true,
         expiry: 1615462140000,
       },
-      980: {
+      '980': {
         ignore: true,
         expiry: 1615462150000,
       },
     };
 
     expect(filterValidException(exceptions)).to.deep.equal([]);
-  
     let clock = sinon.stub(Date, 'now').returns(1615462140000);
 
     expect(filterValidException(exceptions)).to.deep.equal([980]);
