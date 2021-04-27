@@ -37,10 +37,13 @@
     "node": ">= 8.12"
   },
   "scripts": {
-    "test": "mocha test/index.js"
+    "test": "mocha test/index.js",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "chai": "^4.3.0",
+    "eslint": "^7.25.0",
+    "eslint-config-google": "^0.14.0",
     "mocha": "^8.3.0",
     "sinon": "^9.2.4"
   }

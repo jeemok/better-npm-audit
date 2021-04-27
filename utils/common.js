@@ -3,7 +3,7 @@ const get = require('lodash.get');
 /**
  * Converts an audit level to a numeric value for filtering purposes
  * @param  {String} auditLevel  The npm audit level
- * @return {Number}             The numeric value, higher is more severe
+ * @return {Number}             Returns the numeric value, higher is more severe
  */
 function mapLevelToNumber(auditLevel) {
   switch (auditLevel) {
@@ -27,6 +27,7 @@ function mapLevelToNumber(auditLevel) {
  * @param  {String} jsonBuffer      NPM audit's JSON string buffer
  * @param  {Integer} auditLevel     Audit level in integer
  * @param  {Array} exceptionIds     List of exception vulnerabilities
+ * @return {Array}                  Returns the list of found vulnerabilities
  */
 function getVulnerabilities(jsonBuffer = '', auditLevel = 0, exceptionIds = []) {
   // NPM v6 uses `advisories`
@@ -37,23 +38,23 @@ function getVulnerabilities(jsonBuffer = '', auditLevel = 0, exceptionIds = []) 
   // NPM v6 handling
   if (advisories) {
     return Object.values(advisories)
-    .filter(advisory => mapLevelToNumber(advisory.severity) >= auditLevel) // Filter out if there is requested audit level
-    .map(advisory => advisory.id) // Map out the vulnerabilities IDs
-    .filter(id => !exceptionIds.includes(id)); // Filter out exceptions provided by user
+        .filter(advisory => mapLevelToNumber(advisory.severity) >= auditLevel) // Filter out if there is requested audit level
+        .map(advisory => advisory.id) // Map out the vulnerabilities IDs
+        .filter(id => !exceptionIds.includes(id)); // Filter out exceptions provided by user
   }
 
   // NPM v7 handling
   if (vulnerabilities) {
     return Object.values(vulnerabilities)
-    .filter(vulnerability => mapLevelToNumber(vulnerability.severity) >= auditLevel) // Filter out if there is requested audit level
-    // Map out the vulnerabilities IDs
-    .reduce((acc, vulnerability) => {
-      // Its stored inside `via` array, but sometimes it might be a String
-      const cleanedArray = get(vulnerability, 'via', []).map(each => get(each, 'source')).filter(Boolean);
-      // Compile into a single array
-      return acc.concat(cleanedArray);
-    }, [])
-    .filter(id => !exceptionIds.includes(id)); // Filter out exceptions provided by user
+        .filter(vulnerability => mapLevelToNumber(vulnerability.severity) >= auditLevel) // Filter out if there is requested audit level
+        // Map out the vulnerabilities IDs
+        .reduce((acc, vulnerability) => {
+          // Its stored inside `via` array, but sometimes it might be a String
+          const cleanedArray = get(vulnerability, 'via', []).map(each => get(each, 'source')).filter(Boolean);
+          // Compile into a single array
+          return acc.concat(cleanedArray);
+        }, [])
+        .filter(id => !exceptionIds.includes(id)); // Filter out exceptions provided by user
   }
 
   return [];
@@ -62,7 +63,7 @@ function getVulnerabilities(jsonBuffer = '', auditLevel = 0, exceptionIds = []) 
 /**
  * Filter the given list in the `.nsprc` file for valid exceptions
  * @param  {Object} fileException   The exception object
- * @return {Array}                  The list of found
+ * @return {Array}                  Returns the list of found vulnerabilities
  */
 function filterValidException(fileException) {
   if (typeof fileException !== 'object') {
@@ -78,7 +79,7 @@ function filterValidException(fileException) {
     if (typeof details !== 'object') {
       return acc.concat(numberId);
     }
-    // `ignore` flag has to be true 
+    // `ignore` flag has to be true
     if (!details.ignore) {
       return acc;
     }
@@ -96,6 +97,10 @@ function filterValidException(fileException) {
   }, []);
 }
 
+/**
+ * @param  {Any} value    The input number
+ * @return {Boolean}      Returns true if the input is a whole number
+ */
 function isWholeNumber(value) {
   if (!Number(value)) {
     return false;
@@ -103,6 +108,10 @@ function isWholeNumber(value) {
   return value % 1 === 0;
 }
 
+/**
+ * @param  {String} string    The JSON stringified object
+ * @return {Boolean}          Returns true if the input string is parse-able
+ */
 function isJsonString(string) {
   try {
     JSON.parse(string);
@@ -110,7 +119,7 @@ function isJsonString(string) {
     return false;
   }
   return true;
-};
+}
 
 module.exports = {
   filterValidException,

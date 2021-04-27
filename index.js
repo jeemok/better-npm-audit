@@ -8,7 +8,7 @@ const program = require('commander');
 const { exec } = require('child_process');
 const packageJson = require('./package');
 const { isWholeNumber, mapLevelToNumber, getVulnerabilities, filterValidException } = require('./utils/common');
-const { readFile } = require('./utils/file')
+const { readFile } = require('./utils/file');
 
 const EXCEPTION_FILE_PATH = '.nsprc';
 const BASE_COMMAND = 'npm audit';
@@ -81,7 +81,8 @@ function auditLog(auditCommand, fullLog, vulnerabilities) {
  * @param  {String} auditCommand  The NPM audit command to use (with flags)
  * @param  {Number} auditLevel    The level of vulernabilities we care about
  * @param  {Boolean} fullLog      True if the full log should be displayed in the case of no vulerabilities
- */
+ * @param  {Array} exceptionIds   List of vulernability IDs to ignore
+*/
 function audit(auditCommand, auditLevel, fullLog, exceptionIds) {
   // Execute `npm audit` command to get the security report, taking into account
   // any additional flags that have been passed through. Using the JSON flag
@@ -122,24 +123,19 @@ function handleUserInput(options, fn) {
   if (fileException) {
     exceptionIds = filterValidException(fileException);
   }
-
   if (options && options.ignore) {
     const cmdExceptions = options.ignore.split(SEPARATOR).filter(isWholeNumber).map(Number);
     exceptionIds = exceptionIds.concat(cmdExceptions);
   }
-  
   if (Array.isArray(exceptionIds) && exceptionIds.length) {
     console.info('Exception vulnerabilities ID(s): ', exceptionIds);
   }
-
   if (options && options.level) {
     auditLevel = mapLevelToNumber(options.level);
   }
-
   if (options && options.production) {
     auditCommand += ' --production';
   }
-
   if (options && options.full) {
     fullLog = true;
   }
@@ -150,13 +146,13 @@ function handleUserInput(options, fn) {
 program.version(packageJson.version);
 
 program
-  .command('audit')
-  .description('execute npm audit')
-  .option('-i, --ignore <ids>', 'Vulnerabilities ID(s) to ignore')
-  .option('-f, --full', `Display the full audit logs. Default to ${DEFAULT_MESSSAGE_LIMIT} characters.`)
-  .option('-l, --level <auditLevel>', 'The minimum audit level to include')
-  .option('-p, --production', 'Skip checking devDependencies')
-  .action(userOptions => handleUserInput(userOptions, audit));
+    .command('audit')
+    .description('execute npm audit')
+    .option('-i, --ignore <ids>', 'Vulnerabilities ID(s) to ignore')
+    .option('-f, --full', `Display the full audit logs. Default to ${DEFAULT_MESSSAGE_LIMIT} characters.`)
+    .option('-l, --level <auditLevel>', 'The minimum audit level to include')
+    .option('-p, --production', 'Skip checking devDependencies')
+    .action(userOptions => handleUserInput(userOptions, audit));
 
 program.parse(process.argv);
 
