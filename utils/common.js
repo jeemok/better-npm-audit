@@ -110,7 +110,7 @@ function isJsonString(string) {
     return false;
   }
   return true;
-};
+}
 
 module.exports = {
   filterValidException,

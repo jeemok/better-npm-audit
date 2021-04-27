@@ -28,7 +28,7 @@ describe('common utils', () => {
 
     expect(isWholeNumber(1)).to.equal(true);
     expect(isWholeNumber(2920)).to.equal(true);
-    expect(isWholeNumber(0934)).to.equal(true);
+    expect(isWholeNumber(934)).to.equal(true);
     expect(isWholeNumber('0920')).to.equal(true);
 
     expect(isWholeNumber(true)).to.equal(true); // Should handle this?
