@@ -5,8 +5,35 @@ const V6_JSON_BUFFER = require('./__mocks__/v6-json-buffer.json');
 const V6_JSON_BUFFER_EMPTY = require('./__mocks__/v6-json-buffer-empty.json');
 const V7_JSON_BUFFER = require('./__mocks__/v7-json-buffer.json');
 const V7_JSON_BUFFER_EMPTY = require('./__mocks__/v7-json-buffer-empty.json');
+const consoleUtil = require('../utils/console');
 const { isWholeNumber, mapLevelToNumber, getVulnerabilities, isJsonString, filterValidException } = require('../utils/common');
 const { handleLogDisplay, handleFinish, handleUserInput, BASE_COMMAND, SUCCESS_MESSAGE, LOGS_EXCEEDED_MESSAGE } = require('../index');
+
+const { FG_WHITE, BG_BLACK, RESET_COLOR } = consoleUtil;
+
+describe('console utils', () => {
+  it('should wrap error console message with styling format correctly', () => {
+    const stub = sinon.stub(console, 'error');
+    const message = 'console message';
+
+    expect(stub.called).to.equal(false);
+    consoleUtil.error(message);
+
+    expect(stub.called).to.equal(true);
+    expect(stub.calledWith(`${FG_WHITE}${BG_BLACK}${message}${RESET_COLOR}`)).to.equal(true);
+  });
+
+  it('should wrap error info message with styling format correctly', () => {
+    const stub = sinon.stub(console, 'info');
+    const message = 'console message';
+
+    expect(stub.called).to.equal(false);
+    consoleUtil.info(message);
+
+    expect(stub.called).to.equal(true);
+    expect(stub.calledWith(`${FG_WHITE}${message}${RESET_COLOR}`)).to.equal(true);
+  });
+});
 
 describe('common utils', () => {
   it('should return true for valid JSON object', () => {
@@ -218,7 +245,7 @@ describe('event handlers', () => {
   });
 
   it('should be able to handle the success result properly', () => {
-    const stub = sinon.stub(console, 'info');
+    const stub = sinon.stub(consoleUtil, 'info');
     const vulnerabilities = [];
 
     expect(stub.called).to.equal(false);
@@ -229,12 +256,27 @@ describe('event handlers', () => {
   });
 
   it('should be able to handle the found vulnerabilities properly', () => {
+    const stubProcess = sinon.stub(process, 'exit');
+    const stubConsole = sinon.stub(consoleUtil, 'error');
     const vulnerabilities = [1165, 1890];
-    expect(() => handleFinish(vulnerabilities)).to.throw('2 vulnerabilities found. Node security advisories: 1165,1890');
+
+    expect(stubProcess.called).to.equal(false);
+    expect(stubConsole.called).to.equal(false);
+
+    handleFinish(vulnerabilities);
+
+    expect(stubProcess.called).to.equal(true);
+    expect(stubConsole.called).to.equal(true);
+
+    expect(stubProcess.calledWith(1)).to.equal(true);
+    expect(stubConsole.calledWith('2 vulnerabilities found. Node security advisories: 1165,1890')).to.equal(true);
+
+    stubProcess.restore();
+    stubConsole.restore();
   });
 
   it('should be able to handle normal log display correctly', () => {
-    const stub = sinon.stub(console, 'info');
+    const stub = sinon.stub(consoleUtil, 'info');
     const data = '123456789';
     const fullLog = true;
     const maxLength = 50;
@@ -247,7 +289,7 @@ describe('event handlers', () => {
   });
 
   it('should be able to handle overlength log display properly', () => {
-    const stub = sinon.stub(console, 'info');
+    const stub = sinon.stub(consoleUtil, 'info');
     const data = '123456789';
     const fullLog = false;
     const maxLength = 5;
@@ -263,7 +305,7 @@ describe('event handlers', () => {
   });
 
   it('should be able to handle log display properly', () => {
-    const stub = sinon.stub(console, 'info');
+    const stub = sinon.stub(consoleUtil, 'info');
     const data = '123456789';
     const fullLog = false;
     const maxLength = 9;

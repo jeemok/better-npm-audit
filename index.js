@@ -9,14 +9,17 @@ const { exec } = require('child_process');
 const packageJson = require('./package');
 const { isWholeNumber, mapLevelToNumber, getVulnerabilities, filterValidException } = require('./utils/common');
 const { readFile } = require('./utils/file');
+const consoleUtil = require('./utils/console');
 
 const EXCEPTION_FILE_PATH = '.nsprc';
 const BASE_COMMAND = 'npm audit';
 const SEPARATOR = ',';
 const DEFAULT_MESSSAGE_LIMIT = 100000; // characters
 const MAX_BUFFER_SIZE = 1024 * 1000 * 50; // 50 MB
-const SUCCESS_MESSAGE = '🤝  All good!';
-const LOGS_EXCEEDED_MESSAGE = '[MAXIMUM EXCEEDED] Logs exceeded the maximum length limit. Add the flag `-f` to see the full audit logs.';
+const RESPONSE_MESSAGE = {
+  SUCCESS: '🤝  All good!',
+  LOGS_EXCEEDED: '[MAXIMUM EXCEEDED] Logs exceeded the maximum length limit. Add the flag `-f` to see the full audit logs.',
+};
 
 /**
  * Handle the analyzed result
@@ -25,11 +28,12 @@ const LOGS_EXCEEDED_MESSAGE = '[MAXIMUM EXCEEDED] Logs exceeded the maximum leng
 function handleFinish(vulnerabilities) {
   // Display the error if found vulnerabilities
   if (vulnerabilities.length > 0) {
-    const message = `${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`;
-    throw new Error(message);
+    consoleUtil.error(`${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`);
+    // Exit failed
+    process.exit(1);
   } else {
     // Happy happy, joy joy
-    console.info(SUCCESS_MESSAGE);
+    consoleUtil.info(RESPONSE_MESSAGE.SUCCESS);
   }
 }
 
@@ -41,18 +45,18 @@ function handleFinish(vulnerabilities) {
  */
 function handleLogDisplay(data, fullLog, maxLength = DEFAULT_MESSSAGE_LIMIT) {
   if (fullLog) {
-    console.info(data);
+    consoleUtil.info(data);
   } else {
     const toDisplay = data.substring(0, maxLength);
-    console.info(toDisplay);
+    consoleUtil.info(toDisplay);
 
     // Display additional info if it is not the full message
     if (toDisplay.length < data.length) {
-      console.info('');
-      console.info('...');
-      console.info('');
-      console.info(LOGS_EXCEEDED_MESSAGE);
-      console.info('');
+      consoleUtil.info('');
+      consoleUtil.info('...');
+      consoleUtil.info('');
+      consoleUtil.info(RESPONSE_MESSAGE.LOGS_EXCEEDED);
+      consoleUtil.info('');
     }
   }
 }
@@ -128,7 +132,7 @@ function handleUserInput(options, fn) {
     exceptionIds = exceptionIds.concat(cmdExceptions);
   }
   if (Array.isArray(exceptionIds) && exceptionIds.length) {
-    console.info('Exception vulnerabilities ID(s): ', exceptionIds);
+    consoleUtil.info('Exception vulnerabilities ID(s): ', exceptionIds);
   }
   if (options && options.level) {
     auditLevel = mapLevelToNumber(options.level);
@@ -161,6 +165,6 @@ module.exports = {
   handleFinish,
   handleUserInput,
   BASE_COMMAND,
-  SUCCESS_MESSAGE,
-  LOGS_EXCEEDED_MESSAGE,
+  SUCCESS_MESSAGE: RESPONSE_MESSAGE.SUCCESS,
+  LOGS_EXCEEDED_MESSAGE: RESPONSE_MESSAGE.LOGS_EXCEEDED,
 };
