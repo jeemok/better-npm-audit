@@ -106,14 +106,11 @@ node node_modules/better-npm-audit audit -p
 Running `node node_modules/better-npm-audit audit` with vulnerabilities, will receive the error:
 
 ```bash
-Error: 2 vulnerabilities found. Node security advisories: 118,577
-    at Socket.audit.stdout.on.data (C:\Users\user\project\node_modules\better-npm-audit\index.js:51:15)
-    at emitOne (events.js:121:20)
-    at Socket.emit (events.js:211:7)
-    at addChunk (_stream_readable.js:263:12)
-    at readableAddChunk (_stream_readable.js:246:13)
-    at Socket.Readable.push (_stream_readable.js:208:10)
-    at Pipe.onread (net.js:594:20)
+2 vulnerabilities found. Node security advisories: 118,577
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! xxx@1.39.1 audit: `node node_modules/better-npm-audit audit`
+npm ERR! Exit status 1
 ```
 
 Added the ignore flags `node node_modules/better-npm-audit audit -i 118,577` and rerun:
