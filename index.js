@@ -22,10 +22,30 @@ const RESPONSE_MESSAGE = {
 };
 
 /**
- * Handle the analyzed result
+ * Handle the analyzed result and log display
  * @param  {Array} vulnerabilities  List of found vulerabilities
+ * @param  {String} logData         Logs
+ * @param  {Boolean} fullLog        If it should display all logs
+ * @param  {Integer} maxLength      Maxiumum characters allowed to display
  */
-function handleFinish(vulnerabilities) {
+function handleFinish(vulnerabilities, logData = '', fullLog = false, maxLength = DEFAULT_MESSSAGE_LIMIT) {
+  let toDisplay = logData.substring(0, maxLength);
+
+  // Display an additional information if we not displaying the full logs
+  if (toDisplay.length < logData.length) {
+    toDisplay += '\n\n';
+    toDisplay += '...';
+    toDisplay += '\n\n';
+    toDisplay += RESPONSE_MESSAGE.LOGS_EXCEEDED;
+    toDisplay += '\n\n';
+  }
+
+  if (fullLog) {
+    console.info(logData);
+  } else {
+    console.info(toDisplay);
+  }
+
   // Display the error if found vulnerabilities
   if (vulnerabilities.length > 0) {
     consoleUtil.error(`${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`);
@@ -34,30 +54,6 @@ function handleFinish(vulnerabilities) {
   } else {
     // Happy happy, joy joy
     consoleUtil.info(RESPONSE_MESSAGE.SUCCESS);
-  }
-}
-
-/**
- * Handle the log display on user's console
- * @param  {String} data        String logs
- * @param  {Boolean} fullLog    If it should display all logs
- * @param  {Integer} maxLength  Maxiumum characters allowed to display
- */
-function handleLogDisplay(data, fullLog, maxLength = DEFAULT_MESSSAGE_LIMIT) {
-  if (fullLog) {
-    consoleUtil.info(data);
-  } else {
-    const toDisplay = data.substring(0, maxLength);
-    consoleUtil.info(toDisplay);
-
-    // Display additional info if it is not the full message
-    if (toDisplay.length < data.length) {
-      consoleUtil.info('');
-      consoleUtil.info('...');
-      consoleUtil.info('');
-      consoleUtil.info(RESPONSE_MESSAGE.LOGS_EXCEEDED);
-      consoleUtil.info('');
-    }
   }
 }
 
@@ -71,10 +67,14 @@ function auditLog(auditCommand, fullLog, vulnerabilities) {
   // Execute `npm audit` command again, but this time we don't use the JSON flag
   const audit = exec(auditCommand);
 
-  audit.stdout.on('data', data => handleLogDisplay(data, fullLog));
+  // Set a temporary string
+  // Note: collect all buffers' data before displaying it later to avoid unintentional line breaking in the report display 
+  let bufferData = '';
+
+  audit.stdout.on('data', data => bufferData += data);
 
   // Once the stdout has completed
-  audit.stderr.on('close', () => handleFinish(vulnerabilities));
+  audit.stderr.on('close', () => handleFinish(vulnerabilities, bufferData, fullLog));
 
   // stderr
   audit.stderr.on('data', console.error);
@@ -135,12 +135,15 @@ function handleUserInput(options, fn) {
     consoleUtil.info(`Exception vulnerabilities ID(s): ${exceptionIds}`);
   }
   if (options && options.level) {
+    console.info(`[level: ${options.level}]`);
     auditLevel = mapLevelToNumber(options.level);
   }
   if (options && options.production) {
+    console.info('[production mode enabled]');
     auditCommand += ' --production';
   }
   if (options && options.full) {
+    console.info('[full log mode enabled]');
     fullLog = true;
   }
 
@@ -161,7 +164,6 @@ program
 program.parse(process.argv);
 
 module.exports = {
-  handleLogDisplay,
   handleFinish,
   handleUserInput,
   BASE_COMMAND,
