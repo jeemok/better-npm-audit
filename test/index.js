@@ -1,15 +1,16 @@
 const sinon = require('sinon');
 const chai = require('chai');
 const { expect } = chai;
+const V6_LOG_REPORT = require('./__mocks__/v6-log-data');
 const V6_JSON_BUFFER = require('./__mocks__/v6-json-buffer.json');
 const V6_JSON_BUFFER_EMPTY = require('./__mocks__/v6-json-buffer-empty.json');
 const V7_JSON_BUFFER = require('./__mocks__/v7-json-buffer.json');
 const V7_JSON_BUFFER_EMPTY = require('./__mocks__/v7-json-buffer-empty.json');
 const consoleUtil = require('../utils/console');
 const { isWholeNumber, mapLevelToNumber, getVulnerabilities, isJsonString, filterValidException } = require('../utils/common');
-const { handleLogDisplay, handleFinish, handleUserInput, BASE_COMMAND, SUCCESS_MESSAGE, LOGS_EXCEEDED_MESSAGE } = require('../index');
+const { handleFinish, handleUserInput, BASE_COMMAND, SUCCESS_MESSAGE, LOGS_EXCEEDED_MESSAGE } = require('../index');
 
-const { FG_WHITE, BG_BLACK, RESET_COLOR } = consoleUtil;
+const { FG_WHITE, RESET_COLOR } = consoleUtil;
 
 describe('console utils', () => {
   it('should wrap error console message with styling format correctly', () => {
@@ -20,7 +21,8 @@ describe('console utils', () => {
     consoleUtil.error(message);
 
     expect(stub.called).to.equal(true);
-    expect(stub.calledWith(`${FG_WHITE}${BG_BLACK}${message}${RESET_COLOR}`)).to.equal(true);
+    expect(stub.calledWith(`${FG_WHITE}${message}${RESET_COLOR}`)).to.equal(true);
+    stub.restore();
   });
 
   it('should wrap error info message with styling format correctly', () => {
@@ -32,6 +34,7 @@ describe('console utils', () => {
 
     expect(stub.called).to.equal(true);
     expect(stub.calledWith(`${FG_WHITE}${message}${RESET_COLOR}`)).to.equal(true);
+    stub.restore();
   });
 });
 
@@ -161,6 +164,7 @@ describe('event handlers', () => {
 
   it('should be able to handle severity level from user input correctly', () => {
     const stub = sinon.stub();
+    const consoleStub = sinon.stub(console, 'info');
     const options = {
       level: 'info',
     };
@@ -173,30 +177,38 @@ describe('event handlers', () => {
     const fullLog = false;
     const exceptionIds = [];
     expect(stub.calledWith(auditCommand, 0, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: info]')).to.equal(true);
 
     // low
     options.level = 'low';
     handleUserInput(options, stub);
     expect(stub.calledWith(auditCommand, 1, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: low]')).to.equal(true);
 
     // moderate
     options.level = 'moderate';
     handleUserInput(options, stub);
     expect(stub.calledWith(auditCommand, 2, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: moderate]')).to.equal(true);
 
     // high
     options.level = 'high';
     handleUserInput(options, stub);
     expect(stub.calledWith(auditCommand, 3, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: high]')).to.equal(true);
 
     // critical
     options.level = 'critical';
     handleUserInput(options, stub);
     expect(stub.calledWith(auditCommand, 4, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: critical]')).to.equal(true);
+
+    consoleStub.restore();
   });
 
   it('should be able to handle production flag from user input correctly', () => {
     const stub = sinon.stub();
+    const consoleStub = sinon.stub(console, 'info');
     const options = {
       production: true,
     };
@@ -210,10 +222,14 @@ describe('event handlers', () => {
     const fullLog = false;
     const exceptionIds = [];
     expect(stub.calledWith(auditCommand, auditLevel, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[production mode enabled]')).to.equal(true);
+
+    consoleStub.restore();
   });
 
   it('should be able to handle full logs flag from user input correctly', () => {
     const stub = sinon.stub();
+    const consoleStub = sinon.stub(console, 'info');
     const options = {
       full: true,
     };
@@ -227,6 +243,9 @@ describe('event handlers', () => {
     const fullLog = true;
     const exceptionIds = [];
     expect(stub.calledWith(auditCommand, auditLevel, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[full log mode enabled]')).to.equal(true);
+
+    consoleStub.restore();
   });
 
   it('should be able to handle empty user input correctly', () => {
@@ -276,48 +295,64 @@ describe('event handlers', () => {
   });
 
   it('should be able to handle normal log display correctly', () => {
-    const stub = sinon.stub(consoleUtil, 'info');
-    const data = '123456789';
+    const stub = sinon.stub(console, 'info');
+    const smallLog = '123456789';
     const fullLog = true;
     const maxLength = 50;
+    const vulnerabilities = [];
 
     expect(stub.called).to.equal(false);
-    handleLogDisplay(data, fullLog, maxLength);
+    handleFinish(vulnerabilities, smallLog, fullLog, maxLength);
     expect(stub.called).to.equal(true);
-    expect(stub.calledWith('123456789')).to.equal(true);
+    expect(stub.calledWith(smallLog)).to.equal(true);
     stub.restore();
   });
 
-  it('should be able to handle overlength log display properly', () => {
-    const stub = sinon.stub(consoleUtil, 'info');
-    const data = '123456789';
+  it('should display overlength log properly', () => {
+    const stub = sinon.stub(console, 'info');
+    const fullLog = true;
+    const maxLength = 500;
+    const vulnerabilities = [];
+
+    expect(stub.called).to.equal(false);
+    handleFinish(vulnerabilities, V6_LOG_REPORT, fullLog, maxLength);
+    expect(stub.called).to.equal(true);
+    // Full log
+    expect(stub.calledWith(V6_LOG_REPORT)).to.equal(true);
+    stub.restore();
+  });
+
+  it('should display an additional message on overlength log', () => {
+    const stub = sinon.stub(console, 'info');
     const fullLog = false;
-    const maxLength = 5;
+    const maxLength = 500;
+    const vulnerabilities = [];
+
+    let expectedDisplay = V6_LOG_REPORT.substring(0, maxLength);
+    expectedDisplay += '\n\n';
+    expectedDisplay += '...';
+    expectedDisplay += '\n\n';
+    expectedDisplay += LOGS_EXCEEDED_MESSAGE;
+    expectedDisplay += '\n\n';
 
     expect(stub.called).to.equal(false);
-    handleLogDisplay(data, fullLog, maxLength);
+    handleFinish(vulnerabilities, V6_LOG_REPORT, fullLog, maxLength);
     expect(stub.called).to.equal(true);
-    expect(stub.calledWith('12345')).to.equal(true);
-    expect(stub.calledWith('')).to.equal(true);
-    expect(stub.calledWith('...')).to.equal(true);
-    expect(stub.calledWith(LOGS_EXCEEDED_MESSAGE)).to.equal(true);
+    expect(stub.calledWith(expectedDisplay)).to.equal(true);
     stub.restore();
   });
 
-  it('should be able to handle log display properly', () => {
-    const stub = sinon.stub(consoleUtil, 'info');
+  it('should be able to handle log display within maximum length properly', () => {
+    const stub = sinon.stub(console, 'info');
     const data = '123456789';
     const fullLog = false;
     const maxLength = 9;
+    const vulnerabilities = [];
 
     expect(stub.called).to.equal(false);
-    handleLogDisplay(data, fullLog, maxLength);
+    handleFinish(vulnerabilities, data, fullLog, maxLength);
     expect(stub.called).to.equal(true);
     expect(stub.calledWith('123456789')).to.equal(true);
-    // This time when it is exactly the display limit, it should not show the exceeded message
-    expect(stub.calledWith('')).to.equal(false);
-    expect(stub.calledWith('...')).to.equal(false);
-    expect(stub.calledWith(LOGS_EXCEEDED_MESSAGE)).to.equal(false);
     stub.restore();
   });
 });
