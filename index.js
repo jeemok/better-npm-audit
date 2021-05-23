@@ -68,7 +68,7 @@ function auditLog(auditCommand, fullLog, vulnerabilities) {
   const audit = exec(auditCommand);
 
   // Set a temporary string
-  // Note: collect all buffers' data before displaying it later to avoid unintentional line breaking in the report display 
+  // Note: collect all buffers' data before displaying it later to avoid unintentional line breaking in the report display
   let bufferData = '';
 
   audit.stdout.on('data', data => bufferData += data);
