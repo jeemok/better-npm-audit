@@ -132,7 +132,7 @@ function handleUserInput(options, fn) {
     exceptionIds = exceptionIds.concat(cmdExceptions);
   }
   if (Array.isArray(exceptionIds) && exceptionIds.length) {
-    consoleUtil.info('Exception vulnerabilities ID(s): ', exceptionIds);
+    consoleUtil.info(`Exception vulnerabilities ID(s): ${exceptionIds}`);
   }
   if (options && options.level) {
     auditLevel = mapLevelToNumber(options.level);
