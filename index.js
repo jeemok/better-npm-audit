@@ -25,8 +25,7 @@ const RESPONSE_MESSAGE = {
  * Handle the analyzed result and log display
  * @param  {Array} vulnerabilities  List of found vulerabilities
  * @param  {String} logData         Logs
- * @param  {Boolean} fullLog        If it should display all logs
- * @param  {Integer} maxLength      Maxiumum characters allowed to display
+ * @param  {Object} configs         Configurations
  */
 function handleFinish(vulnerabilities, logData = '', configs = {}) {
   const {
