@@ -297,12 +297,12 @@ describe('event handlers', () => {
   it('should be able to handle normal log display correctly', () => {
     const stub = sinon.stub(console, 'info');
     const smallLog = '123456789';
-    const fullLog = true;
+    const displayFullLog = true;
     const maxLength = 50;
     const vulnerabilities = [];
 
     expect(stub.called).to.equal(false);
-    handleFinish(vulnerabilities, smallLog, fullLog, maxLength);
+    handleFinish(vulnerabilities, smallLog, { displayFullLog, maxLength });
     expect(stub.called).to.equal(true);
     expect(stub.calledWith(smallLog)).to.equal(true);
     stub.restore();
@@ -310,12 +310,12 @@ describe('event handlers', () => {
 
   it('should display overlength log properly', () => {
     const stub = sinon.stub(console, 'info');
-    const fullLog = true;
+    const displayFullLog = true;
     const maxLength = 500;
     const vulnerabilities = [];
 
     expect(stub.called).to.equal(false);
-    handleFinish(vulnerabilities, V6_LOG_REPORT, fullLog, maxLength);
+    handleFinish(vulnerabilities, V6_LOG_REPORT, { displayFullLog, maxLength });
     expect(stub.called).to.equal(true);
     // Full log
     expect(stub.calledWith(V6_LOG_REPORT)).to.equal(true);
@@ -324,7 +324,7 @@ describe('event handlers', () => {
 
   it('should display an additional message on overlength log', () => {
     const stub = sinon.stub(console, 'info');
-    const fullLog = false;
+    const displayFullLog = false;
     const maxLength = 500;
     const vulnerabilities = [];
 
@@ -336,7 +336,7 @@ describe('event handlers', () => {
     expectedDisplay += '\n\n';
 
     expect(stub.called).to.equal(false);
-    handleFinish(vulnerabilities, V6_LOG_REPORT, fullLog, maxLength);
+    handleFinish(vulnerabilities, V6_LOG_REPORT, { displayFullLog, maxLength });
     expect(stub.called).to.equal(true);
     expect(stub.calledWith(expectedDisplay)).to.equal(true);
     stub.restore();

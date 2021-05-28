@@ -25,10 +25,14 @@ const RESPONSE_MESSAGE = {
  * Handle the analyzed result and log display
  * @param  {Array} vulnerabilities  List of found vulerabilities
  * @param  {String} logData         Logs
- * @param  {Boolean} fullLog        If it should display all logs
- * @param  {Integer} maxLength      Maxiumum characters allowed to display
+ * @param  {Object} configs         Configurations
  */
-function handleFinish(vulnerabilities, logData = '', fullLog = false, maxLength = DEFAULT_MESSSAGE_LIMIT) {
+function handleFinish(vulnerabilities, logData = '', configs = {}) {
+  const {
+    displayFullLog = false,
+    maxLength = DEFAULT_MESSSAGE_LIMIT,
+  } = configs;
+
   let toDisplay = logData.substring(0, maxLength);
 
   // Display an additional information if we not displaying the full logs
@@ -40,7 +44,7 @@ function handleFinish(vulnerabilities, logData = '', fullLog = false, maxLength 
     toDisplay += '\n\n';
   }
 
-  if (fullLog) {
+  if (displayFullLog) {
     console.info(logData);
   } else {
     console.info(toDisplay);
@@ -60,10 +64,10 @@ function handleFinish(vulnerabilities, logData = '', fullLog = false, maxLength 
 /**
  * Re-runs the audit in human readable form
  * @param  {String} auditCommand    The NPM audit command to use (with flags)
- * @param  {Boolean} fullLog        True if the full log should be displayed in the case of no vulerabilities
+ * @param  {Boolean} displayFullLog True if full log should be displayed in the case of no vulerabilities
  * @param  {Array} vulnerabilities  List of vulerabilities
  */
-function auditLog(auditCommand, fullLog, vulnerabilities) {
+function auditLog(auditCommand, displayFullLog, vulnerabilities) {
   // Execute `npm audit` command again, but this time we don't use the JSON flag
   const audit = exec(auditCommand);
 
@@ -74,7 +78,7 @@ function auditLog(auditCommand, fullLog, vulnerabilities) {
   audit.stdout.on('data', data => bufferData += data);
 
   // Once the stdout has completed
-  audit.stderr.on('close', () => handleFinish(vulnerabilities, bufferData, fullLog));
+  audit.stderr.on('close', () => handleFinish(vulnerabilities, bufferData, { displayFullLog }));
 
   // stderr
   audit.stderr.on('data', console.error);
@@ -120,7 +124,7 @@ function handleUserInput(options, fn) {
   let auditCommand = BASE_COMMAND;
   let auditLevel = 0;
   let exceptionIds = [];
-  let fullLog = false;
+  let displayFullLog = false;
 
   // Try to use `.nsprc` file if it exists
   const fileException = readFile(EXCEPTION_FILE_PATH);
@@ -144,10 +148,10 @@ function handleUserInput(options, fn) {
   }
   if (options && options.full) {
     console.info('[full log mode enabled]');
-    fullLog = true;
+    displayFullLog = true;
   }
 
-  fn(auditCommand, auditLevel, fullLog, exceptionIds);
+  fn(auditCommand, auditLevel, displayFullLog, exceptionIds);
 }
 
 program.version(packageJson.version);
