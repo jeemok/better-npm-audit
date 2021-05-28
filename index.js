@@ -65,10 +65,10 @@ function handleFinish(vulnerabilities, logData = '', configs = {}) {
 /**
  * Re-runs the audit in human readable form
  * @param  {String} auditCommand    The NPM audit command to use (with flags)
- * @param  {Boolean} fullLog        True if the full log should be displayed in the case of no vulerabilities
+ * @param  {Boolean} displayFullLog True if full log should be displayed in the case of no vulerabilities
  * @param  {Array} vulnerabilities  List of vulerabilities
  */
-function auditLog(auditCommand, fullLog, vulnerabilities) {
+function auditLog(auditCommand, displayFullLog, vulnerabilities) {
   // Execute `npm audit` command again, but this time we don't use the JSON flag
   const audit = exec(auditCommand);
 
@@ -79,7 +79,7 @@ function auditLog(auditCommand, fullLog, vulnerabilities) {
   audit.stdout.on('data', data => bufferData += data);
 
   // Once the stdout has completed
-  audit.stderr.on('close', () => handleFinish(vulnerabilities, bufferData, { displayFullLog: fullLog }));
+  audit.stderr.on('close', () => handleFinish(vulnerabilities, bufferData, { displayFullLog }));
 
   // stderr
   audit.stderr.on('data', console.error);
