@@ -10,13 +10,12 @@ Made to allow skipping certain vulnerabilities, and any extra handling that are 
 
 NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm audit`. The output of npm audit has significantly changed both in the human-readable and --json output styles. We have added handling so it works properly in both npm versions.
 
-| Docs  | Link  |
-| --    | --    |
-| NPM v6 & v7 changes | https://github.blog/|2020-10-13-presenting-v7-0-0-of-the-npm-cli/
-| NPM v7 blog post | https://blog.npmjs.org/post/626173315965468672/|npm-v7-series-beta-release-and-semver-major
-| Official NPM v6 audit docs | https://docs.npmjs.com/cli/v6/commands/npm-audit|
-| Official NPM v7 audit docs | https://docs.npmjs.com/cli/v7/commands/npm-audit|
-| Dealing with new npm audit | https://uko.codes/dealing-with-npm-v7-audit-changes | 
+| Docs                       | Link                                                |
+| NPM v6 & v7 changes        | https://github.blog/                                | 2020-10-13-presenting-v7-0-0-of-the-npm-cli/ |
+| NPM v7 blog post           | https://blog.npmjs.org/post/626173315965468672/     | npm-v7-series-beta-release-and-semver-major  |
+| Official NPM v6 audit docs | https://docs.npmjs.com/cli/v6/commands/npm-audit    |
+| Official NPM v7 audit docs | https://docs.npmjs.com/cli/v7/commands/npm-audit    |
+| Dealing with new npm audit | https://uko.codes/dealing-with-npm-v7-audit-changes |
 
 ---
 
@@ -47,70 +46,45 @@ or
 better-npm-audit audit
 ```
 
-## Using file to manage exception
+## Using `.nsprc` file to manage exceptions
 
 You may add a file `.nsprc` to your project root directory to manage the exceptions. For example:
 
 ```json
 {
-    "1337": {
-        "ignore": true,
-        "reason": "Ignored since we don't use xxx method",
-        "expiry": 1615462134681
-    },
-    "4501": {
-        "ignore": false,
-        "reason": "Ignored since we don't use xxx method"
-    },
-    "980": "Ignored since we don't use xxx method",
-    "Note": "Any non number key will be ignored"
+  "1337": {
+    "ignore": true,
+    "reason": "Ignored since we don't use xxx method",
+    "expiry": 1615462134681
+  },
+  "4501": {
+    "ignore": false,
+    "reason": "Ignored since we don't use xxx method"
+  },
+  "980": "Ignored since we don't use xxx method",
+  "Note": "Any non number key will be ignored"
 }
 ```
 
-## Command flags
+## Options
 
-#### Ignore certain vulnerabilities
+| Flag           | Short | Description                                                                                                                   |
+| -------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `--level`      | `-l`  | Same as the original `--audit-level` flag                                                                                     |
+| `--production` | `-p`  | Skip checking `devDependencies`                                                                                               |
+| `--ignore`     | `-i`  | For skipping certain advisories                                                                                               |
+| `--full`       | `-f`  | Display full audit report. There is a character limit set to the audit report to prevent overwhelming details to the console. |
 
-For skipping certain advisories, you can use `-i` or verbose `--ignore` flags
-
-```bash
-node node_modules/better-npm-audit audit -i 118,577
-```
-
-#### Display full report
-
-To avoid waterfall logging on your console screen, there is a character limit set to the output. To view the full audit logs, you can use `-f` or verbose `--full` flags
-
-```bash
-node node_modules/better-npm-audit audit -f
-```
-
-#### Minimum audit level (`--audit-level`)
-
-Fail an audit only if the results include a vulnerability with a level of moderate or higher:
-
-```bash
-node node_modules/better-npm-audit audit -l critical
-```
-
-#### Production mode (`--production`)
-
-Skip checking `devDependencies`
-
-```bash
-node node_modules/better-npm-audit audit -p
-```
+---
 
 ## Examples
+
+**NPM v6**
 
 Running `node node_modules/better-npm-audit audit` with vulnerabilities, will receive the error:
 
 ```bash
 2 vulnerabilities found. Node security advisories: 118,577
-npm ERR! code ELIFECYCLE
-npm ERR! errno 1
-npm ERR! xxx@1.39.1 audit: `node node_modules/better-npm-audit audit`
-npm ERR! Exit status 1
 ```
 
 Added the ignore flags `node node_modules/better-npm-audit audit -i 118,577` and rerun:
@@ -139,33 +113,6 @@ Exception Vulnerabilities IDs:  [ '118', '577' ]
 
   Path            semantic-ui > gulp > vinyl-fs > glob-stream > glob >
                   minimatch
-
-  More info       https://nodesecurity.io/advisories/118
-
-
-  High            Regular Expression Denial of Service
-
-  Package         minimatch
-
-  Patched in      >=3.0.2
-
-  Dependency of   semantic-ui
-
-  Path            semantic-ui > gulp > vinyl-fs > glob-stream > minimatch
-
-  More info       https://nodesecurity.io/advisories/118
-
-
-  High            Regular Expression Denial of Service
-
-  Package         minimatch
-
-  Patched in      >=3.0.2
-
-  Dependency of   semantic-ui
-
-  Path            semantic-ui > gulp > vinyl-fs > glob-watcher > gaze >
-                  globule > glob > minimatch
 
   More info       https://nodesecurity.io/advisories/118
 
@@ -220,17 +167,6 @@ Prototype Pollution - https://npmjs.com/advisories/1213
 fix available via `npm audit fix`
 node_modules/dot-prop
 
-ini  <1.3.6
-Prototype Pollution - https://npmjs.com/advisories/1589
-fix available via `npm audit fix`
-node_modules/fsevents/node_modules/ini
-node_modules/ini
-
-lodash  <4.17.19
-Prototype Pollution - https://npmjs.com/advisories/1523
-fix available via `npm audit fix`
-node_modules/lodash
-
 mem  <4.0.0
 Denial of Service - https://npmjs.com/advisories/1084
 fix available via `npm audit fix`
@@ -241,30 +177,6 @@ node_modules/loopback-connector-rest/node_modules/mem
     strong-globalize  2.8.4 || 2.10.0 - 4.1.1
     Depends on vulnerable versions of os-locale
     node_modules/loopback-connector-rest/node_modules/strong-globalize
-
-minimist  <0.2.1 || >=1.0.0 <1.2.3
-Prototype Pollution - https://npmjs.com/advisories/1179
-fix available via `npm audit fix`
-node_modules/mocha/node_modules/minimist
-  mkdirp  0.4.1 - 0.5.1
-  Depends on vulnerable versions of minimist
-  node_modules/mocha/node_modules/mkdirp
-    mocha  1.21.5 - 6.2.2 || 7.0.0-esm1 - 7.1.0
-    Depends on vulnerable versions of mkdirp
-    Depends on vulnerable versions of yargs-parser
-    Depends on vulnerable versions of yargs-unparser
-    node_modules/mocha
-
-node-fetch  <=2.6.0 || 3.0.0-beta.1 - 3.0.0-beta.8
-Denial of Service - https://npmjs.com/advisories/1556
-fix available via `npm audit fix`
-node_modules/node-fetch
-  cross-fetch  <=3.0.5
-  Depends on vulnerable versions of node-fetch
-  node_modules/cross-fetch
-    swagger-client  3.3.2 - 3.10.1 || 3.10.9 - 3.10.11
-    Depends on vulnerable versions of cross-fetch
-    node_modules/swagger-client
 
 swagger-ui  <=3.20.8
 Severity: moderate
@@ -298,9 +210,11 @@ node_modules/yargs-unparser/node_modules/yargs-parser
 18 vulnerabilities (14 low, 2 moderate, 2 high)
 ```
 
-## Special thanks
+## Special mentions
 
-Thank you [@IPWright83](https://github.com/IPWright83) for his solutions in improving the vulnerability validation for us to have the minimum-audit-level and production-mode flags.
+- [@IanWright](https://github.com/IPWright83) for his solutions in improving the vulnerability validation for us to have the minimum-audit-level and production-mode flags.
+
+- [@EdwinTaylor](https://github.com/alertme-edwin) for all the bug reports and improvement suggestions.
 
 ---
 
