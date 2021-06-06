@@ -243,7 +243,7 @@ describe('event handlers', () => {
     const fullLog = true;
     const exceptionIds = [];
     expect(stub.calledWith(auditCommand, auditLevel, fullLog, exceptionIds)).to.equal(true);
-    expect(consoleStub.calledWith('[full log mode enabled]')).to.equal(true);
+    expect(consoleStub.calledWith('[report display limit disabled]')).to.equal(true);
 
     consoleStub.restore();
   });
