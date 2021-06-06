@@ -8,14 +8,15 @@ Made to allow skipping certain vulnerabilities, and any extra handling that are 
 
 ## Supports both NPM version 6 and 7
 
-NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm audit`. The output of npm audit has significantly changed both in the human-readable and --json output styles. We have added handling so it works properly in both npm versions.
+NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm audit`. The output of npm audit has significantly changed both in the human-readable and `--json` output styles. We have added handling so it works properly in both npm versions.
 
-| Docs                       | Link                                                |
-| NPM v6 & v7 changes        | https://github.blog/                                | 2020-10-13-presenting-v7-0-0-of-the-npm-cli/ |
-| NPM v7 blog post           | https://blog.npmjs.org/post/626173315965468672/     | npm-v7-series-beta-release-and-semver-major  |
-| Official NPM v6 audit docs | https://docs.npmjs.com/cli/v6/commands/npm-audit    |
-| Official NPM v7 audit docs | https://docs.npmjs.com/cli/v7/commands/npm-audit    |
-| Dealing with new npm audit | https://uko.codes/dealing-with-npm-v7-audit-changes |
+| Docs                       | Link                                                                                       |
+| -------------------------- | ------------------------------------------------------------------------------------------ |
+| NPM v6 & v7 changes        | https://github.blog/2020-10-13-presenting-v7-0-0-of-the-npm-cli/                           |
+| NPM v7 blog post           | https://blog.npmjs.org/post/626173315965468672/npm-v7-series-beta-release-and-semver-major |
+| Official NPM v6 audit docs | https://docs.npmjs.com/cli/v6/commands/npm-audit                                           |
+| Official NPM v7 audit docs | https://docs.npmjs.com/cli/v7/commands/npm-audit                                           |
+| Dealing with new npm audit | https://uko.codes/dealing-with-npm-v7-audit-changes                                        |
 
 ---
 
