@@ -76,8 +76,8 @@ function filterValidException(fileException) {
       return acc;
     }
     // if the details is not an config object, we will accept this ID
-    if (typeof details !== 'object') {
-      return acc.concat(numberId);
+    if (!details || typeof details !== 'object') {
+      return acc.concat(Object.assign({}, { id: numberId, reason: details || undefined }));
     }
     // `ignore` flag has to be true
     if (!details.ignore) {
@@ -87,13 +87,13 @@ function filterValidException(fileException) {
     if (details.expiry) {
       // if the expiry time is in the future, accept it
       if (details.expiry > new Date(Date.now()).getTime()) {
-        return acc.concat(numberId);
+        return acc.concat(Object.assign({}, { id: numberId }, details));
       }
       // else it is expired, so don't accept it
       return acc;
     }
     // Accept the ID
-    return acc.concat(numberId);
+    return acc.concat(Object.assign({}, { id: numberId }, details));
   }, []);
 }
 

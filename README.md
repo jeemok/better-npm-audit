@@ -69,12 +69,13 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
 
 ## Options
 
-| Flag           | Short | Description                                                                                                                   |
-| -------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `--level`      | `-l`  | Same as the original `--audit-level` flag                                                                                     |
-| `--production` | `-p`  | Skip checking `devDependencies`                                                                                               |
-| `--ignore`     | `-i`  | For skipping certain advisories                                                                                               |
-| `--full`       | `-f`  | Display full audit report. There is a character limit set to the audit report to prevent overwhelming details to the console. |
+| Flag              | Short | Description                                                                                                                   |
+| ----------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `--level`         | `-l`  | Same as the original `--audit-level` flag                                                                                     |
+| `--production`    | `-p`  | Skip checking `devDependencies`                                                                                               |
+| `--ignore`        | `-i`  | For skipping certain advisories                                                                                               |
+| `--full`          | `-f`  | Display full audit report. There is a character limit set to the audit report to prevent overwhelming details to the console. |
+| `--display-notes` | `-d`  | Display the reasons of matched exceptions from `.nsprc` file.                                                                 |
 
 ---
 

@@ -126,17 +126,26 @@ function handleUserInput(options, fn) {
   let exceptionIds = [];
   let displayFullLog = false;
 
-  // Try to use `.nsprc` file if it exists
+  // Check `.nsprc` file for exceptions
   const fileException = readFile(EXCEPTION_FILE_PATH);
+  const filteredExceptions = filterValidException(fileException);
   if (fileException) {
-    exceptionIds = filterValidException(fileException);
+    exceptionIds = filteredExceptions.map(details => details.id);
   }
+  // Check also if any exception IDs passed via command flags
   if (options && options.ignore) {
     const cmdExceptions = options.ignore.split(SEPARATOR).filter(isWholeNumber).map(Number);
     exceptionIds = exceptionIds.concat(cmdExceptions);
   }
   if (Array.isArray(exceptionIds) && exceptionIds.length) {
     consoleUtil.info(`Exception vulnerabilities ID(s): ${exceptionIds}`);
+  }
+  if (options && options.displayNotes && filteredExceptions.length) {
+    console.info(''); // Add some spacings
+    console.info('Exceptions notes:');
+    console.info('');
+    filteredExceptions.forEach(({ id, reason }) => console.info(`${id}: ${reason || 'n/a'}`));
+    console.info('');
   }
   if (options && options.level) {
     console.info(`[level: ${options.level}]`);
@@ -147,7 +156,7 @@ function handleUserInput(options, fn) {
     auditCommand += ' --production';
   }
   if (options && options.full) {
-    console.info('[full log mode enabled]');
+    console.info('[report display limit disabled]');
     displayFullLog = true;
   }
 
@@ -159,10 +168,11 @@ program.version(packageJson.version);
 program
     .command('audit')
     .description('execute npm audit')
-    .option('-i, --ignore <ids>', 'Vulnerabilities ID(s) to ignore')
-    .option('-f, --full', `Display the full audit logs. Default to ${DEFAULT_MESSSAGE_LIMIT} characters.`)
-    .option('-l, --level <auditLevel>', 'The minimum audit level to include')
-    .option('-p, --production', 'Skip checking devDependencies')
+    .option('-i, --ignore <ids>', 'Vulnerabilities ID(s) to ignore.')
+    .option('-f, --full', `Display complete audit report. Limit to ${DEFAULT_MESSSAGE_LIMIT} characters by default.`)
+    .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
+    .option('-p, --production', 'Skip checking devDependencies.')
+    .option('-d, --display-notes', 'Display exception notes.')
     .action(userOptions => handleUserInput(userOptions, audit));
 
 program.parse(process.argv);

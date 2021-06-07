@@ -6,8 +6,15 @@
     },
     "4501": {
         "ignore": false,
-        "reason": "Ignored since we don't use xxx method"
+        "reason": "This will be fixed by the library maintainers by June 14"
     },
-    "980": "Ignored since we don't use xxx method",
+    "4502": {
+        "ignore": true
+    },
+    "980": "This will be fixed by the library maintainers by June 14",
+    "1024": "",
+    "5": false,
+    "3": null,
+    "2": undefined,
     "Note": "Any non number key will be ignored"
 }
