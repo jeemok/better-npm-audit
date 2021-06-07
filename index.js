@@ -128,8 +128,9 @@ function handleUserInput(options, fn) {
 
   // Check `.nsprc` file for exceptions
   const fileException = readFile(EXCEPTION_FILE_PATH);
+  const filteredExceptions = filterValidException(fileException);
   if (fileException) {
-    exceptionIds = filterValidException(fileException);
+    exceptionIds = filteredExceptions.map(details => details.id);
   }
   // Check also if any exception IDs passed via command flags
   if (options && options.ignore) {
@@ -138,6 +139,10 @@ function handleUserInput(options, fn) {
   }
   if (Array.isArray(exceptionIds) && exceptionIds.length) {
     consoleUtil.info(`Exception vulnerabilities ID(s): ${exceptionIds}`);
+  }
+  if (options && options.displayNotes && filteredExceptions.length) {
+    console.info('Exceptions notes:');
+    filteredExceptions.forEach(({ id, reason }) => console.info(`${id}: ${reason || 'n/a'}`));
   }
   if (options && options.level) {
     console.info(`[level: ${options.level}]`);
@@ -164,6 +169,7 @@ program
     .option('-f, --full', `Display complete audit report. Limit to ${DEFAULT_MESSSAGE_LIMIT} characters by default.`)
     .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
     .option('-p, --production', 'Skip checking devDependencies.')
+    .option('-d, --display-notes', 'Display exception notes.')
     .action(userOptions => handleUserInput(userOptions, audit));
 
 program.parse(process.argv);

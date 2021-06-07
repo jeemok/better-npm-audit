@@ -13,5 +13,8 @@
     },
     "980": "This will be fixed by the library maintainers by June 14",
     "1024": "",
+    "5": false,
+    "3": null,
+    "2": undefined,
     "Note": "Any non number key will be ignored"
 }

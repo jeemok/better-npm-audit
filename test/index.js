@@ -88,10 +88,22 @@ describe('common utils', () => {
         reason: 'Ignored since we dont use xxx method',
       },
       '980': 'Ignored since we dont use xxx method',
+      '5': '',
+      '3': null,
+      '2': undefined,
+      '1': false,
       'invalid': 'Ignored since we dont use xxx method',
     };
+    const expected = [
+      { id: 1, reason: undefined },
+      { id: 2, reason: undefined },
+      { id: 3, reason: undefined },
+      { id: 5, reason: undefined },
+      { id: 137, ignore: true, reason: 'Ignored since we dont use xxx method' },
+      { id: 980, reason: 'Ignored since we dont use xxx method' },
+    ];
 
-    expect(filterValidException(exceptions)).to.deep.equal([137, 980]);
+    expect(filterValidException(exceptions)).to.deep.equal(expected);
   });
 
   it('should be able to filter valid file exceptions with expiry dates correctly', () => {
@@ -113,19 +125,24 @@ describe('common utils', () => {
     expect(filterValidException(exceptions)).to.deep.equal([]);
     let clock = sinon.stub(Date, 'now').returns(1615462140000);
 
-    expect(filterValidException(exceptions)).to.deep.equal([980]);
+    expect(filterValidException(exceptions)).to.deep.equal([
+      { id: 980, ignore: true, expiry: 1615462150000 },
+    ]);
 
     clock.restore();
     clock = sinon.stub(Date, 'now').returns(1615462130000);
 
-    expect(filterValidException(exceptions)).to.deep.equal([581, 980]);
+    expect(filterValidException(exceptions)).to.deep.equal([
+      { id: 581, ignore: true, expiry: 1615462140000 },
+      { id: 980, ignore: true, expiry: 1615462150000 },
+    ]);
 
     clock.restore();
   });
 });
 
 describe('event handlers', () => {
-  it('should be able to pass exceptions from input correctly', () => {
+  it('should be able to pass exceptions from the command correctly', () => {
     const stub = sinon.stub();
     const options = {
       ignore: '1567,919',
