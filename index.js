@@ -141,8 +141,11 @@ function handleUserInput(options, fn) {
     consoleUtil.info(`Exception vulnerabilities ID(s): ${exceptionIds}`);
   }
   if (options && options.displayNotes && filteredExceptions.length) {
+    console.info(''); // Add some spacings
     console.info('Exceptions notes:');
+    console.info('');
     filteredExceptions.forEach(({ id, reason }) => console.info(`${id}: ${reason || 'n/a'}`));
+    console.info('');
   }
   if (options && options.level) {
     console.info(`[level: ${options.level}]`);
