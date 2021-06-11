@@ -1,4 +1,4 @@
-## 1.11.0 (June 11, 2021)
+## 1.11.1 (June 11, 2021)
 
 * Added environment variable support `process.env.NPM_CONFIG_AUDIT_LEVEL` to set the audit level
 
