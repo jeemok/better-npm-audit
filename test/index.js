@@ -179,7 +179,7 @@ describe('event handlers', () => {
     expect(stub.calledWith(auditCommand, auditLevel, fullLog, [1199, 628])).to.equal(true);
   });
 
-  it('should be able to handle severity level from user input correctly', () => {
+  it('should be able to handle audit level from the command correctly', () => {
     const stub = sinon.stub();
     const consoleStub = sinon.stub(console, 'info');
     const options = {
@@ -223,7 +223,50 @@ describe('event handlers', () => {
     consoleStub.restore();
   });
 
-  it('should be able to handle production flag from user input correctly', () => {
+  it('should be able to use audit level from the environment variables correctly', () => {
+    const stub = sinon.stub();
+    const consoleStub = sinon.stub(console, 'info');
+    const options = {};
+    const auditCommand = BASE_COMMAND;
+    const fullLog = false;
+    const exceptionIds = [];
+
+    // info
+    process.env.NPM_CONFIG_AUDIT_LEVEL = 'info';
+    handleUserInput(options, stub);
+    expect(stub.calledWith(auditCommand, 0, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: info]')).to.equal(true);
+
+    // low
+    process.env.NPM_CONFIG_AUDIT_LEVEL = 'low';
+    handleUserInput(options, stub);
+    expect(stub.calledWith(auditCommand, 1, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: low]')).to.equal(true);
+
+    // moderate
+    process.env.NPM_CONFIG_AUDIT_LEVEL = 'moderate';
+    handleUserInput(options, stub);
+    expect(stub.calledWith(auditCommand, 2, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: moderate]')).to.equal(true);
+
+    // high
+    process.env.NPM_CONFIG_AUDIT_LEVEL = 'high';
+    handleUserInput(options, stub);
+    expect(stub.calledWith(auditCommand, 3, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: high]')).to.equal(true);
+
+    // critical
+    process.env.NPM_CONFIG_AUDIT_LEVEL = 'critical';
+    handleUserInput(options, stub);
+    expect(stub.calledWith(auditCommand, 4, fullLog, exceptionIds)).to.equal(true);
+    expect(consoleStub.calledWith('[level: critical]')).to.equal(true);
+
+    // Clean up
+    consoleStub.restore();
+    process.env.NPM_CONFIG_AUDIT_LEVEL = undefined;
+  });
+
+  it('should be able to handle production flag from the command correctly', () => {
     const stub = sinon.stub();
     const consoleStub = sinon.stub(console, 'info');
     const options = {
@@ -244,7 +287,7 @@ describe('event handlers', () => {
     consoleStub.restore();
   });
 
-  it('should be able to handle full logs flag from user input correctly', () => {
+  it('should be able to handle full logs flag from the command correctly', () => {
     const stub = sinon.stub();
     const consoleStub = sinon.stub(console, 'info');
     const options = {
@@ -265,7 +308,7 @@ describe('event handlers', () => {
     consoleStub.restore();
   });
 
-  it('should be able to handle empty user input correctly', () => {
+  it('should be able to handle default command correctly', () => {
     const stub = sinon.stub();
     const options = {};
 

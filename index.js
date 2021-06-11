@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+const get = require('lodash.get');
 const program = require('commander');
 const { exec } = require('child_process');
 const packageJson = require('./package');
@@ -147,9 +148,11 @@ function handleUserInput(options, fn) {
     filteredExceptions.forEach(({ id, reason }) => console.info(`${id}: ${reason || 'n/a'}`));
     console.info('');
   }
-  if (options && options.level) {
-    console.info(`[level: ${options.level}]`);
-    auditLevel = mapLevelToNumber(options.level);
+  // Taking the audit level from the command or environment variable
+  const level = get(options, 'level', process.env.NPM_CONFIG_AUDIT_LEVEL);
+  if (level) {
+    console.info(`[level: ${level}]`);
+    auditLevel = mapLevelToNumber(level);
   }
   if (options && options.production) {
     console.info('[production mode enabled]');

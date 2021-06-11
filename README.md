@@ -18,7 +18,7 @@ NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm 
 | Official NPM v7 audit docs | https://docs.npmjs.com/cli/v7/commands/npm-audit                                           |
 | Dealing with new npm audit | https://uko.codes/dealing-with-npm-v7-audit-changes                                        |
 
----
+<br />
 
 ## Installation
 
@@ -27,6 +27,8 @@ NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm 
 or
 
     $ npm install -g better-npm-audit
+
+<br />
 
 ## Usage
 
@@ -46,6 +48,28 @@ or
 ```bash
 better-npm-audit audit
 ```
+
+<br />
+
+## Options
+
+| Flag              | Short | Description                                                                                                                   |
+| ----------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `--level`         | `-l`  | Same as the original `--audit-level` flag                                                                                     |
+| `--production`    | `-p`  | Skip checking `devDependencies`                                                                                               |
+| `--ignore`        | `-i`  | For skipping certain advisories                                                                                               |
+| `--full`          | `-f`  | Display full audit report. There is a character limit set to the audit report to prevent overwhelming details to the console. |
+| `--display-notes` | `-d`  | Display the reasons of matched exceptions from `.nsprc` file.                                                                 |
+
+<br />
+
+## Environment Variables
+
+| Variable                             | Description                                                                                                       |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `process.env.NPM_CONFIG_AUDIT_LEVEL` | Used in setting the audit level. <br /> *Note: this will be disregard if the audit level flag is passed onto the command.* |
+
+<br />
 
 ## Using `.nsprc` file to manage exceptions
 
@@ -67,17 +91,7 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
 }
 ```
 
-## Options
-
-| Flag              | Short | Description                                                                                                                   |
-| ----------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `--level`         | `-l`  | Same as the original `--audit-level` flag                                                                                     |
-| `--production`    | `-p`  | Skip checking `devDependencies`                                                                                               |
-| `--ignore`        | `-i`  | For skipping certain advisories                                                                                               |
-| `--full`          | `-f`  | Display full audit report. There is a character limit set to the audit report to prevent overwhelming details to the console. |
-| `--display-notes` | `-d`  | Display the reasons of matched exceptions from `.nsprc` file.                                                                 |
-
----
+<br />
 
 ## Examples
 
@@ -212,11 +226,15 @@ node_modules/yargs-unparser/node_modules/yargs-parser
 18 vulnerabilities (14 low, 2 moderate, 2 high)
 ```
 
+<br />
+
 ## Special mentions
 
 - [@IanWright](https://github.com/IPWright83) for his solutions in improving the vulnerability validation for us to have the minimum-audit-level and production-mode flags.
 
 - [@EdwinTaylor](https://github.com/alertme-edwin) for all the bug reports and improvement suggestions.
+
+<br />
 
 ---
 
