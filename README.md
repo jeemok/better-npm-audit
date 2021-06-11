@@ -47,6 +47,22 @@ or
 better-npm-audit audit
 ```
 
+## Options
+
+| Flag              | Short | Description                                                                                                                   |
+| ----------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `--level`         | `-l`  | Same as the original `--audit-level` flag                                                                                     |
+| `--production`    | `-p`  | Skip checking `devDependencies`                                                                                               |
+| `--ignore`        | `-i`  | For skipping certain advisories                                                                                               |
+| `--full`          | `-f`  | Display full audit report. There is a character limit set to the audit report to prevent overwhelming details to the console. |
+| `--display-notes` | `-d`  | Display the reasons of matched exceptions from `.nsprc` file.                                                                 |
+
+## Environment Variables
+
+| Variable                             | Description                                                                                                       |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `process.env.NPM_CONFIG_AUDIT_LEVEL` | Used in setting the audit level. <br /> *Note: this will be disregard if the audit level flag is passed onto the command.* |
+
 ## Using `.nsprc` file to manage exceptions
 
 You may add a file `.nsprc` to your project root directory to manage the exceptions. For example:
@@ -66,16 +82,6 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
   "Note": "Any non number key will be ignored"
 }
 ```
-
-## Options
-
-| Flag              | Short | Description                                                                                                                   |
-| ----------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `--level`         | `-l`  | Same as the original `--audit-level` flag                                                                                     |
-| `--production`    | `-p`  | Skip checking `devDependencies`                                                                                               |
-| `--ignore`        | `-i`  | For skipping certain advisories                                                                                               |
-| `--full`          | `-f`  | Display full audit report. There is a character limit set to the audit report to prevent overwhelming details to the console. |
-| `--display-notes` | `-d`  | Display the reasons of matched exceptions from `.nsprc` file.                                                                 |
 
 ---
 
