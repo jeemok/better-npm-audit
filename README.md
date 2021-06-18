@@ -228,6 +228,12 @@ node_modules/yargs-unparser/node_modules/yargs-parser
 
 <br />
 
+## Changelog
+
+You can find the changelog [here](https://github.com/jeemok/better-npm-audit/blob/master/CHANGELOG.md).
+
+<br />
+
 ## Special mentions
 
 - [@IanWright](https://github.com/IPWright83) for his solutions in improving the vulnerability validation for us to have the minimum-audit-level and production-mode flags.
