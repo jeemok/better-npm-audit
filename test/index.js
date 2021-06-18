@@ -7,7 +7,7 @@ const V6_JSON_BUFFER_EMPTY = require('./__mocks__/v6-json-buffer-empty.json');
 const V7_JSON_BUFFER = require('./__mocks__/v7-json-buffer.json');
 const V7_JSON_BUFFER_EMPTY = require('./__mocks__/v7-json-buffer-empty.json');
 const consoleUtil = require('../utils/console');
-const { isWholeNumber, mapLevelToNumber, getVulnerabilities, isJsonString, filterValidException } = require('../utils/common');
+const { isWholeNumber, mapLevelToNumber, getRawVulnerabilities, isJsonString, filterValidException, filterExceptions } = require('../utils/common');
 const { handleFinish, handleUserInput, BASE_COMMAND, SUCCESS_MESSAGE, LOGS_EXCEEDED_MESSAGE } = require('../index');
 
 const { FG_WHITE, RESET_COLOR } = consoleUtil;
@@ -138,6 +138,13 @@ describe('common utils', () => {
     ]);
 
     clock.restore();
+  });
+
+  it('should know how to filter raw vulnerabilities based on the exceptionIds', () => {
+    const exceptions = [1213, 1500, 1555, 9999];
+    const result = filterExceptions([975, 1213, 976, 985, 1500, 1084, 1179, 1523, 1555, 1556, 1589, 9999], exceptions);
+
+    expect(result).to.have.length(8).and.to.deep.equal([975, 976, 985, 1084, 1179, 1523, 1556, 1589]);
   });
 });
 
@@ -354,6 +361,35 @@ describe('event handlers', () => {
     stubConsole.restore();
   });
 
+  it('should inform the developer when exceptionsIds are unused', () => {
+    const stubProcess = sinon.stub(process, 'exit');
+    const stubErrorConsole = sinon.stub(consoleUtil, 'error');
+    const stubInfoConsole = sinon.stub(consoleUtil, 'info');
+    const vulnerabilities = [1165, 1890, 1337];
+    const exceptionIds = [2000, 4242];
+
+    expect(stubProcess.called).to.equal(false);
+    expect(stubErrorConsole.called).to.equal(false);
+    expect(stubInfoConsole.called).to.equal(false);
+
+    handleFinish(vulnerabilities, '', {}, exceptionIds);
+
+    expect(stubProcess.called).to.equal(true);
+    expect(stubProcess.calledWith(1)).to.equal(true);
+
+    expect(stubErrorConsole.called).to.equal(true);
+    expect(stubErrorConsole.calledWith('3 vulnerabilities found. Node security advisories: 1165,1890,1337')).to.equal(true);
+
+    expect(stubInfoConsole.called).to.equal(true);
+    // eslint-disable-next-line max-len
+    const message = `2 vulnerabilities where ignored but did not result in a vulnerabilities: 2000,4242. They can be removed from the .nsprc file or -ignore -i flags.`;
+    expect(stubInfoConsole.calledWith(message)).to.equal(true);
+
+    stubProcess.restore();
+    stubErrorConsole.restore();
+    stubInfoConsole.restore();
+  });
+
   it('should be able to handle normal log display correctly', () => {
     const stub = sinon.stub(console, 'info');
     const smallLog = '123456789';
@@ -422,7 +458,7 @@ describe('npm v6', () => {
     it('should be able to handle correctly for empty vulnerability scan', () => {
       const jsonString = JSON.stringify(V6_JSON_BUFFER_EMPTY);
       const auditLevel = 0; // info
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(0).and.to.deep.equal([]);
     });
@@ -430,7 +466,7 @@ describe('npm v6', () => {
     it('should be able to get info level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V6_JSON_BUFFER);
       const auditLevel = 0; // info
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(11).and.to.deep.equal([975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 1556, 1589]);
     });
@@ -438,7 +474,7 @@ describe('npm v6', () => {
     it('should be able to get low level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V6_JSON_BUFFER);
       const auditLevel = 1; // low
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(11).and.to.deep.equal([975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 1556, 1589]);
     });
@@ -446,7 +482,7 @@ describe('npm v6', () => {
     it('should be able to get moderate level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V6_JSON_BUFFER);
       const auditLevel = 2; // moderate
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(5).and.to.deep.equal([975, 976, 985, 1213, 1555]);
     });
@@ -454,7 +490,7 @@ describe('npm v6', () => {
     it('should be able to get high level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V6_JSON_BUFFER);
       const auditLevel = 3; // high
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(2).and.to.deep.equal([1213, 1555]);
     });
@@ -462,29 +498,9 @@ describe('npm v6', () => {
     it('should be able to get critical level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V6_JSON_BUFFER);
       const auditLevel = 4; // critical
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(1).and.to.deep.equal([1555]);
-    });
-  });
-
-  describe('using exceptions', () => {
-    it('should be able to filter out all vulnerabilities correctly', () => {
-      const jsonString = JSON.stringify(V6_JSON_BUFFER);
-      const auditLevel = 4; // critical
-      const exceptions = [1213, 1500, 1555];
-      const result = getVulnerabilities(jsonString, auditLevel, exceptions);
-
-      expect(result).to.have.length(0).and.to.deep.equal([]);
-    });
-
-    it('should be able to filter out targeted vulnerabilities correctly', () => {
-      const jsonString = JSON.stringify(V6_JSON_BUFFER);
-      const auditLevel = 0; // info
-      const exceptions = [1213, 1500, 1555, 9999];
-      const result = getVulnerabilities(jsonString, auditLevel, exceptions);
-
-      expect(result).to.have.length(8).and.to.deep.equal([975, 976, 985, 1084, 1179, 1523, 1556, 1589]);
     });
   });
 });
@@ -494,7 +510,7 @@ describe('npm v7', () => {
     it('should be able to handle correctly for empty vulnerability scan', () => {
       const jsonString = JSON.stringify(V7_JSON_BUFFER_EMPTY);
       const auditLevel = 0; // info
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(0).and.to.deep.equal([]);
     });
@@ -502,7 +518,7 @@ describe('npm v7', () => {
     it('should be able to get info level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V7_JSON_BUFFER);
       const auditLevel = 0; // info
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(11).and.to.deep.equal([1555, 1213, 1589, 1523, 1084, 1179, 1556, 975, 976, 985, 1500]);
     });
@@ -510,7 +526,7 @@ describe('npm v7', () => {
     it('should be able to get low level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V7_JSON_BUFFER);
       const auditLevel = 1; // low
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(10).and.to.deep.equal([1555, 1213, 1589, 1523, 1084, 1179, 1556, 975, 976, 985]);
     });
@@ -518,7 +534,7 @@ describe('npm v7', () => {
     it('should be able to get moderate level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V7_JSON_BUFFER);
       const auditLevel = 2; // moderate
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(5).and.to.deep.equal([1555, 1213, 975, 976, 985]);
     });
@@ -526,7 +542,7 @@ describe('npm v7', () => {
     it('should be able to get high level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V7_JSON_BUFFER);
       const auditLevel = 3; // high
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(2).and.to.deep.equal([1555, 1213]);
     });
@@ -534,29 +550,9 @@ describe('npm v7', () => {
     it('should be able to get critical level vulnerabilities from JSON buffer', () => {
       const jsonString = JSON.stringify(V7_JSON_BUFFER);
       const auditLevel = 4; // critical
-      const result = getVulnerabilities(jsonString, auditLevel);
+      const result = getRawVulnerabilities(jsonString, auditLevel);
 
       expect(result).to.have.length(1).and.to.deep.equal([1555]);
-    });
-  });
-
-  describe('using exceptions', () => {
-    it('should be able to filter out all vulnerabilities correctly', () => {
-      const jsonString = JSON.stringify(V7_JSON_BUFFER);
-      const auditLevel = 4; // critical
-      const exceptions = [1555, 1213];
-      const result = getVulnerabilities(jsonString, auditLevel, exceptions);
-
-      expect(result).to.have.length(0).and.to.deep.equal([]);
-    });
-
-    it('should be able to filter out targeted vulnerabilities correctly', () => {
-      const jsonString = JSON.stringify(V7_JSON_BUFFER);
-      const auditLevel = 0; // info
-      const exceptions = [1213, 1500, 1555, 9999];
-      const result = getVulnerabilities(jsonString, auditLevel, exceptions);
-
-      expect(result).to.have.length(8).and.to.deep.equal([1589, 1523, 1084, 1179, 1556, 975, 976, 985]);
     });
   });
 });

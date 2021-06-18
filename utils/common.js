@@ -29,7 +29,7 @@ function mapLevelToNumber(auditLevel) {
  * @param  {Array} exceptionIds     List of exception vulnerabilities
  * @return {Array}                  Returns the list of found vulnerabilities
  */
-function getVulnerabilities(jsonBuffer = '', auditLevel = 0, exceptionIds = []) {
+function getRawVulnerabilities(jsonBuffer = '', auditLevel = 0) {
   // NPM v6 uses `advisories`
   // NPM v7 uses `vulnerabilities`
   // Refer to the test folder for some sample mockups
@@ -39,8 +39,7 @@ function getVulnerabilities(jsonBuffer = '', auditLevel = 0, exceptionIds = []) 
   if (advisories) {
     return Object.values(advisories)
         .filter(advisory => mapLevelToNumber(advisory.severity) >= auditLevel) // Filter out if there is requested audit level
-        .map(advisory => advisory.id) // Map out the vulnerabilities IDs
-        .filter(id => !exceptionIds.includes(id)); // Filter out exceptions provided by user
+        .map(advisory => advisory.id); // Map out the vulnerabilities IDs
   }
 
   // NPM v7 handling
@@ -53,11 +52,20 @@ function getVulnerabilities(jsonBuffer = '', auditLevel = 0, exceptionIds = []) 
           const cleanedArray = get(vulnerability, 'via', []).map(each => get(each, 'source')).filter(Boolean);
           // Compile into a single array
           return acc.concat(cleanedArray);
-        }, [])
-        .filter(id => !exceptionIds.includes(id)); // Filter out exceptions provided by user
+        }, []);
   }
 
   return [];
+}
+
+/**
+ * Takes the rawVulnerabilities and filters out the exceptionIds
+ * @param  {Array} rawVulnerabilities  List of raw vulnerabilities to filter
+ * @param  {Array} exceptionIds     List of exception vulnerabilities
+ * @return {Array}                  Returns the list of found vulnerabilities
+ */
+function filterExceptions(rawVulnerabilities, exceptionIds = []) {
+  return rawVulnerabilities.filter(id => !exceptionIds.includes(id));
 }
 
 /**
@@ -126,5 +134,6 @@ module.exports = {
   isWholeNumber,
   isJsonString,
   mapLevelToNumber,
-  getVulnerabilities,
+  getRawVulnerabilities,
+  filterExceptions,
 };

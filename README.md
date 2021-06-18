@@ -234,6 +234,8 @@ node_modules/yargs-unparser/node_modules/yargs-parser
 
 - [@EdwinTaylor](https://github.com/alertme-edwin) for all the bug reports and improvement suggestions.
 
+- [@MrHus](https://github.com/MrHus) for the logging of unused exceptions from the .nsprc file and -ignore flags. Courtesy of 42 BV.
+
 <br />
 
 ---

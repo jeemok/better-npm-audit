@@ -8,7 +8,7 @@ const get = require('lodash.get');
 const program = require('commander');
 const { exec } = require('child_process');
 const packageJson = require('./package');
-const { isWholeNumber, mapLevelToNumber, getVulnerabilities, filterValidException } = require('./utils/common');
+const { isWholeNumber, mapLevelToNumber, getRawVulnerabilities, filterValidException, filterExceptions } = require('./utils/common');
 const { readFile } = require('./utils/file');
 const consoleUtil = require('./utils/console');
 
@@ -24,11 +24,12 @@ const RESPONSE_MESSAGE = {
 
 /**
  * Handle the analyzed result and log display
- * @param  {Array} vulnerabilities  List of found vulerabilities
+ * @param  {Array} vulnerabilities  List of found vulnerabilities
  * @param  {String} logData         Logs
  * @param  {Object} configs         Configurations
+ * @param  {Array} unusedExceptionIds List of unused exceptionsIds.
  */
-function handleFinish(vulnerabilities, logData = '', configs = {}) {
+function handleFinish(vulnerabilities, logData = '', configs = {}, unusedExceptionIds = []) {
   const {
     displayFullLog = false,
     maxLength = DEFAULT_MESSSAGE_LIMIT,
@@ -51,9 +52,16 @@ function handleFinish(vulnerabilities, logData = '', configs = {}) {
     console.info(toDisplay);
   }
 
+  if (unusedExceptionIds.length > 0) {
+    // eslint-disable-next-line max-len
+    const message = `${unusedExceptionIds.length} vulnerabilities where ignored but did not result in a vulnerabilities: ${unusedExceptionIds}. They can be removed from the .nsprc file or -ignore -i flags.`;
+    consoleUtil.info(message);
+  }
+
   // Display the error if found vulnerabilities
   if (vulnerabilities.length > 0) {
     consoleUtil.error(`${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`);
+
     // Exit failed
     process.exit(1);
   } else {
@@ -65,10 +73,11 @@ function handleFinish(vulnerabilities, logData = '', configs = {}) {
 /**
  * Re-runs the audit in human readable form
  * @param  {String} auditCommand    The NPM audit command to use (with flags)
- * @param  {Boolean} displayFullLog True if full log should be displayed in the case of no vulerabilities
- * @param  {Array} vulnerabilities  List of vulerabilities
+ * @param  {Boolean} displayFullLog True if full log should be displayed in the case of no vulnerabilities
+ * @param  {Array} vulnerabilities  List of vulnerabilities
+ * @param  {Array} unusedExceptionIds List of unused exceptionsIds.
  */
-function auditLog(auditCommand, displayFullLog, vulnerabilities) {
+function auditLog(auditCommand, displayFullLog, vulnerabilities, unusedExceptionIds) {
   // Execute `npm audit` command again, but this time we don't use the JSON flag
   const audit = exec(auditCommand);
 
@@ -79,7 +88,7 @@ function auditLog(auditCommand, displayFullLog, vulnerabilities) {
   audit.stdout.on('data', data => bufferData += data);
 
   // Once the stdout has completed
-  audit.stderr.on('close', () => handleFinish(vulnerabilities, bufferData, { displayFullLog }));
+  audit.stderr.on('close', () => handleFinish(vulnerabilities, bufferData, { displayFullLog }, unusedExceptionIds));
 
   // stderr
   audit.stderr.on('data', console.error);
@@ -88,9 +97,9 @@ function auditLog(auditCommand, displayFullLog, vulnerabilities) {
 /**
  * Run the main Audit
  * @param  {String} auditCommand  The NPM audit command to use (with flags)
- * @param  {Number} auditLevel    The level of vulernabilities we care about
- * @param  {Boolean} fullLog      True if the full log should be displayed in the case of no vulerabilities
- * @param  {Array} exceptionIds   List of vulernability IDs to ignore
+ * @param  {Number} auditLevel    The level of vulnerabilities we care about
+ * @param  {Boolean} fullLog      True if the full log should be displayed in the case of no vulnerabilities
+ * @param  {Array} exceptionIds   List of vulnerability IDs to ignore
 */
 function audit(auditCommand, auditLevel, fullLog, exceptionIds) {
   // Execute `npm audit` command to get the security report, taking into account
@@ -105,11 +114,18 @@ function audit(auditCommand, auditLevel, fullLog, exceptionIds) {
 
   // Once the stdout has completed process the output
   audit.stderr.on('close', () => {
-    // Grab any un-filtered vunerablities at the appropriate level
-    const vulnerabilities = getVulnerabilities(jsonBuffer, auditLevel, exceptionIds);
+    // Grab any un-filtered vulnerabilities at the appropriate level
+    const rawVulnerabilities = getRawVulnerabilities(jsonBuffer, auditLevel);
+
+    // filter out exceptions
+    const vulnerabilities = filterExceptions(rawVulnerabilities, exceptionIds);
+
+    // Display the unused exceptionId's
+    const exceptionsIdsAsArray = Array.isArray(exceptionIds) ? exceptionIds : [exceptionIds];
+    const unusedExceptionIds = exceptionsIdsAsArray.filter(id => !rawVulnerabilities.includes(id));
 
     // Display the original audit logs
-    auditLog(auditCommand, fullLog, vulnerabilities);
+    auditLog(auditCommand, fullLog, vulnerabilities, unusedExceptionIds);
   });
 
   // stderr
