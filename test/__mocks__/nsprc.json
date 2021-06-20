@@ -1,0 +1,33 @@
+{
+    "1213": "Ignored since we don't use xxx method",
+    "1084": {
+        "expiry": 1615462134681,
+        "active": false,
+        "notes": "Inactive package; consider replacing it."
+    },
+    "1179": {
+        "expiry": 1615462134681,
+        "active": true
+    },
+    "1556": {
+        "expiry": 1615462134681,
+        "active": true,
+        "notes": "Issue: https://github.com/jeemok/better-npm-audit/issues/28"
+    },
+    "975": {
+        "expiry": 1615462134681
+    },
+    "976": {
+        "active": false
+    },
+    "985": "",
+    "1651": {
+        "expiry": 1615462134681,
+        "notes": "This will be fixed by the maintainers by June 14"
+    },
+    "1654": {
+        "expiry": 1640966400000
+    },
+    "2100": "Unused",
+    "Note": "personal note"
+}
