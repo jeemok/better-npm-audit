@@ -4,7 +4,7 @@ Made to allow skipping certain vulnerabilities, and any extra handling that are 
 
 [![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm vulnerability](https://img.shields.io/snyk/vulnerabilities/npm/better-npm-audit?style=flat-square) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
 
 ## Supports both NPM version 6 and 7
 
@@ -231,6 +231,15 @@ node_modules/yargs-unparser/node_modules/yargs-parser
 ## Changelog
 
 You can find the changelog [here](https://github.com/jeemok/better-npm-audit/blob/master/CHANGELOG.md).
+
+<br />
+
+## Next version
+
+You can install it by `npm install better-npm-audit@next`
+
+* [Readme](https://github.com/jeemok/better-npm-audit/blob/next/README.md)
+* [Changelog](https://github.com/jeemok/better-npm-audit/blob/next/CHANGELOG.md)
 
 <br />
 

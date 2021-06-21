@@ -1,3 +1,8 @@
+## 1.12.1 (June 21, 2021)
+
+* Added `FUNDING.yml`
+* Updated `README.md`
+
 ## 1.12.0 (June 18, 2021)
 
 * [Display warning when exceptionIds are unused](https://github.com/jeemok/better-npm-audit/pull/38)
@@ -8,7 +13,7 @@
 
 ## 1.11.1 (June 11, 2021)
 
-* Updated README
+* Updated `README.md`
 
 ## 1.11.0 (June 11, 2021)
 
