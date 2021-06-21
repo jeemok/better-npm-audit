@@ -13,6 +13,8 @@
     "audit",
     "skip",
     "ignore",
+    "exclude",
+    "exceptions",
     "node",
     "security",
     "advisory",

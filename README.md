@@ -67,11 +67,11 @@ npm run audit
 
 ## Options
 
-| Flag           | Short | Description                               |
-| -------------- | ----- | ----------------------------------------- |
-| `--level`      | `-l`  | Same as the original `--audit-level` flag |
-| `--production` | `-p`  | Skip checking `devDependencies`           |
-| `--ignore`     | `-i`  | For skipping certain advisories           |
+| Flag           | Short | Description                                                                    |
+| -------------- | ----- | ------------------------------------------------------------------------------ |
+| `--exclude`    | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude                             |
+| `--level`      | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag |
+| `--production` | `-p`  | Skip checking the `devDependencies`                                            |
 
 <br />
 
@@ -102,13 +102,14 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
   "Note": "Any non number key will not be excepted"
 }
 ```
+
 ### Fields
 
-| Attribute | Description                                                                                                                                                            | Default |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `active`  | Boolean type to determine if we should use it for exception; `true` or `false`                                                                                         | `true`  |
+| Attribute | Description                                                                                                                                                                 | Default |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `active`  | Boolean type to determine if we should use it for exception; `true` or `false`                                                                                              | `true`  |
 | `expiry`  | Date time in milliseconds, the number of milliseconds since midnight 01 January, 1970 UTC.<br />You can use `new Date(2021, 1, 1).valueOf()` to get the milliseconds value. |         |
-| `notes`   | Notes related to the vulnerability; will be displayed in the table summary.   
+| `notes`   | Notes related to the vulnerability; will be displayed in the table summary.                                                                                                 |
 
 <br />
 

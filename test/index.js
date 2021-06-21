@@ -108,7 +108,7 @@ describe('Events handling', () => {
     expect(consoleInfoStub.called).to.equal(true); // Print security report
     expect(consoleWarnStub.called).to.equal(true);
     // eslint-disable-next-line max-len
-    const message = `2 vulnerabilities where ignored but did not result in a vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or -ignore -i flags.`;
+    const message = `2 vulnerabilities where excluded but did not result in a vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or --exclude -x flags.`;
     expect(consoleWarnStub.calledWith(message)).to.equal(true);
 
     processStub.restore();

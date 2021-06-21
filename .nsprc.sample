@@ -1,15 +1,15 @@
 {
     "1337": {
-        "ignore": true,
+        "active": true,
         "notes": "Ignored since we don't use xxx method",
         "expiry": 1615462134681
     },
     "4501": {
-        "ignore": false,
+        "active": false,
         "notes": "This will be fixed by the library maintainers by June 14"
     },
     "4502": {
-        "ignore": true
+        "active": true
     },
     "980": "This will be fixed by the library maintainers by June 14",
     "1024": "",

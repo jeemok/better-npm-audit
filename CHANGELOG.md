@@ -10,10 +10,11 @@
 
 ### Breaking changes
 
-* Renamed `ignore` field to `active` in `.nsprc` file for better clarity.
-* Renamed `reason` field to `notes` in `.nsprc` file for better clarity.
+* Renamed `--ignore -i` flag to `--exclude -x` for better clarity.
 * Removed `--display-full` flag that was used to ignore the maximum display limit. Now with the summary table it would be unlikely to display large size of information.
 * Removed `--display-notes` flag that was used for displaying exception notes. Now it is included in the exceptions table.
+* Renamed `ignore` field to `active` in `.nsprc` file for better clarity.
+* Renamed `reason` field to `notes` in `.nsprc` file for better clarity.
 
 ### Others
 

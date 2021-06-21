@@ -21,11 +21,11 @@ describe('Flags', () => {
     });
   });
 
-  describe('--ignore', () => {
+  describe('--exclude', () => {
     it('should be able to pass exception IDs using the command flag smoothly', () => {
       const callbackStub = sinon.stub();
       const consoleStub = sinon.stub(console, 'info');
-      const options = { ignore: '1567,919' };
+      const options = { exclude: '1567,919' };
       const auditCommand = 'npm audit ';
       const auditLevel = 'info';
       const exceptionIds = [1567, 919];
@@ -37,25 +37,25 @@ describe('Flags', () => {
       expect(consoleStub.calledWith('Exception IDs: 1567, 919')).to.equal(true);
 
       // with space
-      options.ignore = '1567, 1902';
+      options.exclude = '1567, 1902';
       handleAction(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, [1567, 1902])).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1567, 1902')).to.equal(true);
 
       // invalid exceptions
-      options.ignore = '1134,undefined,888';
+      options.exclude = '1134,undefined,888';
       handleAction(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, [1134, 888])).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1134, 888')).to.equal(true);
 
       // invalid NaN
-      options.ignore = '1134,NaN,3e,828';
+      options.exclude = '1134,NaN,3e,828';
       handleAction(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, [1134, 828])).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1134, 828')).to.equal(true);
 
       // invalid decimals
-      options.ignore = '1199,29.41,628';
+      options.exclude = '1199,29.41,628';
       handleAction(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, [1199, 628])).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1199, 628')).to.equal(true);
@@ -66,7 +66,7 @@ describe('Flags', () => {
     it('should info log the vulnerabilities if it is only passed in command line', () => {
       const callbackStub = sinon.stub();
       const consoleStub = sinon.stub(console, 'info');
-      const options = { ignore: '1567,919' };
+      const options = { exclude: '1567,919' };
       const auditCommand = 'npm audit ';
       const auditLevel = 'info';
       const exceptionIds = [1567, 919];

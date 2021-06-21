@@ -20,7 +20,7 @@ const MAX_BUFFER_SIZE = 1024 * 1000 * 50; // 50 MB
  * Process and analyze the NPM audit JSON
  * @param {String} jsonBuffer     NPM audit stringified JSON payload
  * @param  {Number} auditLevel    The level of vulnerabilities we care about
- * @param  {Array} exceptionIds   List of vulnerability IDs to ignore
+ * @param  {Array} exceptionIds   List of vulnerability IDs to exclude
  * @return {undefined}
  */
 function handleFinish(jsonBuffer, auditLevel, exceptionIds) {
@@ -45,7 +45,7 @@ function handleFinish(jsonBuffer, auditLevel, exceptionIds) {
   // Display the unused exceptionId's
   if (unusedExceptionIds.length) {
     // eslint-disable-next-line max-len
-    const message = `${unusedExceptionIds.length} vulnerabilities where ignored but did not result in a vulnerabilities: ${unusedExceptionIds.join(', ')}. They can be removed from the .nsprc file or -ignore -i flags.`;
+    const message = `${unusedExceptionIds.length} vulnerabilities where excluded but did not result in a vulnerabilities: ${unusedExceptionIds.join(', ')}. They can be removed from the .nsprc file or --exclude -x flags.`;
     console.warn(message);
   }
 
@@ -64,7 +64,7 @@ function handleFinish(jsonBuffer, auditLevel, exceptionIds) {
  * Run audit
  * @param  {String} auditCommand  The NPM audit command to use (with flags)
  * @param  {Number} auditLevel    The level of vulnerabilities we care about
- * @param  {Array} exceptionIds   List of vulnerability IDs to ignore
+ * @param  {Array} exceptionIds   List of vulnerability IDs to exclude
 */
 function audit(auditCommand, auditLevel, exceptionIds) {
   // Increase the default max buffer size (1 MB)
@@ -100,7 +100,7 @@ function handleAction(options, fn) {
 
   // Get the exceptions
   const nsprc = readFile('.nsprc');
-  const cmdExceptions = get(options, 'ignore', '').split(',').filter(isWholeNumber).map(Number);
+  const cmdExceptions = get(options, 'exclude', '').split(',').filter(isWholeNumber).map(Number);
   const exceptionIds = getExceptionsIds(nsprc, cmdExceptions);
 
   fn(auditCommand, auditLevel, exceptionIds);
@@ -111,9 +111,9 @@ program.version(packageJson.version);
 program
     .command('audit')
     .description('execute npm audit')
-    .option('-i, --ignore <ids>', 'Vulnerabilities ID(s) to ignore.')
+    .option('-x, --exclude <ids>', 'Exceptions or the vulnerabilities ID(s) to exclude.')
     .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
-    .option('-p, --production', 'Skip checking devDependencies.')
+    .option('-p, --production', 'Skip checking the devDependencies.')
     .action(options => handleAction(options, audit));
 
 program.parse(process.argv);
