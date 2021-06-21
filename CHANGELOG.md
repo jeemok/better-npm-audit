@@ -1,4 +1,4 @@
-## Next: 2.0.0-rc
+## Next: 2.0.3-rc
 
 ### Notable changes
 
@@ -30,6 +30,11 @@
 * [#28](https://github.com/jeemok/better-npm-audit/issues/28) Missing [ in truncation message
 
 ---
+
+## 1.12.1 (June 21, 2021)
+
+* Added `FUNDING.yml`
+* Updated `README.md`
 
 ## 1.12.0 (June 18, 2021)
 
