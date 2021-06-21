@@ -2,10 +2,11 @@
 
 ### Notable changes
 
-* Simplified the workflow and improved overall performance by running less.
-    * Reduce code size and package size in half (! 
-* Added own table display for security report
-* Added table overview of exceptions from `.nsprc` file
+* Simplified the workflow and improved overall performance by running lesser in the process.
+* Added [`table`](https://www.npmjs.com/package/table) module to display summaries (Initially used [`cli-table`](https://www.npmjs.com/package/cli-table) for its small size, however the issues in the repo concerns me in its display quality in other OS. Hence, chosen `table` module despite its package size is much bigger)
+* Added table display for security report
+* Added table display of exceptions from `.nsprc` file
+* Cleaned up test cases structure to be more straight forward and easier to maintain
 
 ### Breaking changes
 
@@ -16,14 +17,16 @@
 
 ### Others
 
-* Removed logging of flags used
-* Added npm audit into CI pipeline
-* Added FUNDING.md
-* Updated README.md
+* Removed logging of flags used in the command
+* Added NPM audit into the CI pipeline
+* Added `.github/FUNDING.yml`
+* Updated `README.md`
 
 ## Closed issues
 
-* # []()
+* [#20](https://github.com/jeemok/better-npm-audit/issues/20) Provide more output when parsing exceptions file
+* [#27](https://github.com/jeemok/better-npm-audit/issues/27) Hide excepted vulnerabilities from output
+* [#28](https://github.com/jeemok/better-npm-audit/issues/28) Missing [ in truncation message
 
 ---
 

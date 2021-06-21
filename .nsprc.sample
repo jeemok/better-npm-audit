@@ -1,20 +1,17 @@
 {
     "1337": {
         "ignore": true,
-        "reason": "Ignored since we don't use xxx method",
+        "notes": "Ignored since we don't use xxx method",
         "expiry": 1615462134681
     },
     "4501": {
         "ignore": false,
-        "reason": "This will be fixed by the library maintainers by June 14"
+        "notes": "This will be fixed by the library maintainers by June 14"
     },
     "4502": {
         "ignore": true
     },
     "980": "This will be fixed by the library maintainers by June 14",
     "1024": "",
-    "5": false,
-    "3": null,
-    "2": undefined,
-    "Note": "Any non number key will be ignored"
+    "Note": "Any non number key will not be excepted"
 }

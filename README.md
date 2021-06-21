@@ -4,7 +4,7 @@ Made to allow skipping certain vulnerabilities, and any extra handling that are 
 
 [![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm vulnerability](https://img.shields.io/snyk/vulnerabilities/npm/better-npm-audit?style=flat-square) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
 
 ## Supports both NPM version 6 and 7
 
@@ -67,19 +67,19 @@ npm run audit
 
 ## Options
 
-| Flag              | Short | Description                                                                                                                   |
-| ----------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `--level`         | `-l`  | Same as the original `--audit-level` flag                                                                                     |
-| `--production`    | `-p`  | Skip checking `devDependencies`                                                                                               |
-| `--ignore`        | `-i`  | For skipping certain advisories                                                                                               |
+| Flag           | Short | Description                               |
+| -------------- | ----- | ----------------------------------------- |
+| `--level`      | `-l`  | Same as the original `--audit-level` flag |
+| `--production` | `-p`  | Skip checking `devDependencies`           |
+| `--ignore`     | `-i`  | For skipping certain advisories           |
 
 <br />
 
 ## Environment Variables
 
-| Variable                             | Description                                                                                                       |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| `NPM_CONFIG_AUDIT_LEVEL` | Used in setting the audit level. <br /> *Note: this will be disregard if the audit level flag is passed onto the command.* |
+| Variable                 | Description                                                                                                                |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `NPM_CONFIG_AUDIT_LEVEL` | Used in setting the audit level. <br /> _Note: this will be disregard if the audit level flag is passed onto the command._ |
 
 <br />
 
@@ -102,12 +102,20 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
   "Note": "Any non number key will not be excepted"
 }
 ```
+### Fields
 
-When using `.nsprc` file, you will see this report display when it starts running:
+| Attribute | Description                                                                                                                                                            | Default |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `active`  | Boolean type to determine if we should use it for exception; `true` or `false`                                                                                         | `true`  |
+| `expiry`  | Date time in milliseconds, the number of milliseconds since midnight 01 January, 1970 UTC.<br />You can use `new Date(2021, 1, 1).valueOf()` to get the milliseconds value. |         |
+| `notes`   | Notes related to the vulnerability; will be displayed in the table summary.   
+
+<br />
+
+When using a `.nsprc` file, you will see this report display when it starts running:
 
 <img src="./.README/exceptions_table.png" alt="Demo of table displaying a list of exceptions" width="820"/>
-
-
+                                                                                         |         |
 <br />
 
 ## Changelog

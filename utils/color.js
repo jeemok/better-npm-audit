@@ -1,7 +1,11 @@
 const get = require('lodash.get');
 
+const RESET = '\x1b[0m';
 const COLORS = {
-  RESET: '\x1b[0m',
+  reset: {
+    fg: '\x1b[0m',
+    bg: '\x1b[0m',
+  },
   black: {
     fg: '\033[30m',
     bg: '\033[40m',
@@ -48,7 +52,7 @@ function color(message, fgColor, bgColor) {
     get(COLORS, `${fgColor}.fg`, ''),
     get(COLORS, `${bgColor}.bg`, ''),
     message,
-    COLORS.RESET, // Reset the color at the end
+    RESET, // Reset the color at the end
   ].join('');
 }
 
