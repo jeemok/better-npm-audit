@@ -40,11 +40,15 @@ better-npm-audit audit
 
 ### Run with exceptions
 
-<img src="./.README/all_good.png" alt="Demo of table displaying the security report" width="1000"/>
+<img src="./.README/all_good.png" alt="Demo of table displaying the security report" />
 
 Unhandled or new exceptions will be highlighted:
 
-<img src="./.README/highlighted_exceptions.png" alt="Demo of table displaying the security report" width="820"/>
+<img src="./.README/highlighted_exceptions.png" alt="Demo of table displaying the security report" />
+
+Unused exceptions will be notified:
+
+<img src="./.README/unused_exception.png" alt="Demo of displaying the unused exception" />
 
 ### Add into package scripts
 
@@ -115,8 +119,8 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
 
 When using a `.nsprc` file, you will see this report display when it starts running:
 
-<img src="./.README/exceptions_table.png" alt="Demo of table displaying a list of exceptions" width="820"/>
-                                                                                         |         |
+<img src="./.README/exceptions_table.png" alt="Demo of table displaying a list of exceptions" />
+
 <br />
 
 ## Changelog
