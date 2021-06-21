@@ -22,7 +22,7 @@ NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm 
 
 ## Installation
 
-    $ npm install better-npm-audit
+    $ npm install --save better-npm-audit
 
 or
 
@@ -56,7 +56,7 @@ Unused exceptions will be notified:
 {
   "scripts": {
     "prepush": "npm run test && npm run audit",
-    "audit": "node node_modules/better-npm-audit audit"
+    "audit": "better-npm-audit audit audit"
   }
 }
 ```
