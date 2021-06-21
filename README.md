@@ -1,6 +1,6 @@
 # Better NPM Audit
 
-Made to allow skipping certain vulnerabilities, and any extra handling that are not supported by the default `npm audit` in the future.
+The goal of this project is to help to reshape npm audit into the way the community would like, by the community itself. Giving another option for everyone and encourage more people to do security audits.
 
 [![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
 
