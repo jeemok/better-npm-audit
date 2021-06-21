@@ -1,6 +1,6 @@
 {
   "name": "better-npm-audit",
-  "version": "2.0.2-rc",
+  "version": "2.0.3-rc",
   "author": "Jee Mok <jee.ict@hotmail.com>",
   "description": "Made to allow skipping certain vulnerabilities, and any extra handling that are not supported by the default npm audit in the future.",
   "license": "MIT",
