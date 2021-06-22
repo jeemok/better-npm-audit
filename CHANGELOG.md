@@ -1,7 +1,11 @@
+## x.x.x
+
+* [#42](https://github.com/jeemok/better-npm-audit/pull/42) Added CodeQL vulnerabilities check across codebase in CI 
+
 ## 2.0.5 (June 22, 2021)
 
-* Removed unused packages from dependencies list
-* Added nodejs v16.x coverage in CI
+* Removed unused package `cli-table` from the dependencies
+* [#40](https://github.com/jeemok/better-npm-audit/pull/40) Added nodejs v16.x coverage in CI
 
 ## 2.0.4 (June 22, 2021)
 
