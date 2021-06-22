@@ -9,6 +9,10 @@
         <td style="vertical-align: top; border: none; padding: 0px; min-width: 80px;"><a href="https://github.com/jeemok/better-npm-audit/commit/e77632c6434f1ed78031f00bfb3d638800859466">#e77632c</a></td>
         <td style="vertical-align: top; border: none; padding: 0px; min-width: 80px;">Removed github username as region currently not supported</td>
     </tr>
+    <tr>
+        <td style="vertical-align: top; border: none; padding: 0px; min-width: 80px;"><a href="https://github.com/jeemok/better-npm-audit/commit/cc6e80c389eb40ca4dbf519230727e5ea7d21fea">#cc6e80c</a></td>
+        <td style="vertical-align: top; border: none; padding: 0px; min-width: 80px;">Added table and style formatting to CHANGELOG.md</td>
+    </tr>
 </table>
 
 ## 2.0.5 <span style="font-size: 0.7em; opacity: 0.7;">(June 22, 2021)</span>
