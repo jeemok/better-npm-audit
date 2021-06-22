@@ -1,3 +1,8 @@
+## 2.0.5 (June 22, 2021)
+
+* Removed unused packages from dependencies list
+* Added nodejs v16.x coverage in CI
+
 ## 2.0.4 (June 22, 2021)
 
 ### Notable changes

@@ -32,7 +32,6 @@
     "better-npm-audit": "index.js"
   },
   "dependencies": {
-    "cli-table": "^0.3.6",
     "commander": "^2.19.0",
     "lodash.get": "^4.4.2",
     "table": "^6.7.1"
