@@ -1,8 +1,8 @@
 {
   "name": "better-npm-audit",
-  "version": "1.12.1",
+  "version": "2.0.4",
   "author": "Jee Mok <jee.ict@hotmail.com>",
-  "description": "Made to allow skipping certain vulnerabilities, and any extra handling that are not supported by the default npm audit in the future.",
+  "description": "Reshape npm audit into the way the community would like, by the community itself, to encourage more people to do security audits.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -13,6 +13,8 @@
     "audit",
     "skip",
     "ignore",
+    "exclude",
+    "exceptions",
     "node",
     "security",
     "advisory",
@@ -30,14 +32,17 @@
     "better-npm-audit": "index.js"
   },
   "dependencies": {
+    "cli-table": "^0.3.6",
     "commander": "^2.19.0",
-    "lodash.get": "^4.4.2"
+    "lodash.get": "^4.4.2",
+    "table": "^6.7.1"
   },
   "engines": {
     "node": ">= 8.12"
   },
   "scripts": {
-    "test": "mocha test/index.js",
+    "audit": "node . audit",
+    "test": "mocha test --recursive",
     "lint": "eslint ."
   },
   "devDependencies": {

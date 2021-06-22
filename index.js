@@ -8,125 +8,77 @@ const get = require('lodash.get');
 const program = require('commander');
 const { exec } = require('child_process');
 const packageJson = require('./package');
-const { isWholeNumber, mapLevelToNumber, getRawVulnerabilities, filterValidException, filterExceptions } = require('./utils/common');
-const { readFile } = require('./utils/file');
-const consoleUtil = require('./utils/console');
 
-const EXCEPTION_FILE_PATH = '.nsprc';
-const BASE_COMMAND = 'npm audit';
-const SEPARATOR = ',';
-const DEFAULT_MESSSAGE_LIMIT = 100000; // characters
+const { getExceptionsIds, processAuditJson } = require('./utils/vulnerability');
+const { printSecurityReport } = require('./utils/print');
+const { isWholeNumber } = require('./utils/common');
+const { readFile } = require('./utils/file');
+
 const MAX_BUFFER_SIZE = 1024 * 1000 * 50; // 50 MB
-const RESPONSE_MESSAGE = {
-  SUCCESS: '🤝  All good!',
-  LOGS_EXCEEDED: '[MAXIMUM EXCEEDED] Logs exceeded the maximum length limit. Add the flag `-f` to see the full audit logs.',
-};
 
 /**
- * Handle the analyzed result and log display
- * @param  {Array} vulnerabilities  List of found vulnerabilities
- * @param  {String} logData         Logs
- * @param  {Object} configs         Configurations
- * @param  {Array} unusedExceptionIds List of unused exceptionsIds.
+ * Process and analyze the NPM audit JSON
+ * @param {String} jsonBuffer     NPM audit stringified JSON payload
+ * @param  {Number} auditLevel    The level of vulnerabilities we care about
+ * @param  {Array} exceptionIds   List of vulnerability IDs to exclude
+ * @return {undefined}
  */
-function handleFinish(vulnerabilities, logData = '', configs = {}, unusedExceptionIds = []) {
-  const {
-    displayFullLog = false,
-    maxLength = DEFAULT_MESSSAGE_LIMIT,
-  } = configs;
+function handleFinish(jsonBuffer, auditLevel, exceptionIds) {
+  const { unhandledIds, vulnerabilityIds, report } = processAuditJson(jsonBuffer, auditLevel, exceptionIds);
 
-  let toDisplay = logData.substring(0, maxLength);
-
-  // Display an additional information if we not displaying the full logs
-  if (toDisplay.length < logData.length) {
-    toDisplay += '\n\n';
-    toDisplay += '...';
-    toDisplay += '\n\n';
-    toDisplay += RESPONSE_MESSAGE.LOGS_EXCEEDED;
-    toDisplay += '\n\n';
+  // If unable to process the audit JSON
+  if (!Array.isArray(unhandledIds) || !Array.isArray(vulnerabilityIds) || !Array.isArray(report)) {
+    console.error('Unable to process the JSON buffer string.');
+    // Exit failed
+    process.exit(1);
+    return;
   }
 
-  if (displayFullLog) {
-    console.info(logData);
-  } else {
-    console.info(toDisplay);
+  // Print the security report
+  if (report.length) {
+    printSecurityReport(report);
   }
 
-  if (unusedExceptionIds.length > 0) {
-    // eslint-disable-next-line max-len
-    const message = `${unusedExceptionIds.length} vulnerabilities where ignored but did not result in a vulnerabilities: ${unusedExceptionIds}. They can be removed from the .nsprc file or -ignore -i flags.`;
-    consoleUtil.info(message);
+  // Grab any un-filtered vulnerabilities at the appropriate level
+  const unusedExceptionIds = exceptionIds.filter(id => !vulnerabilityIds.includes(id));
+
+  // Display the unused exceptionId's
+  if (unusedExceptionIds.length) {
+    const messages = [
+      `${unusedExceptionIds.length} of the excluded vulnerabilities did not match any of the found vulnerabilities: ${unusedExceptionIds.join(', ')}.`,
+      `${unusedExceptionIds.length > 1 ? 'They' : 'It'} can be removed from the .nsprc file or --exclude -x flags.`,
+    ];
+    console.warn(messages.join(' '));
   }
 
-  // Display the error if found vulnerabilities
-  if (vulnerabilities.length > 0) {
-    consoleUtil.error(`${vulnerabilities.length} vulnerabilities found. Node security advisories: ${vulnerabilities}`);
-
+  // Display the found unhandled vulnerabilities
+  if (unhandledIds.length) {
+    console.error(`${unhandledIds.length} vulnerabilities found. Node security advisories: ${unhandledIds.join(', ')}`);
     // Exit failed
     process.exit(1);
   } else {
     // Happy happy, joy joy
-    consoleUtil.info(RESPONSE_MESSAGE.SUCCESS);
+    console.info('🤝  All good!');
   }
 }
 
 /**
- * Re-runs the audit in human readable form
- * @param  {String} auditCommand    The NPM audit command to use (with flags)
- * @param  {Boolean} displayFullLog True if full log should be displayed in the case of no vulnerabilities
- * @param  {Array} vulnerabilities  List of vulnerabilities
- * @param  {Array} unusedExceptionIds List of unused exceptionsIds.
- */
-function auditLog(auditCommand, displayFullLog, vulnerabilities, unusedExceptionIds) {
-  // Execute `npm audit` command again, but this time we don't use the JSON flag
-  const audit = exec(auditCommand);
-
-  // Set a temporary string
-  // Note: collect all buffers' data before displaying it later to avoid unintentional line breaking in the report display
-  let bufferData = '';
-
-  audit.stdout.on('data', data => bufferData += data);
-
-  // Once the stdout has completed
-  audit.stderr.on('close', () => handleFinish(vulnerabilities, bufferData, { displayFullLog }, unusedExceptionIds));
-
-  // stderr
-  audit.stderr.on('data', console.error);
-}
-
-/**
- * Run the main Audit
+ * Run audit
  * @param  {String} auditCommand  The NPM audit command to use (with flags)
  * @param  {Number} auditLevel    The level of vulnerabilities we care about
- * @param  {Boolean} fullLog      True if the full log should be displayed in the case of no vulnerabilities
- * @param  {Array} exceptionIds   List of vulnerability IDs to ignore
+ * @param  {Array} exceptionIds   List of vulnerability IDs to exclude
 */
-function audit(auditCommand, auditLevel, fullLog, exceptionIds) {
-  // Execute `npm audit` command to get the security report, taking into account
-  // any additional flags that have been passed through. Using the JSON flag
-  // to make this easier to process
-  // NOTE: Increase max buffer size from default 1MB
+function audit(auditCommand, auditLevel, exceptionIds) {
+  // Increase the default max buffer size (1 MB)
   const audit = exec(`${auditCommand} --json`, { maxBuffer: MAX_BUFFER_SIZE });
 
   // Grab the data in chunks and buffer it as we're unable to parse JSON straight from stdout
   let jsonBuffer = '';
+
   audit.stdout.on('data', data => (jsonBuffer += data));
 
-  // Once the stdout has completed process the output
-  audit.stderr.on('close', () => {
-    // Grab any un-filtered vulnerabilities at the appropriate level
-    const rawVulnerabilities = getRawVulnerabilities(jsonBuffer, auditLevel);
-
-    // filter out exceptions
-    const vulnerabilities = filterExceptions(rawVulnerabilities, exceptionIds);
-
-    // Display the unused exceptionId's
-    const exceptionsIdsAsArray = Array.isArray(exceptionIds) ? exceptionIds : [exceptionIds];
-    const unusedExceptionIds = exceptionsIdsAsArray.filter(id => !rawVulnerabilities.includes(id));
-
-    // Display the original audit logs
-    auditLog(auditCommand, fullLog, vulnerabilities, unusedExceptionIds);
-  });
+  // Once the stdout has completed, process the output
+  audit.stderr.on('close', () => handleFinish(jsonBuffer, auditLevel, exceptionIds));
 
   // stderr
   audit.stderr.on('data', console.error);
@@ -137,49 +89,23 @@ function audit(auditCommand, auditLevel, fullLog, exceptionIds) {
  * @param  {Object} options     User's options or flags
  * @param  {Function} fn        The function to handle the inputs
  */
-function handleUserInput(options, fn) {
-  let auditCommand = BASE_COMMAND;
-  let auditLevel = 0;
-  let exceptionIds = [];
-  let displayFullLog = false;
+function handleAction(options, fn) {
+  // Generate NPM Audit command
+  const auditCommand = [
+    'npm audit',
+    // flags
+    get(options, 'production') ? '--production' : '',
+  ].join(' ');
 
-  // Check `.nsprc` file for exceptions
-  const fileException = readFile(EXCEPTION_FILE_PATH);
-  const filteredExceptions = filterValidException(fileException);
-  if (fileException) {
-    exceptionIds = filteredExceptions.map(details => details.id);
-  }
-  // Check also if any exception IDs passed via command flags
-  if (options && options.ignore) {
-    const cmdExceptions = options.ignore.split(SEPARATOR).filter(isWholeNumber).map(Number);
-    exceptionIds = exceptionIds.concat(cmdExceptions);
-  }
-  if (Array.isArray(exceptionIds) && exceptionIds.length) {
-    consoleUtil.info(`Exception vulnerabilities ID(s): ${exceptionIds}`);
-  }
-  if (options && options.displayNotes && filteredExceptions.length) {
-    console.info(''); // Add some spacings
-    console.info('Exceptions notes:');
-    console.info('');
-    filteredExceptions.forEach(({ id, reason }) => console.info(`${id}: ${reason || 'n/a'}`));
-    console.info('');
-  }
   // Taking the audit level from the command or environment variable
-  const level = get(options, 'level', process.env.NPM_CONFIG_AUDIT_LEVEL);
-  if (level) {
-    console.info(`[level: ${level}]`);
-    auditLevel = mapLevelToNumber(level);
-  }
-  if (options && options.production) {
-    console.info('[production mode enabled]');
-    auditCommand += ' --production';
-  }
-  if (options && options.full) {
-    console.info('[report display limit disabled]');
-    displayFullLog = true;
-  }
+  const auditLevel = get(options, 'level', process.env.NPM_CONFIG_AUDIT_LEVEL) || 'info';
 
-  fn(auditCommand, auditLevel, displayFullLog, exceptionIds);
+  // Get the exceptions
+  const nsprc = readFile('.nsprc');
+  const cmdExceptions = get(options, 'exclude', '').split(',').filter(isWholeNumber).map(Number);
+  const exceptionIds = getExceptionsIds(nsprc, cmdExceptions);
+
+  fn(auditCommand, auditLevel, exceptionIds);
 }
 
 program.version(packageJson.version);
@@ -187,19 +113,14 @@ program.version(packageJson.version);
 program
     .command('audit')
     .description('execute npm audit')
-    .option('-i, --ignore <ids>', 'Vulnerabilities ID(s) to ignore.')
-    .option('-f, --full', `Display complete audit report. Limit to ${DEFAULT_MESSSAGE_LIMIT} characters by default.`)
+    .option('-x, --exclude <ids>', 'Exceptions or the vulnerabilities ID(s) to exclude.')
     .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
-    .option('-p, --production', 'Skip checking devDependencies.')
-    .option('-d, --display-notes', 'Display exception notes.')
-    .action(userOptions => handleUserInput(userOptions, audit));
+    .option('-p, --production', 'Skip checking the devDependencies.')
+    .action(options => handleAction(options, audit));
 
 program.parse(process.argv);
 
 module.exports = {
   handleFinish,
-  handleUserInput,
-  BASE_COMMAND,
-  SUCCESS_MESSAGE: RESPONSE_MESSAGE.SUCCESS,
-  LOGS_EXCEEDED_MESSAGE: RESPONSE_MESSAGE.LOGS_EXCEEDED,
+  handleAction,
 };

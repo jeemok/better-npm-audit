@@ -328,7 +328,7 @@
             "dependency": "yargs-parser",
             "title": "Prototype Pollution",
             "url": "https://npmjs.com/advisories/1500",
-            "severity": "info",
+            "severity": "low",
             "range": "<13.1.2 || >=14.0.0 <15.0.1 || >=16.0.0 <18.1.2"
           }
         ],
