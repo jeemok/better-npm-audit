@@ -91,7 +91,8 @@ describe('Events handling', () => {
     const consoleInfoStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
-    const exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001, 2002];
+
+    let exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001];
 
     expect(processStub.called).to.equal(false);
     expect(consoleErrorStub.called).to.equal(false);
@@ -107,8 +108,17 @@ describe('Events handling', () => {
 
     expect(consoleInfoStub.called).to.equal(true); // Print security report
     expect(consoleWarnStub.called).to.equal(true);
+
+    // Message for one unused exception
     // eslint-disable-next-line max-len
-    const message = `2 vulnerabilities where excluded but did not result in a vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or --exclude -x flags.`;
+    let message = `1 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001. It can be removed from the .nsprc file or --exclude -x flags.`;
+    expect(consoleWarnStub.calledWith(message)).to.equal(true);
+
+    // Message for multiple unused exceptions
+    exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001, 2002];
+    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    // eslint-disable-next-line max-len
+    message = `2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or --exclude -x flags.`;
     expect(consoleWarnStub.calledWith(message)).to.equal(true);
 
     processStub.restore();

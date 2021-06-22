@@ -44,9 +44,11 @@ function handleFinish(jsonBuffer, auditLevel, exceptionIds) {
 
   // Display the unused exceptionId's
   if (unusedExceptionIds.length) {
-    // eslint-disable-next-line max-len
-    const message = `${unusedExceptionIds.length} vulnerabilities where excluded but did not result in a vulnerabilities: ${unusedExceptionIds.join(', ')}. They can be removed from the .nsprc file or --exclude -x flags.`;
-    console.warn(message);
+    const messages = [
+      `${unusedExceptionIds.length} of the excluded vulnerabilities did not match any of the found vulnerabilities: ${unusedExceptionIds.join(', ')}.`,
+      `${unusedExceptionIds.length > 1 ? 'They' : 'It'} can be removed from the .nsprc file or --exclude -x flags.`,
+    ];
+    console.warn(messages.join(' '));
   }
 
   // Display the found unhandled vulnerabilities

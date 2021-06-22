@@ -1,4 +1,4 @@
-## Next: 2.0.3-rc
+## 2.0.4 (June 22, 2021)
 
 ### Notable changes
 
@@ -23,7 +23,7 @@
 * Added `.github/FUNDING.yml`
 * Updated `README.md`
 
-## Closed issues
+### Closed issues
 
 * [#20](https://github.com/jeemok/better-npm-audit/issues/20) Provide more output when parsing exceptions file
 * [#27](https://github.com/jeemok/better-npm-audit/issues/27) Hide excepted vulnerabilities from output
