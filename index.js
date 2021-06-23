@@ -95,7 +95,8 @@ function handleAction(options, fn) {
     'npm audit',
     // flags
     get(options, 'production') ? '--production' : '',
-  ].join(' ');
+    get(options, 'registry') ? `--registry=${options.registry}` : '',
+  ].filter(x => x).join(' ');
 
   // Taking the audit level from the command or environment variable
   const auditLevel = get(options, 'level', process.env.NPM_CONFIG_AUDIT_LEVEL) || 'info';
@@ -116,6 +117,7 @@ program
     .option('-x, --exclude <ids>', 'Exceptions or the vulnerabilities ID(s) to exclude.')
     .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
     .option('-p, --production', 'Skip checking the devDependencies.')
+    .option('-r, --registry <url>', 'The npm registry url to use.')
     .action(options => handleAction(options, audit));
 
 program.parse(process.argv);
