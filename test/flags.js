@@ -14,7 +14,7 @@ describe('Flags', () => {
       handleAction(options, callbackStub);
       expect(callbackStub.called).to.equal(true);
 
-      const auditCommand = 'npm audit ';
+      const auditCommand = 'npm audit';
       const auditLevel = 'info';
       const exceptionIds = [];
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds)).to.equal(true);
@@ -26,7 +26,7 @@ describe('Flags', () => {
       const callbackStub = sinon.stub();
       const consoleStub = sinon.stub(console, 'info');
       const options = { exclude: '1567,919' };
-      const auditCommand = 'npm audit ';
+      const auditCommand = 'npm audit';
       const auditLevel = 'info';
       const exceptionIds = [1567, 919];
 
@@ -67,7 +67,7 @@ describe('Flags', () => {
       const callbackStub = sinon.stub();
       const consoleStub = sinon.stub(console, 'info');
       const options = { exclude: '1567,919' };
-      const auditCommand = 'npm audit ';
+      const auditCommand = 'npm audit';
       const auditLevel = 'info';
       const exceptionIds = [1567, 919];
 
@@ -86,7 +86,7 @@ describe('Flags', () => {
       const callbackStub = sinon.stub();
       const consoleStub = sinon.stub(console, 'info');
       const options = {};
-      const auditCommand = 'npm audit ';
+      const auditCommand = 'npm audit';
       const auditLevel = 'info';
       const exceptionIds = [];
 
@@ -114,9 +114,21 @@ describe('Flags', () => {
       expect(callbackStub.called).to.equal(true);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds)).to.equal(true);
     });
+  });
 
-    // TODO check this, or maybe not? use picha eat to check json output
-    it('should not exit on dev dependencies vulnerabilites when using production flag', () => {});
+  describe('--registry', () => {
+    it('should be able to set registry from the command flag correctly', () => {
+      const callbackStub = sinon.stub();
+      const options = { registry: 'https://registry.npmjs.org/' };
+      const auditCommand = 'npm audit --registry=https://registry.npmjs.org/';
+      const auditLevel = 'info';
+      const exceptionIds = [];
+
+      expect(callbackStub.called).to.equal(false);
+      handleAction(options, callbackStub);
+      expect(callbackStub.called).to.equal(true);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds)).to.equal(true);
+    });
   });
 
   describe('--level', () => {
@@ -124,7 +136,7 @@ describe('Flags', () => {
       const callbackStub = sinon.stub();
       const options = { level: 'info' };
 
-      const auditCommand = 'npm audit ';
+      const auditCommand = 'npm audit';
       const exceptionIds = [];
 
       expect(callbackStub.called).to.equal(false);
@@ -152,7 +164,7 @@ describe('Flags', () => {
     it('should be able to pass audit level from the environment variables correctly', () => {
       const callbackStub = sinon.stub();
       const options = {};
-      const auditCommand = 'npm audit ';
+      const auditCommand = 'npm audit';
 
       // info
       process.env.NPM_CONFIG_AUDIT_LEVEL = 'info';

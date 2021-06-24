@@ -96,7 +96,7 @@ function handleAction(options, fn) {
     // flags
     get(options, 'production') ? '--production' : '',
     get(options, 'registry') ? `--registry=${options.registry}` : '',
-  ].filter(x => x).join(' ');
+  ].filter(Boolean).join(' ');
 
   // Taking the audit level from the command or environment variable
   const auditLevel = get(options, 'level', process.env.NPM_CONFIG_AUDIT_LEVEL) || 'info';

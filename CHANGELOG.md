@@ -1,5 +1,6 @@
-## x.x.x
+## 2.1.0 (June 24, 2021)
 
+* [#43](https://github.com/jeemok/better-npm-audit/pull/43) Add support for npm registry url option ([@Tristan WAGNER](https://github.com/tristanwagner))
 * [#42](https://github.com/jeemok/better-npm-audit/pull/42) Added CodeQL vulnerabilities check across codebase in CI
 * [#e77632c](https://github.com/jeemok/better-npm-audit/commit/e77632c6434f1ed78031f00bfb3d638800859466) Removed github username as region currently not supported
 
@@ -47,7 +48,7 @@
 
 ## 1.12.0 (June 18, 2021)
 
-* [#38](https://github.com/jeemok/better-npm-audit/pull/38) Display warning when `exceptionIds` are unused
+* [#38](https://github.com/jeemok/better-npm-audit/pull/38) Display warning when `exceptionIds` are unused ([@Maarten Hus](https://github.com/MrHus))
 
 ## 1.11.2 (June 11, 2021)
 
