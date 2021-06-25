@@ -42,7 +42,7 @@ better-npm-audit audit
 
 <img src="./.README/all_good.png" alt="Demo of table displaying the security report" />
 
-Unhandled or new exceptions will be highlighted:
+Unhandled or newly reported vulnerabilities will be highlighted:
 
 <img src="./.README/highlighted_exceptions.png" alt="Demo of table displaying the security report" />
 
