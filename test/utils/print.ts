@@ -42,3 +42,5 @@ describe('Print utils', () => {
     printSecurityReport(V7_SECURITY_REPORT_TABLE_DATA);
   });
 });
+
+export {};

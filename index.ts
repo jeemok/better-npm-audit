@@ -1,33 +1,32 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
 const get = require('lodash.get');
 const program = require('commander');
 const { exec } = require('child_process');
 const packageJson = require('./package');
 
-const { getExceptionsIds, processAuditJson } = require('./utils/vulnerability');
-const { printSecurityReport } = require('./utils/print');
-const { isWholeNumber } = require('./utils/common');
-const { readFile } = require('./utils/file');
+import { getExceptionsIds, processAuditJson } from 'utils/vulnerability';
+import { printSecurityReport } from 'utils/print';
+import { isWholeNumber } from 'utils/common';
+import { readFile } from 'utils/file';
+
+import { AuditLevel } from 'interfaces/level';
+import { NsprcFile } from 'interfaces/nsprc';
 
 const MAX_BUFFER_SIZE = 1024 * 1000 * 50; // 50 MB
 
 /**
  * Process and analyze the NPM audit JSON
- * @param {String} jsonBuffer     NPM audit stringified JSON payload
+ * @param  {String} jsonBuffer    NPM audit stringified JSON payload
  * @param  {Number} auditLevel    The level of vulnerabilities we care about
  * @param  {Array} exceptionIds   List of vulnerability IDs to exclude
  * @return {undefined}
  */
-function handleFinish(jsonBuffer, auditLevel, exceptionIds) {
-  const { unhandledIds, vulnerabilityIds, report } = processAuditJson(jsonBuffer, auditLevel, exceptionIds);
+export function handleFinish(jsonBuffer: string, auditLevel: AuditLevel, exceptionIds: number[]): void {
+  const { unhandledIds, vulnerabilityIds, report, failed } = processAuditJson(jsonBuffer, auditLevel, exceptionIds);
 
   // If unable to process the audit JSON
-  if (!Array.isArray(unhandledIds) || !Array.isArray(vulnerabilityIds) || !Array.isArray(report)) {
+  if (failed) {
     console.error('Unable to process the JSON buffer string.');
     // Exit failed
     process.exit(1);
@@ -68,14 +67,14 @@ function handleFinish(jsonBuffer, auditLevel, exceptionIds) {
  * @param  {Number} auditLevel    The level of vulnerabilities we care about
  * @param  {Array} exceptionIds   List of vulnerability IDs to exclude
 */
-function audit(auditCommand, auditLevel, exceptionIds) {
+export function audit(auditCommand: string, auditLevel: AuditLevel, exceptionIds: number[]): void {
   // Increase the default max buffer size (1 MB)
   const audit = exec(`${auditCommand} --json`, { maxBuffer: MAX_BUFFER_SIZE });
 
   // Grab the data in chunks and buffer it as we're unable to parse JSON straight from stdout
-  let jsonBuffer = '';
+  let jsonBuffer: string = '';
 
-  audit.stdout.on('data', data => (jsonBuffer += data));
+  audit.stdout.on('data', (data: string) => (jsonBuffer += data));
 
   // Once the stdout has completed, process the output
   audit.stderr.on('close', () => handleFinish(jsonBuffer, auditLevel, exceptionIds));
@@ -89,9 +88,9 @@ function audit(auditCommand, auditLevel, exceptionIds) {
  * @param  {Object} options     User's options or flags
  * @param  {Function} fn        The function to handle the inputs
  */
-function handleAction(options, fn) {
+function handleAction(options: NsprcFile, fn: (T1: string, T2: AuditLevel, T3: number[]) => void) {
   // Generate NPM Audit command
-  const auditCommand = [
+  const auditCommand: string = [
     'npm audit',
     // flags
     get(options, 'production') ? '--production' : '',
@@ -102,8 +101,8 @@ function handleAction(options, fn) {
 
   // Get the exceptions
   const nsprc = readFile('.nsprc');
-  const cmdExceptions = get(options, 'exclude', '').split(',').filter(isWholeNumber).map(Number);
-  const exceptionIds = getExceptionsIds(nsprc, cmdExceptions);
+  const cmdExceptions: number[] = get(options, 'exclude', '').split(',').filter(isWholeNumber).map(Number);
+  const exceptionIds: number[] = getExceptionsIds(nsprc, cmdExceptions);
 
   fn(auditCommand, auditLevel, exceptionIds);
 }
@@ -111,12 +110,12 @@ function handleAction(options, fn) {
 program.version(packageJson.version);
 
 program
-    .command('audit')
-    .description('execute npm audit')
-    .option('-x, --exclude <ids>', 'Exceptions or the vulnerabilities ID(s) to exclude.')
-    .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
-    .option('-p, --production', 'Skip checking the devDependencies.')
-    .action(options => handleAction(options, audit));
+  .command('audit')
+  .description('execute npm audit')
+  .option('-x, --exclude <ids>', 'Exceptions or the vulnerabilities ID(s) to exclude.')
+  .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
+  .option('-p, --production', 'Skip checking the devDependencies.')
+  .action((options: NsprcFile) => handleAction(options, audit));
 
 program.parse(process.argv);
 

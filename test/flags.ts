@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const chai = require('chai');
 const { expect } = chai;
 
-const { handleAction } = require('../index');
+const { handleAction } = require('../index.ts');
 
 describe('Flags', () => {
   describe('default', () => {

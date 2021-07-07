@@ -1,18 +1,18 @@
 module.exports =
-`╔═══════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                                 === npm audit security report ===                                 ║
-║                                                                                                   ║
-║ ID   │ Module       │ Title                  │ Sev.     │ URL                               │ Ex. ║
-║ \u001b[33m1555\u001b[39m │ \u001b[33mbl\u001b[39m           │ \u001b[33mRemote Memory Exposure\u001b[39m │ \u001b[33m\u001b[41mcritical\u001b[39m\u001b[49m │ \u001b[33mhttps://npmjs.com/advisories/1555\u001b[39m │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m1213\u001b[39m │ \u001b[33mdot-prop\u001b[39m     │ \u001b[33mPrototype Pollution\u001b[39m    │ \u001b[33m\u001b[41mhigh\u001b[39m\u001b[49m     │ \u001b[33mhttps://npmjs.com/advisories/1213\u001b[39m │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m1589\u001b[39m │ \u001b[33mini\u001b[39m          │ \u001b[33mPrototype Pollution\u001b[39m    │ \u001b[33mlow\u001b[39m      │ \u001b[33mhttps://npmjs.com/advisories/1589\u001b[39m │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m1523\u001b[39m │ \u001b[33mlodash\u001b[39m       │ \u001b[33mPrototype Pollution\u001b[39m    │ \u001b[33mlow\u001b[39m      │ \u001b[33mhttps://npmjs.com/advisories/1523\u001b[39m │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m1084\u001b[39m │ \u001b[33mmem\u001b[39m          │ \u001b[33mDenial of Service\u001b[39m      │ \u001b[33mlow\u001b[39m      │ \u001b[33mhttps://npmjs.com/advisories/1084\u001b[39m │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m1179\u001b[39m │ \u001b[33mminimist\u001b[39m     │ \u001b[33mPrototype Pollution\u001b[39m    │ \u001b[33mlow\u001b[39m      │ \u001b[33mhttps://npmjs.com/advisories/1179\u001b[39m │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m1556\u001b[39m │ \u001b[33mnode-fetch\u001b[39m   │ \u001b[33mDenial of Service\u001b[39m      │ \u001b[33mlow\u001b[39m      │ \u001b[33mhttps://npmjs.com/advisories/1556\u001b[39m │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m975\u001b[39m  │ \u001b[33mswagger-ui\u001b[39m   │ \u001b[33mReverse Tabnapping\u001b[39m     │ \u001b[33mmoderate\u001b[39m │ \u001b[33mhttps://npmjs.com/advisories/975\u001b[39m  │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m976\u001b[39m  │ \u001b[33mswagger-ui\u001b[39m   │ \u001b[33mCross-Site Scripting\u001b[39m   │ \u001b[33mmoderate\u001b[39m │ \u001b[33mhttps://npmjs.com/advisories/976\u001b[39m  │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m985\u001b[39m  │ \u001b[33mswagger-ui\u001b[39m   │ \u001b[33mCross-Site Scripting\u001b[39m   │ \u001b[33mmoderate\u001b[39m │ \u001b[33mhttps://npmjs.com/advisories/985\u001b[39m  │ \u001b[31mn\u001b[39m   ║
-║ \u001b[33m1500\u001b[39m │ \u001b[33myargs-parser\u001b[39m │ \u001b[33mPrototype Pollution\u001b[39m    │ \u001b[33mlow\u001b[39m      │ \u001b[33mhttps://npmjs.com/advisories/1500\u001b[39m │ \u001b[31mn\u001b[39m   ║
-╚══════╧══════════════╧════════════════════════╧══════════╧═══════════════════════════════════╧═════╝
+`╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                 === npm audit security report ===                                                                                 ║
+║                                                                                                                                                                                                   ║
+║ ID                  │ Module                      │ Title                                 │ Sev.                            │ URL                                              │ Ex.              ║
+║ \\033[33m1555\\x1b[0m │ \\033[33mbl\\x1b[0m           │ \\033[33mRemote Memory Exposure\\x1b[0m │ \\033[33m\\033[41mcritical\\x1b[0m │ \\033[33mhttps://npmjs.com/advisories/1555\\x1b[0m │ \\033[31mn\\x1b[0m ║
+║ \\033[33m1213\\x1b[0m │ \\033[33mdot-prop\\x1b[0m     │ \\033[33mPrototype Pollution\\x1b[0m    │ \\033[33m\\033[41mhigh\\x1b[0m     │ \\033[33mhttps://npmjs.com/advisories/1213\\x1b[0m │ \\033[31mn\\x1b[0m ║
+║ \\033[33m1589\\x1b[0m │ \\033[33mini\\x1b[0m          │ \\033[33mPrototype Pollution\\x1b[0m    │ \\033[33mlow\\x1b[0m              │ \\033[33mhttps://npmjs.com/advisories/1589\\x1b[0m │ \\033[31mn\\x1b[0m ║
+║ \\033[33m1523\\x1b[0m │ \\033[33mlodash\\x1b[0m       │ \\033[33mPrototype Pollution\\x1b[0m    │ \\033[33mlow\\x1b[0m              │ \\033[33mhttps://npmjs.com/advisories/1523\\x1b[0m │ \\033[31mn\\x1b[0m ║
+║ \\033[33m1084\\x1b[0m │ \\033[33mmem\\x1b[0m          │ \\033[33mDenial of Service\\x1b[0m      │ \\033[33mlow\\x1b[0m              │ \\033[33mhttps://npmjs.com/advisories/1084\\x1b[0m │ \\033[31mn\\x1b[0m ║
+║ \\033[33m1179\\x1b[0m │ \\033[33mminimist\\x1b[0m     │ \\033[33mPrototype Pollution\\x1b[0m    │ \\033[33mlow\\x1b[0m              │ \\033[33mhttps://npmjs.com/advisories/1179\\x1b[0m │ \\033[31mn\\x1b[0m ║
+║ \\033[33m1556\\x1b[0m │ \\033[33mnode-fetch\\x1b[0m   │ \\033[33mDenial of Service\\x1b[0m      │ \\033[33mlow\\x1b[0m              │ \\033[33mhttps://npmjs.com/advisories/1556\\x1b[0m │ \\033[31mn\\x1b[0m ║
+║ \\033[33m975\\x1b[0m  │ \\033[33mswagger-ui\\x1b[0m   │ \\033[33mReverse Tabnapping\\x1b[0m     │ \\033[33mmoderate\\x1b[0m         │ \\033[33mhttps://npmjs.com/advisories/975\\x1b[0m  │ \\033[31mn\\x1b[0m ║
+║ \\033[33m976\\x1b[0m  │ \\033[33mswagger-ui\\x1b[0m   │ \\033[33mCross-Site Scripting\\x1b[0m   │ \\033[33mmoderate\\x1b[0m         │ \\033[33mhttps://npmjs.com/advisories/976\\x1b[0m  │ \\033[31mn\\x1b[0m ║
+║ \\033[33m985\\x1b[0m  │ \\033[33mswagger-ui\\x1b[0m   │ \\033[33mCross-Site Scripting\\x1b[0m   │ \\033[33mmoderate\\x1b[0m         │ \\033[33mhttps://npmjs.com/advisories/985\\x1b[0m  │ \\033[31mn\\x1b[0m ║
+║ \\033[33m1500\\x1b[0m │ \\033[33myargs-parser\\x1b[0m │ \\033[33mPrototype Pollution\\x1b[0m    │ \\033[33mlow\\x1b[0m              │ \\033[33mhttps://npmjs.com/advisories/1500\\x1b[0m │ \\033[31mn\\x1b[0m ║
+╚═════════════════════╧═════════════════════════════╧═══════════════════════════════════════╧═════════════════════════════════╧══════════════════════════════════════════════════╧══════════════════╝
 `;

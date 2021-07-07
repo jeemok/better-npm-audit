@@ -33,3 +33,5 @@ describe('Common utils', () => {
     });
   });
 });
+
+export {};

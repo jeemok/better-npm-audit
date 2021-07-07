@@ -2,7 +2,7 @@
  * @param  {Any} value    The input number
  * @return {Boolean}      Returns true if the input is a whole number
  */
-function isWholeNumber(value) {
+export function isWholeNumber(value: any): boolean {
   if (!Number(value)) {
     return false;
   }
@@ -13,7 +13,7 @@ function isWholeNumber(value) {
  * @param  {String} string    The JSON stringified object
  * @return {Boolean}          Returns true if the input string is parse-able
  */
-function isJsonString(string) {
+export function isJsonString(string: string): boolean {
   try {
     JSON.parse(string);
   } catch (e) {
@@ -21,8 +21,3 @@ function isJsonString(string) {
   }
   return true;
 }
-
-module.exports = {
-  isWholeNumber,
-  isJsonString,
-};

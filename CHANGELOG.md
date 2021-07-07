@@ -1,3 +1,14 @@
+## 3.0.0
+
+* TypeScript!
+* Less bugs?
+* Smaller package size (without building the test files into it)
+* Should not have any breaking changes (Most of the test passed), but just in case, I've put it into a major version to continue
+* Hope you all like it!
+* [TODO:] `/interfaces` still gets build, somehow `exclude` in the config isn't working properly
+
+---
+
 ## 2.0.5 (June 22, 2021)
 
 * Removed unused packages from dependencies list
