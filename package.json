@@ -1,6 +1,6 @@
 {
   "name": "better-npm-audit",
-  "version": "3.0.0-rc",
+  "version": "3.0.0",
   "author": "Jee Mok <jee.ict@hotmail.com>",
   "description": "Reshape npm audit into the way the community would like, by the community itself, to encourage more people to do security audits.",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "nsp",
     "ci"
   ],
-  "main": "index.js",
+  "main": "lib/index.js",
   "bin": {
     "better-npm-audit": "index.js"
   },
@@ -40,9 +40,8 @@
     "node": ">= 8.12"
   },
   "scripts": {
-    "audit": "node . audit",
+    "audit": "npm run build:clean && node . audit",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
-    "test:live": "node lib",
     "lint": "eslint .",
     "qc": "npm run test && npm run lint",
     "clean": "rimraf lib",

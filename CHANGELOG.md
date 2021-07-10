@@ -1,10 +1,7 @@
-## 3.0.0
+## 3.0.0 (July 11, 2021)
 
-- TypeScript 🎉
-  - Lesser bugs
-  - Smaller build size
-  - Shouldn't have any breaking changes (according to the written test cases), but let's bump into a major version just in case
-- Upgraded `commander` from version `2.19.0` to `8.0.0`
+- [#49](https://github.com/jeemok/better-npm-audit/pull/49) Refactored to TypeScript 🎉
+- [#49](https://github.com/jeemok/better-npm-audit/pull/49) Upgraded package `commander` from version `2.19.0` to `8.0.0`
 
 ---
 
