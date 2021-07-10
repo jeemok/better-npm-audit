@@ -4,6 +4,7 @@ export interface CommandOptions {
   readonly exclude?: string;
   readonly production?: boolean;
   readonly level?: AuditLevel;
+  readonly registry?: string;
 }
 
 export interface NpmAuditJson {

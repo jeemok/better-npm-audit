@@ -46,6 +46,7 @@ program
   .option('-x, --exclude <ids>', 'Exceptions or the vulnerabilities ID(s) to exclude.')
   .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
   .option('-p, --production', 'Skip checking the devDependencies.')
+  .option('-r, --registry <url>', 'The npm registry url to use.')
   .action((options: CommandOptions) => handleInput(options, callback));
 
 program.parse(process.argv);

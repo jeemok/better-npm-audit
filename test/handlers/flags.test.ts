@@ -118,10 +118,10 @@ describe('Flags', () => {
   describe('--registry', () => {
     it('should be able to set registry from the command flag correctly', () => {
       const callbackStub = sinon.stub();
-      const options = { registry: 'https://registry.npmjs.org/' };
+      const options: CommandOptions = { registry: 'https://registry.npmjs.org/' };
       const auditCommand = 'npm audit --registry=https://registry.npmjs.org/';
       const auditLevel = 'info';
-      const exceptionIds = [];
+      const exceptionIds: number[] = [];
 
       expect(callbackStub.called).to.equal(false);
       handleInput(options, callbackStub);
@@ -135,7 +135,7 @@ describe('Flags', () => {
       const callbackStub = sinon.stub();
       let options: CommandOptions = { level: 'info' };
 
-      const auditCommand = 'npm audit ';
+      const auditCommand = 'npm audit';
       const exceptionIds: number[] = [];
 
       expect(callbackStub.called).to.equal(false);

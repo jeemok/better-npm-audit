@@ -15,7 +15,10 @@ export default function handleInput(options: CommandOptions, fn: (T1: string, T2
     'npm audit',
     // flags
     get(options, 'production') ? '--production' : '',
-  ].join(' ');
+    get(options, 'registry') ? `--registry=${options.registry}` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   // Taking the audit level from the command or environment variable
   const envVar = process.env.NPM_CONFIG_AUDIT_LEVEL as AuditLevel;
