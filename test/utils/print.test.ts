@@ -1,11 +1,11 @@
-const sinon = require('sinon');
-const chai = require('chai');
-const { expect } = chai;
-const { printSecurityReport, printExceptionReport } = require('../../utils/print');
-const EXCEPTION_TABLE_DATA = require('../__mocks__/exception-table-data.json');
-const EXCEPTION_TABLE = require('../__mocks__/exception-table');
-const V7_SECURITY_REPORT_TABLE_DATA = require('../__mocks__/v7-security-report-table-data.json');
-const V7_SECURITY_REPORT_TABLE = require('../__mocks__/v7-security-report-table');
+import sinon from 'sinon';
+import { expect } from 'chai';
+import { printSecurityReport, printExceptionReport } from '../../src/utils/print';
+
+import EXCEPTION_TABLE_DATA from '../__mocks__/exception-table-data.json';
+import EXCEPTION_TABLE from '../__mocks__/exception-table';
+import V7_SECURITY_REPORT_TABLE_DATA from '../__mocks__/v7-security-report-table-data.json';
+import V7_SECURITY_REPORT_TABLE from '../__mocks__/v7-security-report-table';
 
 describe('Print utils', () => {
   it('should display the exception table correctly', () => {

@@ -10,18 +10,14 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 12,
   },
-  extends: [
-    'eslint:recommended',
-    'google',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-  ],
+  extends: ['eslint:recommended', 'google', 'plugin:@typescript-eslint/eslint-recommended', 'plugin:@typescript-eslint/recommended'],
   rules: {
     'prettier/prettier': 'error',
-    'arrow-parens': ['error', 'as-needed'],
-    'max-len': ['error', { code: 160, ignoreUrls: true }],
+    'arrow-parens': ['error', 'always'],
+    'max-len': ['error', { code: 140, ignoreUrls: true }],
     'object-curly-spacing': ['off'],
-    indent: ['error', 2, { SwitchCase: 1 }],
+    // eslint-disable-next-line prettier/prettier
+    'indent': ['error', 2, { SwitchCase: 1 }],
   },
   ignorePatterns: ['lib'],
   plugins: ['prettier'],

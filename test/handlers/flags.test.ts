@@ -1,8 +1,7 @@
-const sinon = require('sinon');
-const chai = require('chai');
-const { expect } = chai;
-
-const { handleAction } = require('../index.ts');
+import sinon from 'sinon';
+import { expect } from 'chai';
+import { CommandOptions } from '../../src/types';
+import handleInput from '../../src/handlers/handleInput';
 
 describe('Flags', () => {
   describe('default', () => {
@@ -11,12 +10,12 @@ describe('Flags', () => {
       const options = {};
 
       expect(callbackStub.called).to.equal(false);
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.called).to.equal(true);
 
       const auditCommand = 'npm audit ';
       const auditLevel = 'info';
-      const exceptionIds = [];
+      const exceptionIds: number[] = [];
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds)).to.equal(true);
     });
   });
@@ -31,32 +30,32 @@ describe('Flags', () => {
       const exceptionIds = [1567, 919];
 
       expect(callbackStub.called).to.equal(false);
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.called).to.equal(true);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds)).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1567, 919')).to.equal(true);
 
       // with space
       options.exclude = '1567, 1902';
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, [1567, 1902])).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1567, 1902')).to.equal(true);
 
       // invalid exceptions
       options.exclude = '1134,undefined,888';
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, [1134, 888])).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1134, 888')).to.equal(true);
 
       // invalid NaN
       options.exclude = '1134,NaN,3e,828';
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, [1134, 828])).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1134, 828')).to.equal(true);
 
       // invalid decimals
       options.exclude = '1199,29.41,628';
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, [1199, 628])).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1199, 628')).to.equal(true);
 
@@ -72,7 +71,7 @@ describe('Flags', () => {
       const exceptionIds = [1567, 919];
 
       expect(callbackStub.called).to.equal(false);
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
 
       expect(callbackStub.called).to.equal(true);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds)).to.equal(true);
@@ -88,10 +87,10 @@ describe('Flags', () => {
       const options = {};
       const auditCommand = 'npm audit ';
       const auditLevel = 'info';
-      const exceptionIds = [];
+      const exceptionIds: number[] = [];
 
       expect(callbackStub.called).to.equal(false);
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
 
       expect(callbackStub.called).to.equal(true);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds)).to.equal(true);
@@ -107,45 +106,42 @@ describe('Flags', () => {
       const options = { production: true };
       const auditCommand = 'npm audit --production';
       const auditLevel = 'info';
-      const exceptionIds = [];
+      const exceptionIds: number[] = [];
 
       expect(callbackStub.called).to.equal(false);
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.called).to.equal(true);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds)).to.equal(true);
     });
-
-    // TODO check this, or maybe not? use picha eat to check json output
-    it('should not exit on dev dependencies vulnerabilites when using production flag', () => {});
   });
 
   describe('--level', () => {
     it('should be able to pass audit level from the command flag correctly', () => {
       const callbackStub = sinon.stub();
-      const options = { level: 'info' };
+      let options: CommandOptions = { level: 'info' };
 
       const auditCommand = 'npm audit ';
-      const exceptionIds = [];
+      const exceptionIds: number[] = [];
 
       expect(callbackStub.called).to.equal(false);
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.called).to.equal(true);
       expect(callbackStub.calledWith(auditCommand, 'info', exceptionIds)).to.equal(true);
 
-      options.level = 'low';
-      handleAction(options, callbackStub);
+      options = { level: 'low' };
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'low', exceptionIds)).to.equal(true);
 
-      options.level = 'moderate';
-      handleAction(options, callbackStub);
+      options = { level: 'moderate' };
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'moderate', exceptionIds)).to.equal(true);
 
-      options.level = 'high';
-      handleAction(options, callbackStub);
+      options = { level: 'high' };
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'high', exceptionIds)).to.equal(true);
 
-      options.level = 'critical';
-      handleAction(options, callbackStub);
+      options = { level: 'critical' };
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'critical', exceptionIds)).to.equal(true);
     });
 
@@ -156,27 +152,27 @@ describe('Flags', () => {
 
       // info
       process.env.NPM_CONFIG_AUDIT_LEVEL = 'info';
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'info')).to.equal(true);
 
       // low
       process.env.NPM_CONFIG_AUDIT_LEVEL = 'low';
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'low')).to.equal(true);
 
       // moderate
       process.env.NPM_CONFIG_AUDIT_LEVEL = 'moderate';
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'moderate')).to.equal(true);
 
       // high
       process.env.NPM_CONFIG_AUDIT_LEVEL = 'high';
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'high')).to.equal(true);
 
       // critical
       process.env.NPM_CONFIG_AUDIT_LEVEL = 'critical';
-      handleAction(options, callbackStub);
+      handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'critical')).to.equal(true);
 
       // Clean up

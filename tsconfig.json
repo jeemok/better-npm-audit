@@ -7,15 +7,10 @@
             "ES2015"
         ],
         "outDir": "lib",
-        "rootDirs": [
-            "index",
-            "utils"
-        ],
         "strict": true,
         "types": [
             "node",
-            "mocha",
-            "chai"
+            "mocha"
         ],
         "esModuleInterop": true,
         "resolveJsonModule": true,
@@ -23,6 +18,5 @@
     },
     "exclude": [
         "test",
-        "interfaces",
     ],
 }

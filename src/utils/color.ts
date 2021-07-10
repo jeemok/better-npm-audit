@@ -1,6 +1,5 @@
 import get from 'lodash.get';
-import { Severity } from 'interfaces/level';
-import { Color, ColorCode } from 'interfaces/color';
+import { Severity, Color, ColorCode } from 'src/types';
 
 const RESET = '\\x1b[0m' as const;
 const COLORS = <const>{
@@ -75,8 +74,9 @@ export function getSeverityBgColor(severity: Severity): 'red' | undefined {
       return 'red';
     case 'critical':
       return 'red';
-    default:
+    default: {
       const exhaustiveCheck: never = severity;
       return exhaustiveCheck;
+    }
   }
 }

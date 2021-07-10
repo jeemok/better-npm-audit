@@ -1,7 +1,5 @@
-const chai = require('chai');
-const { expect } = chai;
-
-import { color, getSeverityBgColor } from '../../utils/color';
+import { expect } from 'chai';
+import { color, getSeverityBgColor } from '../../src/utils/color';
 
 describe('Color utils', () => {
   describe('#color', () => {

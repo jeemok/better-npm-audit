@@ -1,5 +1,5 @@
 import { table, TableUserConfig } from 'table';
-import { SecurityReportHeader, ExceptionReportHeader } from 'interfaces/table';
+import { SecurityReportHeader, ExceptionReportHeader } from 'src/types';
 
 const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Sev.', 'URL', 'Ex.'];
 const EXCEPTION_REPORT_HEADER: ExceptionReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes'];

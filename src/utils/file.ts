@@ -1,6 +1,6 @@
 import fs from 'fs';
+import { NsprcFile } from 'src/types';
 import { isJsonString } from './common';
-import { NsprcFile } from 'interfaces/nsprc';
 
 /**
  * Read file from path

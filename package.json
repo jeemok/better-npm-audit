@@ -32,7 +32,7 @@
     "better-npm-audit": "index.js"
   },
   "dependencies": {
-    "commander": "^2.19.0",
+    "commander": "^8.0.0",
     "lodash.get": "^4.4.2",
     "table": "^6.7.1"
   },
@@ -41,17 +41,22 @@
   },
   "scripts": {
     "audit": "node . audit",
-    "test": "mocha -r ts-node/register test/**/*.ts",
+    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "test:live": "node lib",
     "lint": "eslint .",
+    "qc": "npm run test && npm run lint",
     "clean": "rimraf lib",
     "build:clean": "npm run clean && tsc",
-    "build": "npm run lint && npm run build:clean"
+    "build": "npm run qc && npm run build:clean",
+    "publish:live": "npm publish lib --tag latest",
+    "publish:next": "npm publish lib --tag next"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
     "@types/lodash.get": "^4.4.6",
-    "@types/mocha": "^8.2.2",
+    "@types/mocha": "^8.2.3",
     "@types/node": "^16.0.0",
+    "@types/sinon": "^10.0.2",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "chai": "^4.3.0",
