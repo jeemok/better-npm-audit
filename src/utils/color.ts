@@ -1,43 +1,43 @@
 import get from 'lodash.get';
 import { Severity, Color, ColorCode } from 'src/types';
 
-const RESET = '\\x1b[0m' as const;
+const RESET = '\x1b[0m' as const;
 const COLORS = <const>{
   reset: {
-    fg: '\\x1b[0m',
-    bg: '\\x1b[0m',
+    fg: '\x1b[0m',
+    bg: '\x1b[0m',
   },
   black: {
-    fg: '\\033[30m',
-    bg: '\\033[40m',
+    fg: '\x1b[30m',
+    bg: '\x1b[40m',
   },
   red: {
-    fg: '\\033[31m',
-    bg: '\\033[41m',
+    fg: '\x1b[31m',
+    bg: '\x1b[41m',
   },
   green: {
-    fg: '\\033[32m',
-    bg: '\\033[42m',
+    fg: '\x1b[32m',
+    bg: '\x1b[42m',
   },
   yellow: {
-    fg: '\\033[33m',
-    bg: '\\033[43m',
+    fg: '\x1b[33m',
+    bg: '\x1b[43m',
   },
   blue: {
-    fg: '\\033[34m',
-    bg: '\\033[44m',
+    fg: '\x1b[34m',
+    bg: '\x1b[44m',
   },
   magenta: {
-    fg: '\\033[35m',
-    bg: '\\033[45m',
+    fg: '\x1b[35m',
+    bg: '\x1b[45m',
   },
   cyan: {
-    fg: '\\033[36m',
-    bg: '\\033[46m',
+    fg: '\x1b[36m',
+    bg: '\x1b[46m',
   },
   white: {
-    fg: '\\033[37m',
-    bg: '\\033[47m',
+    fg: '\x1b[37m',
+    bg: '\x1b[47m',
   },
 };
 
