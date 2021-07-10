@@ -1,6 +1,6 @@
 {
   "name": "better-npm-audit",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "author": "Jee Mok <jee.ict@hotmail.com>",
   "description": "Reshape npm audit into the way the community would like, by the community itself, to encourage more people to do security audits.",
   "license": "MIT",
@@ -27,12 +27,12 @@
     "nsp",
     "ci"
   ],
-  "main": "index.js",
+  "main": "lib/index.js",
   "bin": {
     "better-npm-audit": "index.js"
   },
   "dependencies": {
-    "commander": "^2.19.0",
+    "commander": "^8.0.0",
     "lodash.get": "^4.4.2",
     "table": "^6.7.1"
   },
@@ -40,15 +40,34 @@
     "node": ">= 8.12"
   },
   "scripts": {
-    "audit": "node . audit",
-    "test": "mocha test --recursive",
-    "lint": "eslint ."
+    "audit": "npm run build:clean && node . audit",
+    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "lint": "eslint .",
+    "qc": "npm run test && npm run lint",
+    "clean": "rimraf lib",
+    "build:clean": "npm run clean && tsc",
+    "build": "npm run qc && npm run build:clean",
+    "publish:live": "npm publish lib --tag latest",
+    "publish:next": "npm publish lib --tag next"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.19",
+    "@types/lodash.get": "^4.4.6",
+    "@types/mocha": "^8.2.3",
+    "@types/node": "^16.0.0",
+    "@types/sinon": "^10.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
     "chai": "^4.3.0",
     "eslint": "^7.25.0",
     "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "mocha": "^8.3.0",
-    "sinon": "^9.2.4"
+    "prettier": "2.3.2",
+    "rimraf": "^3.0.2",
+    "sinon": "^9.2.4",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
   }
 }

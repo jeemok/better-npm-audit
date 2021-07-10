@@ -1,3 +1,10 @@
+## 3.0.0 (July 11, 2021)
+
+- [#49](https://github.com/jeemok/better-npm-audit/pull/49) Refactored to TypeScript 🎉
+- [#49](https://github.com/jeemok/better-npm-audit/pull/49) Upgraded package `commander` from version `2.19.0` to `8.0.0`
+
+---
+
 ## 2.1.0 (June 24, 2021)
 
 * [#43](https://github.com/jeemok/better-npm-audit/pull/43) Add support for npm registry url option ([@Tristan WAGNER](https://github.com/tristanwagner))

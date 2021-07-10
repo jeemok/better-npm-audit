@@ -1,11 +1,10 @@
-const sinon = require('sinon');
-const chai = require('chai');
-const { expect } = chai;
+import sinon from 'sinon';
+import { expect } from 'chai';
 
-const V6_JSON_BUFFER = require('./__mocks__/v6-json-buffer.json');
-const V6_JSON_BUFFER_EMPTY = require('./__mocks__/v6-json-buffer-empty.json');
+import V6_JSON_BUFFER from '../__mocks__/v6-json-buffer.json';
+import V6_JSON_BUFFER_EMPTY from '../__mocks__/v6-json-buffer-empty.json';
 
-const { handleFinish } = require('../index');
+import handleFinish from '../../src/handlers/handleFinish';
 
 describe('Events handling', () => {
   it('should exit if unable to process the JSON buffer', () => {
@@ -13,7 +12,7 @@ describe('Events handling', () => {
     const consoleStub = sinon.stub(console, 'error');
     const jsonBuffer = '';
     const auditLevel = 'info';
-    const exceptionIds = [];
+    const exceptionIds: number[] = [];
 
     expect(processStub.called).to.equal(false);
     expect(consoleStub.called).to.equal(false);
@@ -34,7 +33,7 @@ describe('Events handling', () => {
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER_EMPTY);
     const auditLevel = 'info';
-    const exceptionIds = [];
+    const exceptionIds: number[] = [];
 
     expect(consoleStub.called).to.equal(false);
     handleFinish(jsonBuffer, auditLevel, exceptionIds);
