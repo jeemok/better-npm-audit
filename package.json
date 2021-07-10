@@ -47,8 +47,8 @@
     "clean": "rimraf lib",
     "build:clean": "npm run clean && tsc",
     "build": "npm run qc && npm run build:clean",
-    "publish:live": "npm publish lib --tag latest",
-    "publish:next": "npm publish lib --tag next"
+    "publish:live": "npm run build && npm publish lib --tag latest",
+    "publish:next": "npm run build && npm publish lib --tag next"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
