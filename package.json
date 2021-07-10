@@ -1,6 +1,6 @@
 {
   "name": "better-npm-audit",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "Jee Mok <jee.ict@hotmail.com>",
   "description": "Reshape npm audit into the way the community would like, by the community itself, to encourage more people to do security audits.",
   "license": "MIT",
@@ -45,8 +45,9 @@
     "lint": "eslint .",
     "qc": "npm run test && npm run lint",
     "clean": "rimraf lib",
+    "build:after": "cp README.md lib",
     "build:clean": "npm run clean && tsc",
-    "build": "npm run qc && npm run build:clean",
+    "build": "npm run qc && npm run build:clean && npm run build:after",
     "publish:live": "npm run build && npm publish lib --tag latest",
     "publish:next": "npm run build && npm publish lib --tag next"
   },
