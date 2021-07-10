@@ -8,71 +8,76 @@
 
 ---
 
+## 2.1.0 (June 24, 2021)
+
+* [#43](https://github.com/jeemok/better-npm-audit/pull/43) Add support for npm registry url option ([@Tristan WAGNER](https://github.com/tristanwagner))
+* [#42](https://github.com/jeemok/better-npm-audit/pull/42) Added CodeQL vulnerabilities check across codebase in CI
+* [#e77632c](https://github.com/jeemok/better-npm-audit/commit/e77632c6434f1ed78031f00bfb3d638800859466) Removed github username as region currently not supported
+
 ## 2.0.5 (June 22, 2021)
 
-- Removed unused packages from dependencies list
-- Added nodejs v16.x coverage in CI
+* [#52be395](https://github.com/jeemok/better-npm-audit/commit/52be39506ab134592190dc4a9e740e5cf8a28c73) Removed unused package `cli-table` from the dependencies
+* [#40](https://github.com/jeemok/better-npm-audit/pull/40) Added nodejs v16.x coverage in CI
 
 ## 2.0.4 (June 22, 2021)
 
 ### Notable changes
 
-- Simplified the workflow and improved overall performance by running lesser in the process.
-- Added [`table`](https://www.npmjs.com/package/table) module to display summaries (Initially used [`cli-table`](https://www.npmjs.com/package/cli-table) for its small size, however the issues in the repo concerns me in its display quality in other OS. Hence, chosen `table` module despite its package size is much bigger)
-- Added table display for security report
-- Added table display of exceptions from `.nsprc` file
-- Cleaned up test cases structure to be more straight forward and easier to maintain
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commits/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Simplified the workflow and improved overall performance by running lesser in the process
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commits/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Added [`table`](https://www.npmjs.com/package/table) module to display table format reports
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commits/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Added table display for security report
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commits/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Added table display of exceptions from `.nsprc` file
+* [#39](https://github.com/jeemok/better-npm-audit/pull/39) Cleaned up test cases structure to be more straight forward and easier to maintain
 
 ### Breaking changes
 
-- Renamed `--ignore -i` flag to `--exclude -x` for better clarity.
-- Removed `--display-full` flag that was used to ignore the maximum display limit. Now with the summary table it would be unlikely to display large size of information.
-- Removed `--display-notes` flag that was used for displaying exception notes. Now it is included in the exceptions table.
-- Renamed `ignore` field to `active` in `.nsprc` file for better clarity.
-- Renamed `reason` field to `notes` in `.nsprc` file for better clarity.
+* [#e08a436](https://github.com/jeemok/better-npm-audit/commit/e08a4365a87473087408486b8a0f38958a5c4cf1) Renamed `--ignore -i` flag to `--exclude -x` for better clarity
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commit/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Removed `--display-full` flag that was used to ignore the maximum display limit
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commit/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Removed `--display-notes` flag that was used for displaying exception notes
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commit/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Renamed `ignore` field to `active` in `.nsprc` file for better clarity
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commit/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Renamed `reason` field to `notes` in `.nsprc` file for better clarity
 
 ### Others
 
-- Removed logging of flags used in the command
-- Added NPM audit into the CI pipeline
-- Added `.github/FUNDING.yml`
-- Updated `README.md`
+* [#4ba2612](https://github.com/jeemok/better-npm-audit/commit/4ba2612567fb19e97d5df40ef6a4b1b5b4a4896f) Updated wording of unused exception warning
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commit/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Removed logging of flags used in the command
+* [#0b7357c](https://github.com/jeemok/better-npm-audit/commit/0b7357cbdb604872ef3cd774d98f73874fb5b98f) Added NPM audit into the CI pipeline
+* [#39](https://github.com/jeemok/better-npm-audit/pull/39) Updated README
 
 ### Closed issues
 
-- [#20](https://github.com/jeemok/better-npm-audit/issues/20) Provide more output when parsing exceptions file
-- [#27](https://github.com/jeemok/better-npm-audit/issues/27) Hide excepted vulnerabilities from output
-- [#28](https://github.com/jeemok/better-npm-audit/issues/28) Missing [ in truncation message
+* [#20](https://github.com/jeemok/better-npm-audit/issues/20) Provide more output when parsing exceptions file
+* [#27](https://github.com/jeemok/better-npm-audit/issues/27) Hide excepted vulnerabilities from output
+* [#28](https://github.com/jeemok/better-npm-audit/issues/28) Missing [ in truncation message
 
 ---
 
 ## 1.12.1 (June 21, 2021)
 
-- Added `FUNDING.yml`
-- Updated `README.md`
+* [#7249096](https://github.com/jeemok/better-npm-audit/commit/724909634fa35e704d6819888fe9ec545deb4ef2) Added FUNDING & updated README
 
 ## 1.12.0 (June 18, 2021)
 
-- [#38](https://github.com/jeemok/better-npm-audit/pull/38) Display warning when `exceptionIds` are unused
+* [#38](https://github.com/jeemok/better-npm-audit/pull/38) Display warning when `exceptionIds` are unused ([@Maarten Hus](https://github.com/MrHus))
 
 ## 1.11.2 (June 11, 2021)
 
-- [#37](https://github.com/jeemok/better-npm-audit/pull/37) Fixed security CVE-2020-28469: Bump glob-parent from 5.1.1 to 5.1.2
+* [#37](https://github.com/jeemok/better-npm-audit/pull/37) Fixed security CVE-2020-28469: Bump glob-parent from 5.1.1 to 5.1.2
 
 ## 1.11.1 (June 11, 2021)
 
-- Updated `README.md`
+* [#8d0561f](https://github.com/jeemok/better-npm-audit/commit/8d0561ffa087a4be667e2f08dbfac1b337d2f04c) Updated README
 
 ## 1.11.0 (June 11, 2021)
 
-- [#36](https://github.com/jeemok/better-npm-audit/pull/36) Added environment variable support `process.env.NPM_CONFIG_AUDIT_LEVEL` to set the audit level
+* [#36](https://github.com/jeemok/better-npm-audit/pull/36) Added environment variable support `NPM_CONFIG_AUDIT_LEVEL`
 
 ## 1.10.1 (June 7, 2021)
 
-- Updated `--full` flag logging from `[full log mode enabled]` to `[report display limit disabled]`
-- [#32](https://github.com/jeemok/better-npm-audit/issues/32) Added new flag `--display-notes` to display reasons for the exceptions
+* [#6661c78](https://github.com/jeemok/better-npm-audit/commit/6661c7885dc0df76043db087ec69349689ac610a) Updated `--full` flag logging from `[full log mode enabled]` to `[report display limit disabled]`
+* [#32](https://github.com/jeemok/better-npm-audit/issues/32) Added new flag `--display-notes` to display reasons for the exceptions
 
 ## 1.9.3 (June 6, 2021)
 
-- [#31](https://github.com/jeemok/better-npm-audit/issues/31) Added `CHANGELOG.md`
-- Updated `README.md`
+* [#31](https://github.com/jeemok/better-npm-audit/issues/31) Added CHANGELOG
+* [#33](https://github.com/jeemok/better-npm-audit/pull/33) Updated README

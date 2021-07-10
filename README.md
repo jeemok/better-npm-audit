@@ -42,7 +42,7 @@ better-npm-audit audit
 
 <img src="./.README/all_good.png" alt="Demo of table displaying the security report" />
 
-Unhandled or new exceptions will be highlighted:
+Unhandled or newly reported vulnerabilities will be highlighted:
 
 <img src="./.README/highlighted_exceptions.png" alt="Demo of table displaying the security report" />
 
@@ -76,6 +76,7 @@ npm run audit
 | `--exclude`    | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude                             |
 | `--level`      | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag |
 | `--production` | `-p`  | Skip checking the `devDependencies`                                            |
+| `--registry`   | `-r`  | The npm registry url to use                                                    |
 
 <br />
 
