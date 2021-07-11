@@ -1,9 +1,9 @@
 ## 3.1.0 (July 11, 2021)
 
-- Updated declaration file extension so it will not be included in final build
-- Added multiple date format support for `expiry` field
-- Added `dayjs` package
-- Style the exception expiry date if it is more than one or five years ago
+- [#a5bba42](https://github.com/jeemok/better-npm-audit/commit/a5bba42bdbfa81d98499717f716707ed638e69c4) Updated declaration file extension so it will not be included in final build
+- [#b1b05ff](https://github.com/jeemok/better-npm-audit/commit/b1b05ff2c531c21b5be34bcdfce0478dc324c57f) Added multiple date format support for `expiry` field
+- [#15ae9ad](https://github.com/jeemok/better-npm-audit/commit/15ae9ad9307fd0d19b76741f74095c0614b164f7) Added `dayjs` package
+- [#32b8535](https://github.com/jeemok/better-npm-audit/commit/32b853576468b0c7f7c0735f8345fad2218498a4) Style the exception expiry date if it is more than one or five years ago
 
 ## 3.0.1 (July 11, 2021)
 
