@@ -1,6 +1,6 @@
 ## 3.1.0 (July 11, 2021)
 
-- Updated NPM scripts to remove types files from build
+- Updated declaration file extension so it will not be included in final build
 
 ## 3.0.1 (July 11, 2021)
 
