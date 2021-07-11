@@ -40,14 +40,14 @@
     "node": ">= 8.12"
   },
   "scripts": {
-    "audit": "npm run build:clean && node . audit",
+    "audit": "npm run build && node . audit",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "eslint .",
     "qc": "npm run test && npm run lint",
     "clean": "rimraf lib",
-    "build:after": "cp README.md lib",
-    "build:clean": "npm run clean && tsc",
-    "build": "npm run qc && npm run build:clean && npm run build:after",
+    "prebuild": "npm run qc && npm run clean",
+    "build": "tsc",
+    "postbuild": "cp README.md lib; rm -r lib/src/types",
     "publish:live": "npm run build && npm publish lib --tag latest",
     "publish:next": "npm run build && npm publish lib --tag next"
   },
