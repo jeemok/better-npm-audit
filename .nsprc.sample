@@ -4,6 +4,16 @@
         "notes": "Ignored since we don't use xxx method",
         "expiry": 1615462134681
     },
+    "1338": {
+        "active": true,
+        "expiry": "01/31/2021, 11:03:58"
+    },
+    "1339": {
+        "expiry": "Sun, 11 Jul 2021 03:03:13 GMT"
+    },
+    "1340": {
+        "expiry": "Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)"
+    },
     "4501": {
         "active": false,
         "notes": "This will be fixed by the library maintainers by June 14"

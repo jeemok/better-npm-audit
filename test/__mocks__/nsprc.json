@@ -10,12 +10,12 @@
         "active": true
     },
     "1556": {
-        "expiry": 1615462134681,
+        "expiry": "2021-03-11T11:28:54.681Z",
         "active": true,
         "notes": "Issue: https://github.com/jeemok/better-npm-audit/issues/28"
     },
     "975": {
-        "expiry": 1615462134681
+        "expiry": "Thu Mar 11 2021 19:28:54 GMT+0800 (Malaysia Time)"
     },
     "976": {
         "active": false

@@ -1,6 +1,7 @@
 ## 3.1.0 (July 11, 2021)
 
 - Updated declaration file extension so it will not be included in final build
+- Added multiple date format support for `expiry` field
 
 ## 3.0.1 (July 11, 2021)
 

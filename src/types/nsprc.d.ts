@@ -1,6 +1,6 @@
 export interface NsprcConfigs {
   readonly active?: boolean;
-  readonly expiry?: number;
+  readonly expiry?: string | number;
   readonly notes?: string;
 }
 

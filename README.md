@@ -110,11 +110,11 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
 
 ### Fields
 
-| Attribute | Description                                                                                                                                                                 | Default |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `active`  | Boolean type to determine if we should use it for exception; `true` or `false`                                                                                              | `true`  |
-| `expiry`  | Date time in milliseconds, the number of milliseconds since midnight 01 January, 1970 UTC.<br />You can use `new Date(2021, 1, 1).valueOf()` to get the milliseconds value. |         |
-| `notes`   | Notes related to the vulnerability; will be displayed in the table summary.                                                                                                 |
+| Attribute | Type             | Description                             | Default | Examples                                                                                                                                                                                                                                                                                                                     |
+| --------- | ---------------- | --------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `active`  | Boolean          | If the tool should use it for exception | `true`  | `true`                                                                                                                                                                                                                                                                                                                       |
+| `expiry`  | String \| Number | UNIX timestamp                          |         | - `'2020-01-31'` <br> - `'2020/01/31'` <br> - `'01/31/2021, 11:03:58'` <br> - `'1 March 2016 15:00'` <br> - `'1 March 2016 3:00 pm'` <br> - `'2012-01-26T13:51:50.417-07:00'` <br> - `'Sun, 11 Jul 2021 03:03:13 GMT'` <br> - `'Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)'` <br> - `327611110417` |
+| `notes`   | String           | Notes related to the vulnerability.     |         |
 
 <br />
 
