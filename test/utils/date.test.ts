@@ -52,19 +52,46 @@ describe('Date utils', () => {
 
     it('should be able to analyze the given timestamp correctly', () => {
       // Only dates
-      expect(analyzeExpiry('2020-01-31', '2020-01-01')).to.deep.equal({ valid: true, expired: false });
-      expect(analyzeExpiry('2020-01-31', '2020-01-31')).to.deep.equal({ valid: true, expired: false });
-      expect(analyzeExpiry('2020-01-31', '2020-02-02')).to.deep.equal({ valid: true, expired: true });
+      expect(analyzeExpiry('2020-01-31', '2020-01-01')).to.deep.equal({ valid: true, expired: false, days: -30, months: 0, years: 0 });
+      expect(analyzeExpiry('2020-01-31', '2020-01-31')).to.deep.equal({ valid: true, expired: false, days: 0, months: 0, years: 0 });
+      expect(analyzeExpiry('2020-01-31', '2020-02-02')).to.deep.equal({ valid: true, expired: true, days: 2, months: 0, years: 0 });
 
       // Dates & time
-      expect(analyzeExpiry('1 March 2020 3:00 pm', '1 March 2020 2:59:00 pm')).to.deep.equal({ valid: true, expired: false });
-      expect(analyzeExpiry('1 March 2020 3:00 pm', '1 March 2020 3:00:00 pm')).to.deep.equal({ valid: true, expired: false });
-      expect(analyzeExpiry('1 March 2020 3:00 pm', '1 March 2020 3:00:01 pm')).to.deep.equal({ valid: true, expired: true });
+      expect(analyzeExpiry('1 March 2020 3:00 pm', '1 March 2020 2:59:00 pm')).to.deep.equal({
+        valid: true,
+        expired: false,
+        days: 0,
+        months: 0,
+        years: 0,
+      });
+      expect(analyzeExpiry('1 March 2020 3:00 pm', '1 March 2020 3:00:00 pm')).to.deep.equal({
+        valid: true,
+        expired: false,
+        days: 0,
+        months: 0,
+        years: 0,
+      });
+      expect(analyzeExpiry('1 March 2020 3:00 pm', '1 March 2020 3:00:01 pm')).to.deep.equal({
+        valid: true,
+        expired: true,
+        days: 0,
+        months: 0,
+        years: 0,
+      });
 
       // Milliseconds
-      expect(analyzeExpiry(1327611110410, 1327611110409)).to.deep.equal({ valid: true, expired: false });
-      expect(analyzeExpiry(1327611110410, 1327611110410)).to.deep.equal({ valid: true, expired: false });
-      expect(analyzeExpiry(1327611110410, 1327611110411)).to.deep.equal({ valid: true, expired: true });
+      expect(analyzeExpiry(1327611110410, 1327611110409)).to.deep.equal({ valid: true, expired: false, days: 0, months: 0, years: 0 });
+      expect(analyzeExpiry(1327611110410, 1327611110410)).to.deep.equal({ valid: true, expired: false, days: 0, months: 0, years: 0 });
+      expect(analyzeExpiry(1327611110410, 1327611110411)).to.deep.equal({ valid: true, expired: true, days: 0, months: 0, years: 0 });
+    });
+
+    it('should be able to analyze the time difference correctly', () => {
+      expect(analyzeExpiry('2020-01-31', '2020-01-01')).to.deep.equal({ valid: true, expired: false, days: -30, months: 0, years: 0 });
+      expect(analyzeExpiry('2020-01-31', '2020-02-02')).to.deep.equal({ valid: true, expired: true, days: 2, months: 0, years: 0 });
+      expect(analyzeExpiry('2020-01-31', '2020-03-01')).to.deep.equal({ valid: true, expired: true, days: 30, months: 1, years: 0 });
+      expect(analyzeExpiry('2020-01-31', '2021-01-01')).to.deep.equal({ valid: true, expired: true, days: 336, months: 11, years: 0 });
+      expect(analyzeExpiry('2020-01-31', '2021-01-31')).to.deep.equal({ valid: true, expired: true, days: 366, months: 12, years: 1 });
+      expect(analyzeExpiry('2020-01-31', '2025-10-10')).to.deep.equal({ valid: true, expired: true, days: 2079, months: 68, years: 5 });
     });
   });
 });

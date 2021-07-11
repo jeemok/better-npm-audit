@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { DateAnalysis } from 'src/types';
 
 /**
@@ -19,11 +20,18 @@ export function analyzeExpiry(expiry?: string | number, now: string | number = n
   if (!expiry) {
     return { valid: true };
   }
+
   if (!isValidDate(expiry) || !isValidDate(now)) {
     return { valid: false };
   }
+
+  const dayjsNow = dayjs(now);
+
   return {
     valid: true,
-    expired: new Date(now).getTime() > new Date(expiry).getTime(),
+    expired: dayjsNow.isAfter(expiry),
+    days: dayjsNow.diff(expiry, 'days'),
+    months: dayjsNow.diff(expiry, 'months'),
+    years: dayjsNow.diff(expiry, 'years'),
   };
 }
