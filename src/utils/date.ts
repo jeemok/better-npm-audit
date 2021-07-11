@@ -30,8 +30,6 @@ export function analyzeExpiry(expiry?: string | number, now: string | number = n
   return {
     valid: true,
     expired: dayjsNow.isAfter(expiry),
-    days: dayjsNow.diff(expiry, 'days'),
-    months: dayjsNow.diff(expiry, 'months'),
     years: dayjsNow.diff(expiry, 'years'),
   };
 }

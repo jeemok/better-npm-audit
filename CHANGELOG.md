@@ -3,6 +3,7 @@
 - Updated declaration file extension so it will not be included in final build
 - Added multiple date format support for `expiry` field
 - Added `dayjs` package
+- Style the exception expiry date if it is more than one or five years ago
 
 ## 3.0.1 (July 11, 2021)
 

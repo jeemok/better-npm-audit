@@ -104,7 +104,7 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
     "notes": "Ignored since we don't use xxx method"
   },
   "980": "Ignored since we don't use xxx method",
-  "Note": "Any non number key will not be excepted"
+  "Note": "Any non number key will not be accepted"
 }
 ```
 
@@ -118,9 +118,11 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
 
 <br />
 
-When using a `.nsprc` file, you will see this report display when it starts running:
+When using a `.nsprc` file, a report will be displayed when it starts running:
 
 <img src="./.README/exceptions_table.png" alt="Demo of table displaying a list of exceptions" />
+
+> Note: the expiry date will be styled in yellow and red color if it is detected more than one or five years ago.
 
 <br />
 
