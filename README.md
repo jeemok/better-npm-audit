@@ -56,7 +56,7 @@ Unused exceptions will be notified:
 {
   "scripts": {
     "prepush": "npm run test && npm run audit",
-    "audit": "better-npm-audit audit audit"
+    "audit": "better-npm-audit audit"
   }
 }
 ```
