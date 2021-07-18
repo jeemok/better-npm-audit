@@ -71,12 +71,13 @@ npm run audit
 
 ## Options
 
-| Flag           | Short | Description                                                                    |
-| -------------- | ----- | ------------------------------------------------------------------------------ |
-| `--exclude`    | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude                             |
-| `--level`      | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag |
-| `--production` | `-p`  | Skip checking the `devDependencies`                                            |
-| `--registry`   | `-r`  | The npm registry url to use                                                    |
+| Flag             | Short | Default | Description                                                                                       |
+| ---------------- | ----- | ------- | ------------------------------------------------------------------------------------------------- |
+| `--exclude`      | `-x`  |         | Exceptions or the vulnerabilities ID(s) to exclude                                                |
+| `--level`        | `-l`  |         | The minimum audit level to validate; Same as the original `--audit-level` flag                    |
+| `--production`   | `-p`  |         | Skip checking the `devDependencies`                                                               |
+| `--registry`     | `-r`  |         | The npm registry url to use                                                                       |
+| `--scan-modules` | `-s`  | `true`  | Scan through reported modules for `.nsprc` file. Note: this feature currently only support NPM v7 |
 
 <br />
 
@@ -123,6 +124,16 @@ When using a `.nsprc` file, a report will be displayed when it starts running:
 <img src="./.README/exceptions_table.png" alt="Demo of table displaying a list of exceptions" />
 
 > Note: the expiry date will be styled in yellow and red color if it is detected more than one or five years ago.
+
+<br />
+
+## Auto exclusion from maintainers' notes
+
+Module that has `.nsprc` file will be used in the audit process if `--scan-modules` flag is enabled:
+
+<img src="./.README/auto_exclusion.png" alt="Demo of excluding vulnerabilities flagged by the module maintainers" />
+
+> Note: This feature currently only support npm v7
 
 <br />
 

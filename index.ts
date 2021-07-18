@@ -15,11 +15,12 @@ const program = new Command();
 
 /**
  * Run audit
- * @param  {String} auditCommand    The NPM audit command to use (with flags)
- * @param  {String} auditLevel      The level of vulnerabilities we care about
- * @param  {Array}  exceptionIds    List of vulnerability IDs to exclude
+ * @param  {String}  auditCommand       The NPM audit command to use (with flags)
+ * @param  {String}  auditLevel         The level of vulnerabilities we care about
+ * @param  {Array}   exceptionIds       List of vulnerability IDs to exclude
+ * @param  {Boolean} shouldScanModules  Flag if we should scan the node_modules
  */
-export function callback(auditCommand: string, auditLevel: AuditLevel, exceptionIds: number[]): void {
+export function callback(auditCommand: string, auditLevel: AuditLevel, exceptionIds: number[], shouldScanModules?: boolean): void {
   // Increase the default max buffer size (1 MB)
   const audit = exec(`${auditCommand} --json`, { maxBuffer: MAX_BUFFER_SIZE });
 
@@ -32,7 +33,7 @@ export function callback(auditCommand: string, auditLevel: AuditLevel, exception
 
   // Once the stdout has completed, process the output
   if (audit.stderr) {
-    audit.stderr.on('close', () => handleFinish(jsonBuffer, auditLevel, exceptionIds));
+    audit.stderr.on('close', () => handleFinish(jsonBuffer, auditLevel, exceptionIds, shouldScanModules));
     // stderr
     audit.stderr.on('data', console.error);
   }
@@ -47,6 +48,7 @@ program
   .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
   .option('-p, --production', 'Skip checking the devDependencies.')
   .option('-r, --registry <url>', 'The npm registry url to use.')
+  .option('-s, --scan-modules [boolean]', 'Scan through reported modules for .nsprc file.', true)
   .action((options: CommandOptions) => handleInput(options, callback));
 
 program.parse(process.argv);

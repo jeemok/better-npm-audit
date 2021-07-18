@@ -5,6 +5,7 @@ export interface CommandOptions {
   readonly production?: boolean;
   readonly level?: AuditLevel;
   readonly registry?: string;
+  readonly scanModules: true | false | 'true' | 'false';
 }
 
 export interface NpmAuditJson {
@@ -32,6 +33,7 @@ export interface v7Vulnerabilities {
 export interface v7Vulnerability {
   readonly name: string;
   readonly via: v7VulnerabilityVia[] | string[];
+  readonly nodes: string[];
 }
 
 export interface v7VulnerabilityVia {
@@ -48,6 +50,7 @@ export interface ProcessedResult {
   readonly unhandledIds: number[];
   readonly vulnerabilityIds: number[];
   readonly report: string[][];
+  readonly maintainerReport: string[][];
   readonly failed?: boolean;
 }
 

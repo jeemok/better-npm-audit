@@ -83,7 +83,7 @@ describe('Events handling', () => {
     consoleInfoStub.restore();
   });
 
-  it('should inform the developer when exceptionsIds are unused', () => {
+  it('should inform the developer when exceptions IDs are unused', () => {
     const processStub = sinon.stub(process, 'exit');
     const consoleErrorStub = sinon.stub(console, 'error');
     const consoleWarnStub = sinon.stub(console, 'warn');

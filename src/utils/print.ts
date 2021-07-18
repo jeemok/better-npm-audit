@@ -37,3 +37,20 @@ export function printExceptionReport(data: string[][]): void {
 
   console.info(table([EXCEPTION_REPORT_HEADER, ...data], configs));
 }
+
+/**
+ * Print the exception report in a table format
+ * @param  {Array} data   Array of arrays
+ * @return {undefined}    Returns void
+ */
+export function printMaintainerReport(data: string[][]): void {
+  const configs: TableUserConfig = {
+    singleLine: true,
+    header: {
+      alignment: 'center',
+      content: '=== auto exclusion from modules ===\n',
+    },
+  };
+
+  console.info(table([EXCEPTION_REPORT_HEADER, ...data], configs));
+}

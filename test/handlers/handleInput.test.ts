@@ -7,7 +7,7 @@ describe('Flags', () => {
   describe('default', () => {
     it('should be able to handle default correctly', () => {
       const callbackStub = sinon.stub();
-      const options = {};
+      const options = { scanModules: false };
 
       expect(callbackStub.called).to.equal(false);
       handleInput(options, callbackStub);
@@ -24,7 +24,7 @@ describe('Flags', () => {
     it('should be able to pass exception IDs using the command flag smoothly', () => {
       const callbackStub = sinon.stub();
       const consoleStub = sinon.stub(console, 'info');
-      const options = { exclude: '1567,919' };
+      const options = { scanModules: false, exclude: '1567,919' };
       const auditCommand = 'npm audit';
       const auditLevel = 'info';
       const exceptionIds = [1567, 919];
@@ -65,7 +65,7 @@ describe('Flags', () => {
     it('should info log the vulnerabilities if it is only passed in command line', () => {
       const callbackStub = sinon.stub();
       const consoleStub = sinon.stub(console, 'info');
-      const options = { exclude: '1567,919' };
+      const options = { scanModules: false, exclude: '1567,919' };
       const auditCommand = 'npm audit';
       const auditLevel = 'info';
       const exceptionIds = [1567, 919];
@@ -84,7 +84,7 @@ describe('Flags', () => {
     it('should not info log the vulnerabilities if there are no exceptions given', () => {
       const callbackStub = sinon.stub();
       const consoleStub = sinon.stub(console, 'info');
-      const options = {};
+      const options = { scanModules: false };
       const auditCommand = 'npm audit';
       const auditLevel = 'info';
       const exceptionIds: number[] = [];
@@ -103,7 +103,7 @@ describe('Flags', () => {
   describe('--production', () => {
     it('should be able to set production mode from the command flag correctly', () => {
       const callbackStub = sinon.stub();
-      const options = { production: true };
+      const options = { scanModules: false, production: true };
       const auditCommand = 'npm audit --production';
       const auditLevel = 'info';
       const exceptionIds: number[] = [];
@@ -118,7 +118,7 @@ describe('Flags', () => {
   describe('--registry', () => {
     it('should be able to set registry from the command flag correctly', () => {
       const callbackStub = sinon.stub();
-      const options: CommandOptions = { registry: 'https://registry.npmjs.org/' };
+      const options: CommandOptions = { scanModules: false, registry: 'https://registry.npmjs.org/' };
       const auditCommand = 'npm audit --registry=https://registry.npmjs.org/';
       const auditLevel = 'info';
       const exceptionIds: number[] = [];
@@ -133,7 +133,7 @@ describe('Flags', () => {
   describe('--level', () => {
     it('should be able to pass audit level from the command flag correctly', () => {
       const callbackStub = sinon.stub();
-      let options: CommandOptions = { level: 'info' };
+      let options: CommandOptions = { scanModules: false, level: 'info' };
 
       const auditCommand = 'npm audit';
       const exceptionIds: number[] = [];
@@ -143,26 +143,26 @@ describe('Flags', () => {
       expect(callbackStub.called).to.equal(true);
       expect(callbackStub.calledWith(auditCommand, 'info', exceptionIds)).to.equal(true);
 
-      options = { level: 'low' };
+      options = { scanModules: false, level: 'low' };
       handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'low', exceptionIds)).to.equal(true);
 
-      options = { level: 'moderate' };
+      options = { scanModules: false, level: 'moderate' };
       handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'moderate', exceptionIds)).to.equal(true);
 
-      options = { level: 'high' };
+      options = { scanModules: false, level: 'high' };
       handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'high', exceptionIds)).to.equal(true);
 
-      options = { level: 'critical' };
+      options = { scanModules: false, level: 'critical' };
       handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, 'critical', exceptionIds)).to.equal(true);
     });
 
     it('should be able to pass audit level from the environment variables correctly', () => {
       const callbackStub = sinon.stub();
-      const options = {};
+      const options = { scanModules: false };
       const auditCommand = 'npm audit';
 
       // info
