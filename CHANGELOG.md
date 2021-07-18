@@ -1,8 +1,8 @@
 ## 3.2.0
 
-- Added `--scan-modules` flag (default: `true`)
-- Added auto exclusion feature to scan modules for `.nsprc` file
-- Updated README file
+- [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Added `--scan-modules` flag (default: `true`)
+- [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Added auto exclusion feature to scan modules for `.nsprc` file
+- [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Updated README file
 
 ## 3.1.2 (July 18, 2021)
 
