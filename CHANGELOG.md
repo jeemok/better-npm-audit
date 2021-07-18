@@ -1,3 +1,7 @@
+## 3.1.2 (July 18, 2021)
+
+- [895301e](https://github.com/jeemok/better-npm-audit/commit/895301e058172fc8eb001769e3781b5ce710af26) Updated README file
+
 ## 3.1.1 (July 14, 2021)
 
 - [321e5f3](https://github.com/jeemok/better-npm-audit/commit/321e5f3981d57b68d14620207ba5e7fa5a75cb8c) Updated README file
