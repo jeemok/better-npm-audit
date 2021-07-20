@@ -78,6 +78,7 @@ npm run audit
 | `--production`   | `-p`  |         | Skip checking the `devDependencies`                                                               |
 | `--registry`     | `-r`  |         | The npm registry url to use                                                                       |
 | `--scan-modules` | `-s`  | `true`  | Scan through reported modules for `.nsprc` file. Note: this feature currently only support NPM v7 |
+| `--debug`        | `-d`  |         | Debug mode                                                                                        |
 
 <br />
 
@@ -134,6 +135,12 @@ Module that has `.nsprc` file will be used in the audit process if `--scan-modul
 <img src="./.README/auto_exclusion.png" alt="Demo of excluding vulnerabilities flagged by the module maintainers" />
 
 > Note: This feature currently only support npm v7
+
+### Debug mode
+
+To inspect the module `.nsprc` file paths and details, use `--debug` flag to turn on debug mode:
+
+<img src="./.README/debug_mode.png" alt="Debug mode showing all scan paths" />
 
 <br />
 

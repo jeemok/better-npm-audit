@@ -1,6 +1,8 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
+import { ParsedCommandOptions } from '../../src/types';
+
 import V6_JSON_BUFFER from '../__mocks__/v6-json-buffer.json';
 import V6_JSON_BUFFER_EMPTY from '../__mocks__/v6-json-buffer-empty.json';
 
@@ -11,13 +13,13 @@ describe('Events handling', () => {
     const processStub = sinon.stub(process, 'exit');
     const consoleStub = sinon.stub(console, 'error');
     const jsonBuffer = '';
-    const auditLevel = 'info';
+    const options: ParsedCommandOptions = { level: 'info', scanModules: false };
     const exceptionIds: number[] = [];
 
     expect(processStub.called).to.equal(false);
     expect(consoleStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, exceptionIds, options);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -32,11 +34,11 @@ describe('Events handling', () => {
   it('should be able to handle success case properly', () => {
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER_EMPTY);
-    const auditLevel = 'info';
+    const options: ParsedCommandOptions = { level: 'info', scanModules: false };
     const exceptionIds: number[] = [];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, exceptionIds, options);
     expect(consoleStub.called).to.equal(true);
     expect(consoleStub.calledWith('🤝  All good!')).to.equal(true);
 
@@ -46,11 +48,11 @@ describe('Events handling', () => {
   it('should be able to except vulnerabilities properly', () => {
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
-    const auditLevel = 'info';
+    const options: ParsedCommandOptions = { level: 'info', scanModules: false };
     const exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 1556, 1589];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, exceptionIds, options);
     expect(consoleStub.called).to.equal(true);
     expect(consoleStub.calledWith('🤝  All good!')).to.equal(true);
 
@@ -62,14 +64,14 @@ describe('Events handling', () => {
     const consoleErrorStub = sinon.stub(console, 'error');
     const consoleInfoStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
-    const auditLevel = 'info';
     const exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555];
+    const options: ParsedCommandOptions = { level: 'info', scanModules: false };
 
     expect(processStub.called).to.equal(false);
     expect(consoleErrorStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, exceptionIds, options);
 
     expect(processStub.called).to.equal(true);
     expect(consoleErrorStub.called).to.equal(true);
@@ -89,7 +91,7 @@ describe('Events handling', () => {
     const consoleWarnStub = sinon.stub(console, 'warn');
     const consoleInfoStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
-    const auditLevel = 'info';
+    const options: ParsedCommandOptions = { level: 'info', scanModules: false };
 
     let exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001];
 
@@ -98,7 +100,7 @@ describe('Events handling', () => {
     expect(consoleWarnStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, exceptionIds, options);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -115,7 +117,7 @@ describe('Events handling', () => {
 
     // Message for multiple unused exceptions
     exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001, 2002];
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, exceptionIds, options);
     // eslint-disable-next-line max-len
     message = `2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or --exclude -x flags.`;
     expect(consoleWarnStub.calledWith(message)).to.equal(true);

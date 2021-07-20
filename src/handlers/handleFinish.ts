@@ -1,27 +1,16 @@
-import { AuditLevel } from 'src/types';
+import { ParsedCommandOptions } from 'src/types';
 import { printSecurityReport, printMaintainerReport } from '../utils/print';
 import { processAuditJson } from '../utils/vulnerability';
 
 /**
  * Process and analyze the NPM audit JSON
- * @param  {String}   jsonBuffer          NPM audit stringified JSON payload
- * @param  {Number}   auditLevel          The level of vulnerabilities we care about
- * @param  {Array}    exceptionIds        List of vulnerability IDs to exclude
- * @param  {Boolean}  shouldScanModules   Flag if we should scan the node_modules
+ * @param  {String}   jsonBuffer       NPM audit stringified JSON payload
+ * @param  {Array}    exceptionIds     List of vulnerability IDs to exclude
+ * @param  {Object}   options          Parsed command options
  * @return {undefined}
  */
-export default function handleFinish(
-  jsonBuffer: string,
-  auditLevel: AuditLevel,
-  exceptionIds: number[],
-  shouldScanModules?: boolean,
-): void {
-  const { unhandledIds, vulnerabilityIds, report, maintainerReport, failed } = processAuditJson(
-    jsonBuffer,
-    auditLevel,
-    exceptionIds,
-    shouldScanModules,
-  );
+export default function handleFinish(jsonBuffer: string, exceptionIds: number[], options: ParsedCommandOptions): void {
+  const { unhandledIds, vulnerabilityIds, report, maintainerReport, failed } = processAuditJson(jsonBuffer, exceptionIds, options);
 
   // If unable to process the audit JSON
   if (failed) {
@@ -33,7 +22,7 @@ export default function handleFinish(
 
   // Print the security report
   if (report.length) {
-    printSecurityReport(report);
+    printSecurityReport(report, options);
   }
 
   // Grab any un-filtered vulnerabilities at the appropriate level

@@ -1,11 +1,21 @@
 import { AuditLevel, Severity } from './level';
 
 export interface CommandOptions {
+  readonly scanModules: true | false | 'true' | 'false';
+  readonly level?: AuditLevel;
   readonly exclude?: string;
   readonly production?: boolean;
-  readonly level?: AuditLevel;
   readonly registry?: string;
-  readonly scanModules: true | false | 'true' | 'false';
+  readonly debug?: boolean;
+}
+
+export interface ParsedCommandOptions {
+  readonly scanModules: boolean;
+  readonly level: AuditLevel;
+  readonly exclude?: string;
+  readonly production?: boolean;
+  readonly registry?: string;
+  readonly debug?: boolean;
 }
 
 export interface NpmAuditJson {

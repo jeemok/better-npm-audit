@@ -1,3 +1,4 @@
+import { ParsedCommandOptions } from '../../src/types';
 import { printSecurityReport, printExceptionReport } from '../../src/utils/print';
 
 import EXCEPTION_TABLE_DATA from '../__mocks__/exception-table-data.json';
@@ -9,7 +10,7 @@ describe('Print utils', () => {
   });
 
   it('security report table visual', () => {
-    printSecurityReport(V7_SECURITY_REPORT_TABLE_DATA);
+    printSecurityReport(V7_SECURITY_REPORT_TABLE_DATA, {} as ParsedCommandOptions);
   });
 });
 
