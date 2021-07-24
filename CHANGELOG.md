@@ -1,7 +1,8 @@
 ## 3.2.0
 
+- [c857be3](https://github.com/jeemok/better-npm-audit/commit/c857be37b6f2b59531014d7a1f0fa9a8b38b0791) Updated scanning inner modules logic
+- [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Added auto exclusion feature to scan for inner modules
 - [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Added `--scan-modules` flag (default: `true`)
-- [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Added auto exclusion feature to scan modules for `.nsprc` file
 - [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Updated README file
 - [be2ab19](https://github.com/jeemok/better-npm-audit/commit/be2ab19b902c64d463583dc31e26a4dcea62e373) Added debug flag and process details
 
