@@ -128,11 +128,35 @@ When using a `.nsprc` file, a report will be displayed when it starts running:
 
 <br />
 
-## Auto exclusion from maintainers' notes
+## Auto trust security model
 
-Module that has `.nsprc` file will be used in the audit process if `--scan-modules` flag is enabled:
+If we trust a package author enough to install their package, then we also trust them to create an `.nsprc` file that covers all the (transitive) dependencies of that package, in the context of that package.
+
+So if we are working on a project `A`, and we install a package `B` as a dependency, then we trust the author of `B` to decide whether `B` is affected by a vulnerability in its dependency `C`. I also trust the author of `B` to make decisions about the author of package `C`, so if `C` contains an `.nsprc` file with an exception about a vulnerability in its dependency, `D`, then we trust that exception because the author of `B` trusts it, and we trust him.
+
+More generally, we can imagine a chain like this:
+
+`A` -> `B` -> `C` -> `D` -> `E` -> `F`
+
+where npm audit reports a vulnerability in `F`, but we are trusting the authors of `B`, `C`, `D`, and `E` to say whether that vulnerability is relevant in the context of their packages.
+
+Extending the example above, then, if we have a tree like this:
+
+```
+A -> B -> C -> D -> E -> F
+ |
+  -> X -> Y -> Z -> F
+```
+
+then the author of package `A` (us), still needs to worry about a vulnerability in `F` due to the way it may be used by `X`, `Y`, and `Z`. Again, though, any of the authors of `X`, `Y`, or `Z` can include an `.nsprc` exception for the vulnerability in `F`, and we will trust their judgement (because we are installing `X`'s package, and he trusts `Y`'s code, etc.)
+
+The auto excepted vulnerabilities will be labeled as "auto" in the report table:
 
 <img src="./.README/auto_exclusion.png" alt="Demo of excluding vulnerabilities flagged by the module maintainers" />
+
+You can turn this feature off by using the flag `--scan-modules=false`
+
+Special shout out to [@EdwinTaylor](https://github.com/alertme-edwin) for his effort in making this possible.
 
 > Note: This feature currently only support npm v7
 

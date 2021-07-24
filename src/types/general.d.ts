@@ -68,3 +68,10 @@ export interface ProcessedReport {
   readonly exceptionIds: number[];
   readonly report: string[][];
 }
+
+export interface DependenciesTrustResult {
+  readonly scannedPaths: string[];
+  readonly foundPaths: string[];
+  readonly trust: boolean;
+  readonly report: string[][];
+}
