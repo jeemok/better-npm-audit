@@ -6,6 +6,7 @@ const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title',
 const EXCEPTION_REPORT_HEADER: ExceptionReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes'];
 const MAINTAINER_REPORT_HEADER: MaintainerReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes', 'Path'];
 const SCAN_PATH = 'Scan path(s)';
+const SCAN_PATH_COLUMN_MIN_WIDTH = 15;
 const SCAN_PATH_COLUMN_MAX_WIDTH = 45;
 
 /**
@@ -27,7 +28,10 @@ export function printSecurityReport(data: string[][], options: ParsedCommandOpti
       0,
     );
     columns = {
-      [scanPathColumnIndex]: { width: maxLength === 0 ? undefined : Math.min(maxLength, SCAN_PATH_COLUMN_MAX_WIDTH), wrapWord: true },
+      [scanPathColumnIndex]: {
+        width: maxLength === 0 ? SCAN_PATH_COLUMN_MIN_WIDTH : Math.min(maxLength, SCAN_PATH_COLUMN_MAX_WIDTH),
+        wrapWord: true,
+      },
     };
   }
   const configs: TableUserConfig = {
