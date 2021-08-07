@@ -2,40 +2,15 @@
   "name": "better-npm-audit",
   "version": "3.1.2",
   "author": "Jee Mok <jee.ict@hotmail.com>",
-  "description": "Reshape npm audit into the way the community would like, by the community itself, to encourage more people to do security audits.",
+  "description": "Reshape into a better npm audit for the community and encourage more people to include security audit into their process.",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jeemok/better-npm-audit"
-  },
-  "keywords": [
-    "npm",
-    "audit",
-    "skip",
-    "ignore",
-    "exclude",
-    "exceptions",
-    "node",
-    "security",
-    "advisory",
-    "vulnerabilities",
-    "continuous integration",
-    "dependencies",
-    "check",
-    "build",
-    "script",
-    "nsp",
-    "ci"
-  ],
   "main": "lib/index.js",
   "bin": {
     "better-npm-audit": "index.js"
   },
-  "dependencies": {
-    "commander": "^8.0.0",
-    "dayjs": "^1.10.6",
-    "lodash.get": "^4.4.2",
-    "table": "^6.7.1"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeemok/better-npm-audit"
   },
   "engines": {
     "node": ">= 8.12"
@@ -51,6 +26,12 @@
     "postbuild": "cp README.md lib",
     "publish:live": "npm run build && npm publish lib --tag latest",
     "publish:next": "npm run build && npm publish lib --tag next"
+  },
+  "dependencies": {
+    "commander": "^8.0.0",
+    "dayjs": "^1.10.6",
+    "lodash.get": "^4.4.2",
+    "table": "^6.7.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
@@ -71,5 +52,24 @@
     "sinon": "^9.2.4",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.5"
-  }
+  },
+  "keywords": [
+    "npm",
+    "audit",
+    "skip",
+    "ignore",
+    "exclude",
+    "exceptions",
+    "node",
+    "security",
+    "advisory",
+    "vulnerabilities",
+    "continuous integration",
+    "dependencies",
+    "check",
+    "build",
+    "script",
+    "nsp",
+    "ci"
+  ]
 }

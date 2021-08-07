@@ -3,6 +3,7 @@
     "\u001b[33m975\u001b[0m",
     "\u001b[33mswagger-ui\u001b[0m",
     "\u001b[33mReverse Tabnapping\u001b[0m",
+    "\u001b[33mloopback-component-explorer>swagger-ui\u001b[0m",
     "\u001b[33mmoderate\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/975\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -11,6 +12,7 @@
     "\u001b[33m976\u001b[0m",
     "\u001b[33mswagger-ui\u001b[0m",
     "\u001b[33mCross-Site Scripting\u001b[0m",
+    "\u001b[33mloopback-component-explorer>swagger-ui\u001b[0m",
     "\u001b[33mmoderate\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/976\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -19,6 +21,7 @@
     "\u001b[33m985\u001b[0m",
     "\u001b[33mswagger-ui\u001b[0m",
     "\u001b[33mCross-Site Scripting\u001b[0m",
+    "\u001b[33mloopback-component-explorer>swagger-ui\u001b[0m",
     "\u001b[33mmoderate\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/985\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -27,6 +30,7 @@
     "\u001b[33m1084\u001b[0m",
     "\u001b[33mmem\u001b[0m",
     "\u001b[33mDenial of Service\u001b[0m",
+    "\u001b[33mloopback-connector-rest>strong-globalize>os-locale>mem\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1084\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -35,6 +39,7 @@
     "\u001b[33m1179\u001b[0m",
     "\u001b[33mminimist\u001b[0m",
     "\u001b[33mPrototype Pollution\u001b[0m",
+    "\u001b[33mmocha>mkdirp>minimist\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1179\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -43,6 +48,7 @@
     "\u001b[33m1213\u001b[0m",
     "\u001b[33mdot-prop\u001b[0m",
     "\u001b[33mPrototype Pollution\u001b[0m",
+    "\u001b[33mnodemon>update-notifier>configstore>dot-prop\u001b[0m",
     "\u001b[33m\u001b[41mhigh\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1213\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -51,6 +57,7 @@
     "\u001b[33m1500\u001b[0m",
     "\u001b[33myargs-parser\u001b[0m",
     "\u001b[33mPrototype Pollution\u001b[0m",
+    "\u001b[33mmocha>yargs-parser\nmocha>yargs-unparser>yargs>yargs-parser\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1500\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -59,6 +66,7 @@
     "\u001b[33m1523\u001b[0m",
     "\u001b[33mlodash\u001b[0m",
     "\u001b[33mPrototype Pollution\u001b[0m",
+    "\u001b[33mlodash\nloopback>async>lodash\nloopback>loopback-connector-remote>loopback-datasource-juggler>async>lodash\nloopback>loopback-datasource-juggler>async>lodash\nloopback>loopback-connector-remote>strong-remoting>loopback-phase>async>lodash\n...and 40 more\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1523\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -67,6 +75,7 @@
     "\u001b[33m1555\u001b[0m",
     "\u001b[33mbl\u001b[0m",
     "\u001b[33mRemote Memory Exposure\u001b[0m",
+    "\u001b[33mloopback>loopback-connector-remote>loopback-datasource-juggler>loopback-connector>msgpack5>bl\nloopback>loopback-datasource-juggler>loopback-connector>msgpack5>bl\nloopback-connector-mongodb>loopback-connector>msgpack5>bl\u001b[0m",
     "\u001b[33m\u001b[41mcritical\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1555\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -75,6 +84,7 @@
     "\u001b[33m1556\u001b[0m",
     "\u001b[33mnode-fetch\u001b[0m",
     "\u001b[33mDenial of Service\u001b[0m",
+    "\u001b[33mloopback-connector-rest>strong-globalize>g11n-pipeline>swagger-client>cross-fetch>node-fetch\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1556\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -83,6 +93,7 @@
     "\u001b[33m1589\u001b[0m",
     "\u001b[33mini\u001b[0m",
     "\u001b[33mPrototype Pollution\u001b[0m",
+    "\u001b[33mnodemon>chokidar>fsevents>node-pre-gyp>rc>ini\nnodemon>update-notifier>is-installed-globally>global-dirs>ini\nnodemon>update-notifier>latest-version>package-json>registry-auth-token>rc>ini\nnodemon>update-notifier>latest-version>package-json>registry-url>rc>ini\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1589\u001b[0m",
     "\u001b[33mn\u001b[0m"
