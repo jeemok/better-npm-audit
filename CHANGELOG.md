@@ -1,3 +1,7 @@
+## 3.2.0 (August 7, 2021)
+
+- [e5d19a5](https://github.com/jeemok/better-npm-audit/commit/e5d19a545cb22021d5676dd8b58856c80fa42308) Include dependency path into the security report
+
 ## 3.1.2 (July 18, 2021)
 
 - [895301e](https://github.com/jeemok/better-npm-audit/commit/895301e058172fc8eb001769e3781b5ce710af26) Updated README file
