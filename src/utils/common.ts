@@ -24,3 +24,20 @@ export function isJsonString(string: string): boolean {
   }
   return true;
 }
+
+// TODO: Add unit tests
+/**
+ * Trim array size to a maximum number
+ * @param {Array} array       Array to trim
+ * @param {Number} maxLength  Desired length
+ * @return {Array}            Trimmed array with additional message
+ */
+export function trimArray(array: string[], maxLength: number): string[] {
+  const originalLength = array.length;
+  const removedLength = Math.max(0, originalLength - maxLength);
+  if (removedLength === 0) {
+    return array;
+  }
+  array.length = maxLength;
+  return array.concat(`...and ${removedLength} more`);
+}

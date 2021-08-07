@@ -34,6 +34,10 @@ export interface v6Advisory {
   readonly title: string;
   readonly severity: AuditLevel;
   readonly url: string;
+  readonly findings: {
+    version: string;
+    paths: string[];
+  }[];
 }
 
 export interface v7Vulnerabilities {
