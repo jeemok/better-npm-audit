@@ -18,6 +18,7 @@ module.exports = {
     'object-curly-spacing': ['off'],
     // eslint-disable-next-line prettier/prettier
     'indent': ['error', 2, { SwitchCase: 1 }],
+    'no-shadow': 'off',
   },
   ignorePatterns: ['lib'],
   plugins: ['prettier'],

@@ -41,12 +41,12 @@ export interface v6Advisory {
 }
 
 export interface v7Vulnerabilities {
-  readonly [key: string]: v7Vulnerability | string;
+  readonly [key: string]: v7Vulnerability;
 }
 
 export interface v7Vulnerability {
   readonly name: string;
-  readonly via: v7VulnerabilityVia[] | string[];
+  readonly via: (v7VulnerabilityVia | string)[];
   readonly nodes: string[];
 }
 
@@ -64,8 +64,9 @@ export interface ProcessedResult {
   readonly unhandledIds: number[];
   readonly vulnerabilityIds: number[];
   readonly report: string[][];
-  readonly maintainerReport: string[][];
   readonly failed?: boolean;
+  readonly scanModules: ScanModulePayload[];
+  readonly npmVersion?: 6 | 7;
 }
 
 export interface ProcessedReport {
@@ -73,9 +74,47 @@ export interface ProcessedReport {
   readonly report: string[][];
 }
 
-export interface DependenciesTrustResult {
-  readonly scannedPaths: string[];
-  readonly foundPaths: string[];
-  readonly trust: boolean;
-  readonly report: string[][];
+export interface PackageFile {
+  readonly version: string;
+}
+
+export interface ScanModulePayload {
+  readonly id: number;
+  readonly name: string;
+  readonly nodes: string[];
+}
+
+export interface ScanCallbackPayload {
+  readonly scanReport: string[][];
+  readonly securityReport: string[][];
+  readonly unhandledIds: number[];
+}
+
+export interface FinalReport {
+  readonly id: number;
+  readonly name: string;
+  readonly nodes: string[];
+  readonly nodePath: string;
+  readonly scanReport: string[][];
+  readonly foundPackage: boolean;
+  readonly shouldAutoExcept?: boolean;
+  readonly usedFilePath?: string;
+  readonly dependencyPaths?: string[];
+}
+
+export interface FinalReportProcessed {
+  scanReport: string[][];
+  result: FinalReportResult[];
+}
+
+export interface FinalReportResult {
+  readonly id: number;
+  readonly shouldExcept: boolean;
+}
+
+export interface NpmLsResponse {
+  readonly path: string;
+  readonly dependencies?: {
+    [moduleName: string]: NpmLsResponse;
+  };
 }

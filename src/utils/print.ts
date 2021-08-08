@@ -1,13 +1,11 @@
 import get from 'lodash.get';
 import { table, TableUserConfig } from 'table';
-import { SecurityReportHeader, ExceptionReportHeader, MaintainerReportHeader, ParsedCommandOptions } from 'src/types';
+import { SecurityReportHeader, ExceptionReportHeader, ScanReportHeader } from 'src/types';
+import { cleanContent } from './common';
 
 const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Sev.', 'URL', 'Ex.'];
 const EXCEPTION_REPORT_HEADER: ExceptionReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes'];
-const MAINTAINER_REPORT_HEADER: MaintainerReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes', 'Path'];
-const SCAN_PATH = 'Scan path(s)';
-const SCAN_PATH_COLUMN_MIN_WIDTH = 15;
-const SCAN_PATH_COLUMN_MAX_WIDTH = 45;
+const SCAN_REPORT_HEADER: ScanReportHeader[] = ['ID', 'Version', 'Node', 'Status', 'Expiry', 'Notes', '.nsprc'];
 
 // TODO: Add unit tests
 /**
@@ -22,11 +20,7 @@ export function getColumnWidth(tableData: string[][], columnIndex: number, maxWi
   // Find the maximum length in the column
   const contentLength = tableData.reduce(
     (max, cur) => {
-      let content = JSON.stringify(get(cur, columnIndex, ''));
-      // Remove the color codes
-      content = content.replace(/\\x1b\[\d{1,2}m/g, '');
-      content = content.replace(/\\u001b\[\d{1,2}m/g, '');
-      content = content.replace(/"/g, '');
+      const content = cleanContent(get(cur, columnIndex, ''));
       // Keep whichever number that is bigger
       return content.length > max ? content.length : max;
     },
@@ -38,56 +32,38 @@ export function getColumnWidth(tableData: string[][], columnIndex: number, maxWi
 }
 
 /**
- * Print the security report in a table format
+ * Print the security report
  * @param  {Array} data       Array of arrays
- * @param  {Object} options   Parsed command options
  * @return {undefined}        Returns void
  */
-export function printSecurityReport(data: string[][], options: ParsedCommandOptions): void {
-  // Additional header for debug mode
-  const headers = options.debug ? [...SECURITY_REPORT_HEADER, SCAN_PATH, 'Found file(s)'] : SECURITY_REPORT_HEADER;
-  // Set table column configs
-  let debugColumns = {};
-  if (options.debug) {
-    const scanPathColumnIndex = headers.findIndex((header) => header === SCAN_PATH);
-    // Find the maximum scan path size
-    const maxLength = data.reduce(
-      (max, cur) => (get(cur, scanPathColumnIndex, '').length > max ? get(cur, scanPathColumnIndex, '').length : max),
-      0,
-    );
-    debugColumns = {
-      [scanPathColumnIndex]: {
-        width: maxLength === 0 ? SCAN_PATH_COLUMN_MIN_WIDTH : Math.min(maxLength, SCAN_PATH_COLUMN_MAX_WIDTH),
-        wrapWord: true,
-      },
-    };
-  }
+export function printSecurityReport(data: string[][]): void {
+  const columns = {
+    // "Title" column index
+    2: {
+      width: getColumnWidth(data, 2),
+      wrapWord: true,
+    },
+    // "Paths" column index
+    3: {
+      width: getColumnWidth(data, 3),
+      wrapWord: true,
+    },
+  };
+
   const configs: TableUserConfig = {
     singleLine: true,
     header: {
       alignment: 'center',
       content: '=== npm audit security report ===\n',
     },
-    columns: {
-      // "Title" column index
-      2: {
-        width: getColumnWidth(data, 2),
-        wrapWord: true,
-      },
-      // "Paths" column index
-      3: {
-        width: getColumnWidth(data, 3),
-        wrapWord: true,
-      },
-      ...debugColumns,
-    },
+    columns,
   };
 
-  console.info(table([headers, ...data], configs));
+  console.info(table([SECURITY_REPORT_HEADER, ...data], configs));
 }
 
 /**
- * Print the exception report in a table format
+ * Print the exception report
  * @param  {Array} data   Array of arrays
  * @return {undefined}    Returns void
  */
@@ -104,18 +80,37 @@ export function printExceptionReport(data: string[][]): void {
 }
 
 /**
- * Print the exception report in a table format
+ * Print the scan report
  * @param  {Array} data   Array of arrays
  * @return {undefined}    Returns void
  */
-export function printMaintainerReport(data: string[][]): void {
+export function printScanReport(data: string[][]): void {
+  const columns = {
+    // "Node" column index
+    2: {
+      width: getColumnWidth(data, 2, 40),
+      wrapWord: true,
+    },
+    // "Notes" column index
+    5: {
+      width: getColumnWidth(data, 5),
+      wrapWord: true,
+    },
+    // ".nsprc" column index
+    6: {
+      width: getColumnWidth(data, 6),
+      wrapWord: true,
+    },
+  };
+
   const configs: TableUserConfig = {
     singleLine: true,
     header: {
       alignment: 'center',
-      content: '=== internal modules exceptions ===\n',
+      content: '=== auto exclusion scan report ===\n',
     },
+    columns,
   };
 
-  console.info(table([MAINTAINER_REPORT_HEADER, ...data], configs));
+  console.info(table([SCAN_REPORT_HEADER, ...data], configs));
 }

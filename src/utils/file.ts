@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { NsprcFile } from 'src/types';
+import { NsprcFile, PackageFile } from 'src/types';
 import { isJsonString } from './common';
 
 /**
@@ -7,7 +7,7 @@ import { isJsonString } from './common';
  * @param  {String} path          File path
  * @return {(Object | Boolean)}   Returns the parsed data if found, or else returns `false`
  */
-export function readFile(path: string): NsprcFile | boolean {
+export function readFile(path: string): PackageFile | NsprcFile | boolean {
   try {
     const data = fs.readFileSync(path, 'utf8');
     if (!isJsonString(data)) {

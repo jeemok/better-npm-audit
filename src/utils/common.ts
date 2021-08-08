@@ -41,3 +41,19 @@ export function trimArray(array: string[], maxLength: number): string[] {
   array.length = maxLength;
   return array.concat(`...and ${removedLength} more`);
 }
+
+// TODO: Add unit tests
+/**
+ * Clean text from color formatting
+ * @param {String} string  Input
+ * @return {String}
+ */
+export function cleanContent(string: string): string {
+  let content = JSON.stringify(string);
+  // Remove the color codes
+  content = content.replace(/\\x1b\[\d{1,2}m/g, '');
+  content = content.replace(/\\u001b\[\d{1,2}m/g, '');
+  // Remove additional stringified "
+  content = content.replace(/"/g, '');
+  return content;
+}

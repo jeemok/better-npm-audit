@@ -1,0 +1,5 @@
+[
+  ["1751", "3.1.0", "node_modules/watchpack-chokidar2/node_modules/glob-parent", "\u001b[32mactive\u001b[0m", "Thu, 11 Mar 2021 11:28:54 GMT", "Ignored since we don't use xxx method", "node_modules/terser-webpack-plugin/.nsprc"],
+  ["1751", "3.1.0", "node_modules/webpack-dev-server/node_modules/glob-parent", "\u001b[32mactive\u001b[0m", "Thu, 11 Mar 2021 11:28:54 GMT", "Ignored since we don't use xxx method", "node_modules/terser-webpack-plugin/.nsprc"],
+  ["1752", "", "", "\u001b[31merror\u001b[0m", "", "", ""]
+]

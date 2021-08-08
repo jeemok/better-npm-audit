@@ -2,7 +2,7 @@
   "name": "better-npm-audit",
   "version": "3.3.0-rc.1",
   "author": "Jee Mok <jee.ict@hotmail.com>",
-  "description": "Reshape into a better npm audit for the community and encourage more people to include security audit into their process.",
+  "description": "Reshape a better npm audit for the community and encourage more people to include security audits into their process",
   "license": "MIT",
   "main": "lib/index.js",
   "bin": {
