@@ -1,3 +1,7 @@
+## 3.3.0 (August 15, 2021)
+
+- [5f36c41](https://github.com/jeemok/better-npm-audit/commit/5f36c41f0afbd0bb687394fb9195892f6df62d89) Shorten node path for NPM v7
+
 ## 3.2.1 (August 7, 2021)
 
 - [e5d19a5](https://github.com/jeemok/better-npm-audit/commit/e5d19a545cb22021d5676dd8b58856c80fa42308) Include dependency path into the security report
