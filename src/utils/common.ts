@@ -57,3 +57,12 @@ export function cleanContent(string: string): string {
   content = content.replace(/"/g, '');
   return content;
 }
+
+/**
+ * Shorten node path (node_modules/nodemon/node_modules/chokidar/node_modules/fsevents) to (nodemon>chokidar>fsevents)
+ * @param {String} path Full node path
+ * @return {String}     Shorten Path
+ */
+export function shortenNodePath(path: string): string {
+  return path.replace('node_modules/', '').replace(/\/node_modules\//g, '>');
+}

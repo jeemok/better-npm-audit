@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { isWholeNumber, isJsonString } from '../../src/utils/common';
+import { isWholeNumber, isJsonString, shortenNodePath } from '../../src/utils/common';
 
 describe('Common utils', () => {
   describe('#isJsonString', () => {
@@ -26,6 +26,17 @@ describe('Common utils', () => {
       expect(isWholeNumber(2920)).to.equal(true);
       expect(isWholeNumber(934)).to.equal(true);
       expect(isWholeNumber('0920')).to.equal(true);
+    });
+  });
+
+  describe('#shortenNodePath', () => {
+    it('should be able to shorten node path correctly', () => {
+      expect(shortenNodePath('node_modules/nodemon')).to.equal('nodemon');
+      expect(
+        shortenNodePath(
+          'node_modules/nodemon/node_modules/chokidar/node_modules/fsevents/node_modules/node-pre-gyp/node_modules/rc/node_modules/ini',
+        ),
+      ).to.equal('nodemon>chokidar>fsevents>node-pre-gyp>rc>ini');
     });
   });
 });
