@@ -41,3 +41,12 @@ export function trimArray(array: string[], maxLength: number): string[] {
   array.length = maxLength;
   return array.concat(`...and ${removedLength} more`);
 }
+
+/**
+ * Shorten node path (node_modules/nodemon/node_modules/chokidar/node_modules/fsevents) to (nodemon>chokidar>fsevents)
+ * @param {String} path Full node path
+ * @return {String}     Shorten Path
+ */
+export function shortenNodePath(path: string): string {
+  return path.replace('node_modules/', '').replace(/\/node_modules\//g, '>');
+}
