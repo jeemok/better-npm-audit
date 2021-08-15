@@ -179,6 +179,7 @@ export default function handleScan(
         if (index === 6) {
           return 'auto';
         }
+        // TODO: recolor the severity background: getSeverityBgColor
         return cleanContent(column);
       });
     });
