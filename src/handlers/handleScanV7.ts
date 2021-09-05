@@ -36,8 +36,7 @@ export default function handleScan(
       vul.nodes.map(
         (nodePath: string): Promise<FinalReport> =>
           new Promise((resolve) => {
-            // Get the installed version so we can check its dependencies
-            // Damn v7 npm audit doesn't provide such important information!
+            // Check the installed version manually if it is affected
             const packageFile = readFile(`${nodePath}/package.json`);
 
             // If we couldn't find the package.json, then we would not be able to proceed checking further
@@ -45,9 +44,8 @@ export default function handleScan(
               console.warn(`${nodePath}/package.json not found.`);
               return resolve({
                 ...vul,
-                nodePath,
                 foundPackage: false,
-                scanReport: [[String(vul.id), '', nodePath, color('error', 'red'), '', '', '']],
+                scanReport: [[String(vul.id), vul.name, '', color('error', 'red'), '', '', '']],
               });
             }
 
@@ -61,7 +59,7 @@ export default function handleScan(
                 process.exit(1);
               }
 
-              // Find all the dependent modules' path
+              // Find all the dependent modules' path (including the module itself)
               const dependencyPaths = mapModuleDependencies(JSON.parse(dependenciesDetails));
 
               if (options.debug) {
@@ -82,6 +80,9 @@ export default function handleScan(
                 const nsprcPath = `${path}/.nsprc`;
 
                 // Try retrieving the `.nsprc` file
+                if (options.debug) {
+                  console.log(`Reading file ${nsprcPath}...`);
+                }
                 const nsprcFile = readFile(nsprcPath);
 
                 // File not found
@@ -100,8 +101,8 @@ export default function handleScan(
                 if (reportRow) {
                   scanReport.push([
                     reportRow[0],
+                    vul.name,
                     <string>packageFile.version,
-                    nodePath,
                     reportRow[1],
                     reportRow[2],
                     reportRow[3],
@@ -112,7 +113,12 @@ export default function handleScan(
                 // Check if the maintainer have explicitly exclude this vulnerability
                 const shouldExcept = exceptionIds.includes(vul.id);
                 if (shouldExcept) {
+                  if (options.debug) {
+                    console.log(`Found and accepted exception from the maintainer for vulnerability ${vul.id}.`);
+                  }
                   usedFilePath = nsprcPath;
+                } else {
+                  console.log(`No exception found from the maintainer for vulnerability ${vul.id}.`);
                 }
 
                 return shouldExcept;
@@ -120,7 +126,6 @@ export default function handleScan(
 
               return resolve({
                 ...vul,
-                nodePath,
                 foundPackage: true,
                 shouldAutoExcept,
                 usedFilePath,

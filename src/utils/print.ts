@@ -5,7 +5,7 @@ import { cleanContent } from './common';
 
 const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Sev.', 'URL', 'Ex.'];
 const EXCEPTION_REPORT_HEADER: ExceptionReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes'];
-const SCAN_REPORT_HEADER: ScanReportHeader[] = ['ID', 'Version', 'Node', 'Status', 'Expiry', 'Notes', '.nsprc'];
+const SCAN_REPORT_HEADER: ScanReportHeader[] = ['ID', 'Module', 'Version', 'Status', 'Expiry', 'Notes', '.nsprc'];
 
 // TODO: Add unit tests
 /**

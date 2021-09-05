@@ -1,6 +1,6 @@
 {
   "name": "better-npm-audit",
-  "version": "4.0.0-rc.1",
+  "version": "4.0.0-rc.2",
   "author": "Jee Mok <jee.ict@hotmail.com>",
   "description": "Reshape a better npm audit for the community and encourage more people to include security audits into their process",
   "license": "MIT",

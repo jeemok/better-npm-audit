@@ -10,6 +10,7 @@ import handleDisplay from './src/handlers/handleDisplay';
 
 import packageJson from './package.json';
 import handleAudit from './src/handlers/handleAudit';
+import handleScanV6 from './src/handlers/handleScanV6';
 import handleScanV7 from './src/handlers/handleScanV7';
 
 const MAX_BUFFER_SIZE = 1024 * 1000 * 50; // 50 MB
@@ -60,24 +61,29 @@ export function callback(auditCommand: string, exceptionIds: number[], options: 
         process.exit(1);
       }
 
-      if (npmVersion === 6) {
-        // TODO: Add auto exclusion scanning
+      // If not npm v6 or v7, then finish it by displaying report
+      if (![6, 7].includes(npmVersion)) {
+        console.info(`Unsupported npm version ${npmVersion} for scanning feature`);
         handleDisplay(report, [], unhandledIds, unusedExceptionIds);
+        return;
       }
 
-      if (npmVersion === 7) {
-        // Scanning dependent modules
-        handleScanV7(scanModules, report, unhandledIds, options, (error, response) => {
-          if (error) {
-            console.error(error);
-            // Exit failed
-            process.exit(1);
-          }
-          // Display report
-          handleDisplay(response.securityReport, response.scanReport, response.unhandledIds, unusedExceptionIds);
-        });
-      }
+      // Choose the appropriate handler
+      const handler = npmVersion === 6 ? handleScanV6 : handleScanV7;
+
+      // Scanning dependent modules
+      handler(scanModules, report, unhandledIds, options, (error, response) => {
+        if (error) {
+          console.error(error);
+          // Exit failed
+          process.exit(1);
+        }
+
+        // Display report
+        handleDisplay(response.securityReport, response.scanReport, response.unhandledIds, unusedExceptionIds);
+      });
     });
+
     // stderr
     audit.stderr.on('data', console.error);
   }

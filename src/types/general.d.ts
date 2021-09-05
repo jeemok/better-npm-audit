@@ -78,10 +78,16 @@ export interface PackageFile {
   readonly version: string;
 }
 
+export interface v6Finding {
+  readonly version: string;
+  readonly paths: string[];
+}
+
 export interface ScanModulePayload {
   readonly id: number;
   readonly name: string;
   readonly nodes: string[];
+  readonly findings: v6Finding[];
 }
 
 export interface ScanCallbackPayload {
@@ -94,7 +100,6 @@ export interface FinalReport {
   readonly id: number;
   readonly name: string;
   readonly nodes: string[];
-  readonly nodePath: string;
   readonly scanReport: string[][];
   readonly foundPackage: boolean;
   readonly shouldAutoExcept?: boolean;
