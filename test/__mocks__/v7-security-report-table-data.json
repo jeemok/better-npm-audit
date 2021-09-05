@@ -21,7 +21,7 @@
     "\u001b[33m1589\u001b[0m",
     "\u001b[33mini\u001b[0m",
     "\u001b[33mPrototype Pollution\u001b[0m",
-    "\u001b[33mfsevents>ini\nini\u001b[0m",
+    "\u001b[33mfsevents > ini\nini\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1589\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -39,7 +39,7 @@
     "\u001b[33m1084\u001b[0m",
     "\u001b[33mmem\u001b[0m",
     "\u001b[33mDenial of Service\u001b[0m",
-    "\u001b[33mloopback-connector-rest>mem\u001b[0m",
+    "\u001b[33mloopback-connector-rest > mem\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1084\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -48,7 +48,7 @@
     "\u001b[33m1179\u001b[0m",
     "\u001b[33mminimist\u001b[0m",
     "\u001b[33mPrototype Pollution\u001b[0m",
-    "\u001b[33mmocha>minimist\u001b[0m",
+    "\u001b[33mmocha > minimist\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1179\u001b[0m",
     "\u001b[33mn\u001b[0m"
@@ -93,7 +93,7 @@
     "\u001b[33m1500\u001b[0m",
     "\u001b[33myargs-parser\u001b[0m",
     "\u001b[33mPrototype Pollution\u001b[0m",
-    "\u001b[33mmocha>yargs-parser\nyargs-unparser>yargs-parser\u001b[0m",
+    "\u001b[33mmocha > yargs-parser\nyargs-unparser > yargs-parser\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1500\u001b[0m",
     "\u001b[33mn\u001b[0m"

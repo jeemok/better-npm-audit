@@ -36,7 +36,7 @@ describe('Common utils', () => {
         shortenNodePath(
           'node_modules/nodemon/node_modules/chokidar/node_modules/fsevents/node_modules/node-pre-gyp/node_modules/rc/node_modules/ini',
         ),
-      ).to.equal('nodemon>chokidar>fsevents>node-pre-gyp>rc>ini');
+      ).to.equal('nodemon > chokidar > fsevents > node-pre-gyp > rc > ini');
     });
   });
 });
