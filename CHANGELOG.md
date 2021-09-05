@@ -1,5 +1,7 @@
 ## 4.0.0
 
+- [7a057b7](https://github.com/jeemok/better-npm-audit/commit/7a057b76e5c2e56cf5da8300ae4528d0cb163f6b) Added support for npm v6
+- [2b60497](https://github.com/jeemok/better-npm-audit/commit/2b60497610faf2f5ff26123e150d0779f19196a7) Added spaces on node paths
 - [be4a2a3](https://github.com/jeemok/better-npm-audit/commit/be4a2a3ca16b1c37ef5dd2e93312d56a9951308e) Updated scanning process to include all of the dependent modules
 - [c857be3](https://github.com/jeemok/better-npm-audit/commit/c857be37b6f2b59531014d7a1f0fa9a8b38b0791) Updated scanning inner modules logic
 - [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Added auto exclusion feature to scan for inner modules
