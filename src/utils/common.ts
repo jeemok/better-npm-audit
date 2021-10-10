@@ -20,6 +20,7 @@ export function isJsonString(string: string): boolean {
   try {
     JSON.parse(string);
   } catch (e) {
+    console.log('Failed parsing .nsprc file: ' + e);
     return false;
   }
   return true;

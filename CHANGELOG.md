@@ -8,6 +8,11 @@
 - [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Added `--scan-modules` flag (default: `true`)
 - [d6da53d](https://github.com/jeemok/better-npm-audit/commit/d6da53d7825eecd0e45ffaca7d8073c7703fae0e) Updated README file
 - [be2ab19](https://github.com/jeemok/better-npm-audit/commit/be2ab19b902c64d463583dc31e26a4dcea62e373) Added debug flag and process details
+
+## 3.4.0 (October 10, 2021)
+
+- [fe66222](https://github.com/jeemok/better-npm-audit/commit/fe66222e05e0eb08bd7b89f45973c4e82cbe601d) Log exception, when failed to parse .nsprc file
+
 ## 3.3.0 (August 15, 2021)
 
 - [5f36c41](https://github.com/jeemok/better-npm-audit/commit/5f36c41f0afbd0bb687394fb9195892f6df62d89) Shorten node path for NPM v7
