@@ -1,3 +1,8 @@
+## 3.5.0 (December 1, 2021)
+
+- [697421d](https://github.com/jeemok/better-npm-audit/commit/697421d969849fbef6ab4e318ffbaf1222290680) Fixed hanging process on Windows
+- [f5ebe1f](https://github.com/jeemok/better-npm-audit/commit/f5ebe1fc459337f82e30c8fbfc87653e048f8f8c) Fixed invalid main path in package.json
+
 ## 3.4.0 (October 10, 2021)
 
 - [fe66222](https://github.com/jeemok/better-npm-audit/commit/fe66222e05e0eb08bd7b89f45973c4e82cbe601d) Log exception, when failed to parse .nsprc file
