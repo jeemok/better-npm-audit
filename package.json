@@ -16,7 +16,7 @@
     "node": ">= 8.12"
   },
   "scripts": {
-    "audit": "npm run build && node . audit",
+    "audit": "npm run build && node lib audit",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "eslint .",
     "qc": "npm run test && npm run lint",
