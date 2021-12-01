@@ -4,7 +4,7 @@
   "author": "Jee Mok <jee.ict@hotmail.com>",
   "description": "Reshape into a better npm audit for the community and encourage more people to include security audit into their process.",
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "index.js",
   "bin": {
     "better-npm-audit": "index.js"
   },
