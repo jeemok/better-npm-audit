@@ -30,6 +30,7 @@ describe('Events handling', () => {
   });
 
   it('should be able to handle success case properly', () => {
+    const processStub = sinon.stub(process, 'exit');
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER_EMPTY);
     const auditLevel = 'info';
@@ -37,13 +38,19 @@ describe('Events handling', () => {
 
     expect(consoleStub.called).to.equal(false);
     handleFinish(jsonBuffer, auditLevel, exceptionIds);
+
+    expect(processStub.called).to.equal(true);
+    expect(processStub.calledWith(0)).to.equal(true);
+
     expect(consoleStub.called).to.equal(true);
     expect(consoleStub.calledWith('🤝  All good!')).to.equal(true);
 
+    processStub.restore();
     consoleStub.restore();
   });
 
   it('should be able to except vulnerabilities properly', () => {
+    const processStub = sinon.stub(process, 'exit');
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
@@ -51,9 +58,14 @@ describe('Events handling', () => {
 
     expect(consoleStub.called).to.equal(false);
     handleFinish(jsonBuffer, auditLevel, exceptionIds);
+
+    expect(processStub.called).to.equal(true);
+    expect(processStub.calledWith(0)).to.equal(true);
+
     expect(consoleStub.called).to.equal(true);
     expect(consoleStub.calledWith('🤝  All good!')).to.equal(true);
 
+    processStub.restore();
     consoleStub.restore();
   });
 

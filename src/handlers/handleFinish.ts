@@ -47,5 +47,6 @@ export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel,
   } else {
     // Happy happy, joy joy
     console.info('🤝  All good!');
+    process.exit(0);
   }
 }
