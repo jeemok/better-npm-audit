@@ -2,6 +2,7 @@ import { AuditLevel, Severity } from './level';
 
 export interface CommandOptions {
   readonly exclude?: string;
+  readonly moduleIgnore?: string;
   readonly production?: boolean;
   readonly level?: AuditLevel;
   readonly registry?: string;
