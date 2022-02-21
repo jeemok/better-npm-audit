@@ -73,7 +73,8 @@ npm run audit
 
 | Flag           | Short | Description                                                                    |
 | -------------- | ----- | ------------------------------------------------------------------------------ |
-| `--exclude`    | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude                             |
+| `--exclude`    | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude
+| `--module-ignore` | `-m` | Names of modules to exclude                            |
 | `--level`      | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag |
 | `--production` | `-p`  | Skip checking the `devDependencies`                                            |
 | `--registry`   | `-r`  | The npm registry url to use                                                    |
