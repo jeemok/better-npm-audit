@@ -1,3 +1,7 @@
+## 3.6.0 (February 23, 2022)
+
+- [#71](https://github.com/jeemok/better-npm-audit/pull/71) Added new option: ignore by module name
+
 ## 3.5.1 (December 1, 2021)
 
 - [0316010](https://github.com/jeemok/better-npm-audit/commit/031601052c0d59b585670c7d1e969f2996a43e68) Fixed npm run audit command
