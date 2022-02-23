@@ -13,11 +13,12 @@ describe('Events handling', () => {
     const jsonBuffer = '';
     const auditLevel = 'info';
     const exceptionIds: number[] = [];
+    const modulesToIgnore: string[] = [];
 
     expect(processStub.called).to.equal(false);
     expect(consoleStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -35,9 +36,10 @@ describe('Events handling', () => {
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER_EMPTY);
     const auditLevel = 'info';
     const exceptionIds: number[] = [];
+    const modulesToIgnore: string[] = [];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(0)).to.equal(true);
@@ -49,15 +51,16 @@ describe('Events handling', () => {
     consoleStub.restore();
   });
 
-  it('should be able to except vulnerabilities properly', () => {
+  it('should be able to except vulnerabilities by id properly', () => {
     const processStub = sinon.stub(process, 'exit');
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
-    const exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 1556, 1589];
+    const exceptionIds = [975, 985, 1179, 1213, 1500, 1523, 1555, 1556, 1589];
+    const modulesToIgnore = ['swagger-ui', 'mem'];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(0)).to.equal(true);
@@ -76,12 +79,13 @@ describe('Events handling', () => {
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
     const exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555];
+    const modulesToIgnore: string[] = [];
 
     expect(processStub.called).to.equal(false);
     expect(consoleErrorStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
 
     expect(processStub.called).to.equal(true);
     expect(consoleErrorStub.called).to.equal(true);
@@ -95,13 +99,14 @@ describe('Events handling', () => {
     consoleInfoStub.restore();
   });
 
-  it('should inform the developer when exceptionsIds are unused', () => {
+  it('should inform the developer when exceptionsIds and ignoredModules are unused', () => {
     const processStub = sinon.stub(process, 'exit');
     const consoleErrorStub = sinon.stub(console, 'error');
     const consoleWarnStub = sinon.stub(console, 'warn');
     const consoleInfoStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
+    let modulesToIgnore = ['fakeModule1', 'fakeModule2'];
 
     let exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001];
 
@@ -110,7 +115,7 @@ describe('Events handling', () => {
     expect(consoleWarnStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -122,14 +127,15 @@ describe('Events handling', () => {
 
     // Message for one unused exception
     // eslint-disable-next-line max-len
-    let message = `1 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001. It can be removed from the .nsprc file or --exclude -x flags.`;
+    let message = `1 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001. It can be removed from the .nsprc file or --exclude -x flags. 2 of the ignored modules did not match any of the found vulnerabilites: fakeModule1, fakeModule2. They can be removed from the --module-ignore -m flags.`;
     expect(consoleWarnStub.calledWith(message)).to.equal(true);
 
     // Message for multiple unused exceptions
     exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001, 2002];
-    handleFinish(jsonBuffer, auditLevel, exceptionIds);
+    modulesToIgnore = ['fakeModule1'];
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
     // eslint-disable-next-line max-len
-    message = `2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or --exclude -x flags.`;
+    message = `2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or --exclude -x flags. 1 of the ignored modules did not match any of the found vulnerabilites: fakeModule1. It can be removed from the --module-ignore -m flags.`;
     expect(consoleWarnStub.calledWith(message)).to.equal(true);
 
     processStub.restore();

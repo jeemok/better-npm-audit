@@ -2,6 +2,7 @@ import { AuditLevel, Severity } from './level';
 
 export interface CommandOptions {
   readonly exclude?: string;
+  readonly moduleIgnore?: string;
   readonly production?: boolean;
   readonly level?: AuditLevel;
   readonly registry?: string;
@@ -52,6 +53,7 @@ export interface v7VulnerabilityVia {
 export interface ProcessedResult {
   readonly unhandledIds: number[];
   readonly vulnerabilityIds: number[];
+  readonly vulnerabilityModules: string[];
   readonly report: string[][];
   readonly failed?: boolean;
 }

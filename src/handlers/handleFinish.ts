@@ -7,10 +7,16 @@ import { processAuditJson } from '../utils/vulnerability';
  * @param  {String} jsonBuffer    NPM audit stringified JSON payload
  * @param  {Number} auditLevel    The level of vulnerabilities we care about
  * @param  {Array} exceptionIds   List of vulnerability IDs to exclude
+ * @param  {Array} modulesToIgnore   List of vulnerable modules to ignore in audit results
  * @return {undefined}
  */
-export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel, exceptionIds: number[]): void {
-  const { unhandledIds, vulnerabilityIds, report, failed } = processAuditJson(jsonBuffer, auditLevel, exceptionIds);
+export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel, exceptionIds: number[], modulesToIgnore: string[]): void {
+  const { unhandledIds, vulnerabilityIds, vulnerabilityModules, report, failed } = processAuditJson(
+    jsonBuffer,
+    auditLevel,
+    exceptionIds,
+    modulesToIgnore,
+  );
 
   // If unable to process the audit JSON
   if (failed) {
@@ -27,15 +33,24 @@ export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel,
 
   // Grab any un-filtered vulnerabilities at the appropriate level
   const unusedExceptionIds = exceptionIds.filter((id) => !vulnerabilityIds.includes(id));
+  const unusedIgnoredModules = modulesToIgnore.filter((moduleName) => !vulnerabilityModules.includes(moduleName));
 
+  const messages = [
+    `${unusedExceptionIds.length} of the excluded vulnerabilities did not match any of the found vulnerabilities: ${unusedExceptionIds.join(
+      ', ',
+    )}.`,
+    `${unusedExceptionIds.length > 1 ? 'They' : 'It'} can be removed from the .nsprc file or --exclude -x flags.`,
+  ];
   // Display the unused exceptionId's
   if (unusedExceptionIds.length) {
-    const messages = [
-      `${
-        unusedExceptionIds.length
-      } of the excluded vulnerabilities did not match any of the found vulnerabilities: ${unusedExceptionIds.join(', ')}.`,
-      `${unusedExceptionIds.length > 1 ? 'They' : 'It'} can be removed from the .nsprc file or --exclude -x flags.`,
-    ];
+    if (unusedIgnoredModules.length) {
+      messages.push(
+        `${unusedIgnoredModules.length} of the ignored modules did not match any of the found vulnerabilites: ${unusedIgnoredModules.join(
+          ', ',
+        )}.`,
+        `${unusedIgnoredModules.length > 1 ? 'They' : 'It'} can be removed from the --module-ignore -m flags.`,
+      );
+    }
     console.warn(messages.join(' '));
   }
 

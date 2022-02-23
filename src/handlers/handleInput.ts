@@ -9,7 +9,7 @@ import { getExceptionsIds } from '../utils/vulnerability';
  * @param  {Object} options     User's command options or flags
  * @param  {Function} fn        The function to handle the inputs
  */
-export default function handleInput(options: CommandOptions, fn: (T1: string, T2: AuditLevel, T3: number[]) => void): void {
+export default function handleInput(options: CommandOptions, fn: (T1: string, T2: AuditLevel, T3: number[], T4: string[]) => void): void {
   // Generate NPM Audit command
   const auditCommand: string = [
     'npm audit',
@@ -28,6 +28,7 @@ export default function handleInput(options: CommandOptions, fn: (T1: string, T2
   const nsprc = readFile('.nsprc');
   const cmdExceptions: number[] = get(options, 'exclude', '').split(',').filter(isWholeNumber).map(Number);
   const exceptionIds: number[] = getExceptionsIds(nsprc, cmdExceptions);
+  const cmdModuleIgnore: string[] = get(options, 'moduleIgnore', '').split(',');
 
-  fn(auditCommand, auditLevel, exceptionIds);
+  fn(auditCommand, auditLevel, exceptionIds, cmdModuleIgnore);
 }

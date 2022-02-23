@@ -191,7 +191,38 @@ describe('Flags', () => {
       expect(callbackStub.calledWith(auditCommand, 'critical')).to.equal(true);
 
       // Clean up
-      process.env.NPM_CONFIG_AUDIT_LEVEL = undefined;
+      delete process.env.NPM_CONFIG_AUDIT_LEVEL;
+    });
+  });
+
+  describe('--module-ignore', () => {
+    it('should be able to pass module names using the command flag smoothly', () => {
+      const callbackStub = sinon.stub();
+      const options = { moduleIgnore: 'lodash,moment' };
+      const auditCommand = 'npm audit';
+      const auditLevel = 'info';
+      const exceptionIds: number[] = [];
+      const modulesToIgnore = ['lodash', 'moment'];
+
+      expect(callbackStub.called).to.equal(false);
+      handleInput(options, callbackStub);
+      expect(callbackStub.called).to.equal(true);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore)).to.equal(true);
+
+      // with space
+      options.moduleIgnore = 'lodash, moment';
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore)).to.equal(true);
+
+      // invalid exceptions
+      options.moduleIgnore = 'lodash,undefined,moment';
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore)).to.equal(true);
+
+      // invalid null
+      options.moduleIgnore = 'lodash,null,moment';
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore)).to.equal(true);
     });
   });
 });
