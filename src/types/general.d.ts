@@ -19,6 +19,7 @@ export interface v6Advisories {
 
 export interface v6Advisory {
   readonly id: string;
+  readonly cves: string[];
   // eslint-disable-next-line camelcase
   readonly module_name: string;
   readonly title: string;
