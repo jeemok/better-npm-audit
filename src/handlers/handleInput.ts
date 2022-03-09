@@ -1,5 +1,5 @@
 import get from 'lodash.get';
-import { AuditLevel, CommandOptions } from 'src/types';
+import { AuditLevel, CommandOptions, VulnerabilityId } from 'src/types';
 import { isWholeNumber } from '../utils/common';
 import { readFile } from '../utils/file';
 import { getExceptionsIds } from '../utils/vulnerability';
@@ -9,7 +9,10 @@ import { getExceptionsIds } from '../utils/vulnerability';
  * @param  {Object} options     User's command options or flags
  * @param  {Function} fn        The function to handle the inputs
  */
-export default function handleInput(options: CommandOptions, fn: (T1: string, T2: AuditLevel, T3: number[], T4: string[]) => void): void {
+export default function handleInput(
+  options: CommandOptions,
+  fn: (T1: string, T2: AuditLevel, T3: VulnerabilityId[], T4: string[]) => void,
+): void {
   // Generate NPM Audit command
   const auditCommand: string = [
     'npm audit',
@@ -27,7 +30,7 @@ export default function handleInput(options: CommandOptions, fn: (T1: string, T2
   // Get the exceptions
   const nsprc = readFile('.nsprc');
   const cmdExceptions: number[] = get(options, 'exclude', '').split(',').filter(isWholeNumber).map(Number);
-  const exceptionIds: number[] = getExceptionsIds(nsprc, cmdExceptions);
+  const exceptionIds: VulnerabilityId[] = getExceptionsIds(nsprc, cmdExceptions);
   const cmdModuleIgnore: string[] = get(options, 'moduleIgnore', '').split(',');
 
   fn(auditCommand, auditLevel, exceptionIds, cmdModuleIgnore);

@@ -3,7 +3,7 @@
 import { Command } from 'commander';
 import { exec } from 'child_process';
 
-import { AuditLevel, CommandOptions } from 'src/types';
+import { AuditLevel, CommandOptions, VulnerabilityId } from 'src/types';
 
 import handleInput from './src/handlers/handleInput';
 import handleFinish from './src/handlers/handleFinish';
@@ -20,7 +20,7 @@ const program = new Command();
  * @param  {Array}  exceptionIds    List of vulnerability IDs to exclude
  * @param  {Array} modulesToIgnore   List of vulnerable modules to ignore in audit results
  */
-export function callback(auditCommand: string, auditLevel: AuditLevel, exceptionIds: number[], modulesToIgnore: string[]): void {
+export function callback(auditCommand: string, auditLevel: AuditLevel, exceptionIds: VulnerabilityId[], modulesToIgnore: string[]): void {
   // Increase the default max buffer size (1 MB)
   const audit = exec(`${auditCommand} --json`, { maxBuffer: MAX_BUFFER_SIZE });
 

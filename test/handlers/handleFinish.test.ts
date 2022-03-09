@@ -110,37 +110,39 @@ describe('Events handling', () => {
 
     let exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001];
 
-    expect(processStub.called).to.equal(false);
-    expect(consoleErrorStub.called).to.equal(false);
-    expect(consoleWarnStub.called).to.equal(false);
-    expect(consoleInfoStub.called).to.equal(false);
+    try {
+      expect(processStub.called).to.equal(false);
+      expect(consoleErrorStub.called).to.equal(false);
+      expect(consoleWarnStub.called).to.equal(false);
+      expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
+      handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
 
-    expect(processStub.called).to.equal(true);
-    expect(processStub.calledWith(1)).to.equal(true);
-    expect(consoleErrorStub.called).to.equal(true);
-    expect(consoleErrorStub.calledWith('2 vulnerabilities found. Node security advisories: 1556, 1589')).to.equal(true);
+      expect(processStub.called).to.equal(true);
+      expect(processStub.calledWith(1)).to.equal(true);
+      expect(consoleErrorStub.called).to.equal(true);
+      expect(consoleErrorStub.calledWith('2 vulnerabilities found. Node security advisories: 1556, 1589')).to.equal(true);
 
-    expect(consoleInfoStub.called).to.equal(true); // Print security report
-    expect(consoleWarnStub.called).to.equal(true);
+      expect(consoleInfoStub.called).to.equal(true); // Print security report
+      expect(consoleWarnStub.called).to.equal(true);
 
-    // Message for one unused exception
-    // eslint-disable-next-line max-len
-    let message = `1 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001. It can be removed from the .nsprc file or --exclude -x flags. 2 of the ignored modules did not match any of the found vulnerabilites: fakeModule1, fakeModule2. They can be removed from the --module-ignore -m flags.`;
-    expect(consoleWarnStub.calledWith(message)).to.equal(true);
+      // Message for one unused exception
+      // eslint-disable-next-line max-len
+      let message = `1 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001. It can be removed from the .nsprc file or --exclude -x flags. 2 of the ignored modules did not match any of the found vulnerabilites: fakeModule1, fakeModule2. They can be removed from the --module-ignore -m flags.`;
+      expect(consoleWarnStub.calledWith(message)).to.equal(true);
 
-    // Message for multiple unused exceptions
-    exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001, 2002];
-    modulesToIgnore = ['fakeModule1'];
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
-    // eslint-disable-next-line max-len
-    message = `2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or --exclude -x flags. 1 of the ignored modules did not match any of the found vulnerabilites: fakeModule1. It can be removed from the --module-ignore -m flags.`;
-    expect(consoleWarnStub.calledWith(message)).to.equal(true);
-
-    processStub.restore();
-    consoleErrorStub.restore();
-    consoleWarnStub.restore();
-    consoleInfoStub.restore();
+      // Message for multiple unused exceptions
+      exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001, 2002];
+      modulesToIgnore = ['fakeModule1'];
+      handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
+      // eslint-disable-next-line max-len
+      message = `2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or --exclude -x flags. 1 of the ignored modules did not match any of the found vulnerabilites: fakeModule1. It can be removed from the --module-ignore -m flags.`;
+      expect(consoleWarnStub.calledWith(message)).to.equal(true);
+    } finally {
+      processStub.restore();
+      consoleErrorStub.restore();
+      consoleWarnStub.restore();
+      consoleInfoStub.restore();
+    }
   });
 });
