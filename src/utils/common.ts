@@ -1,3 +1,5 @@
+import { URL } from 'url';
+
 /**
  * @param  {String | Number | Null | Boolean} value     The input number
  * @return {Boolean}                                    Returns true if the input is a whole number
@@ -10,6 +12,21 @@ export function isWholeNumber(value: string | number | null | undefined): boolea
     return false;
   }
   return Number(value) % 1 === 0;
+}
+
+/**
+ * Validates whether a string is a URL or not.
+ *
+ * @param {String} id String to validate.
+ * @return {Boolean} True if URL; false otherwise.
+ */
+export function validateURL(id: string): boolean {
+  try {
+    new URL(id);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 /**

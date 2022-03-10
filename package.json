@@ -17,7 +17,7 @@
   },
   "scripts": {
     "preaudit": "npm run build",
-    "audit": "node lib audit -x 1004946,1006897",
+    "audit": "node lib audit -x https://github.com/advisories/GHSA-qrpm-p2h7-hrv2,https://github.com/advisories/GHSA-93q8-gq69-wqmw",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "eslint .",
     "qc": "npm run test && npm run lint",

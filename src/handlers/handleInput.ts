@@ -1,6 +1,6 @@
 import get from 'lodash.get';
 import { AuditLevel, CommandOptions, VulnerabilityId } from 'src/types';
-import { isWholeNumber } from '../utils/common';
+import { isWholeNumber, validateURL } from '../utils/common';
 import { readFile } from '../utils/file';
 import { getExceptionsIds } from '../utils/vulnerability';
 
@@ -29,7 +29,15 @@ export default function handleInput(
 
   // Get the exceptions
   const nsprc = readFile('.nsprc');
-  const cmdExceptions: number[] = get(options, 'exclude', '').split(',').filter(isWholeNumber).map(Number);
+  const cmdExceptions: VulnerabilityId[] = get(options, 'exclude', '')
+    .split(',')
+    .filter((s) => isWholeNumber(s) || validateURL(s))
+    .map((s) => {
+      if (isWholeNumber(s)) {
+        return Number(s);
+      }
+      return s;
+    });
   const exceptionIds: VulnerabilityId[] = getExceptionsIds(nsprc, cmdExceptions);
   const cmdModuleIgnore: string[] = get(options, 'moduleIgnore', '').split(',');
 
