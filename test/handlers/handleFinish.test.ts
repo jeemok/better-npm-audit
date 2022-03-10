@@ -12,7 +12,7 @@ describe('Events handling', () => {
     const consoleStub = sinon.stub(console, 'error');
     const jsonBuffer = '';
     const auditLevel = 'info';
-    const exceptionIds: number[] = [];
+    const exceptionIds: string[] = [];
     const modulesToIgnore: string[] = [];
 
     expect(processStub.called).to.equal(false);
@@ -35,7 +35,7 @@ describe('Events handling', () => {
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER_EMPTY);
     const auditLevel = 'info';
-    const exceptionIds: number[] = [];
+    const exceptionIds: string[] = [];
     const modulesToIgnore: string[] = [];
 
     expect(consoleStub.called).to.equal(false);
@@ -56,7 +56,7 @@ describe('Events handling', () => {
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
-    const exceptionIds = [975, 985, 1179, 1213, 1500, 1523, 1555, 1556, 1589];
+    const exceptionIds = ['975', '985', '1179', '1213', '1500', '1523', '1555', '1556', '1589'];
     const modulesToIgnore = ['swagger-ui', 'mem'];
 
     expect(consoleStub.called).to.equal(false);
@@ -78,7 +78,7 @@ describe('Events handling', () => {
     const consoleInfoStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
-    const exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555];
+    const exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555'];
     const modulesToIgnore: string[] = [];
 
     expect(processStub.called).to.equal(false);
@@ -108,7 +108,7 @@ describe('Events handling', () => {
     const auditLevel = 'info';
     let modulesToIgnore = ['fakeModule1', 'fakeModule2'];
 
-    let exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001];
+    let exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555', '2001'];
 
     expect(processStub.called).to.equal(false);
     expect(consoleErrorStub.called).to.equal(false);
@@ -131,7 +131,7 @@ describe('Events handling', () => {
     expect(consoleWarnStub.calledWith(message)).to.equal(true);
 
     // Message for multiple unused exceptions
-    exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001, 2002];
+    exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555', '2001', '2002'];
     modulesToIgnore = ['fakeModule1'];
     handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
     // eslint-disable-next-line max-len

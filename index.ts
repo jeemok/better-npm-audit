@@ -20,7 +20,7 @@ const program = new Command();
  * @param  {Array}  exceptionIds    List of vulnerability IDs to exclude
  * @param  {Array} modulesToIgnore   List of vulnerable modules to ignore in audit results
  */
-export function callback(auditCommand: string, auditLevel: AuditLevel, exceptionIds: number[], modulesToIgnore: string[]): void {
+export function callback(auditCommand: string, auditLevel: AuditLevel, exceptionIds: string[], modulesToIgnore: string[]): void {
   // Increase the default max buffer size (1 MB)
   const audit = exec(`${auditCommand} --json`, { maxBuffer: MAX_BUFFER_SIZE });
 

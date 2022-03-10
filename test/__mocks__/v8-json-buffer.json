@@ -1,0 +1,429 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "ansi-regex": {
+      "name": "ansi-regex",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1004946,
+          "name": "ansi-regex",
+          "dependency": "ansi-regex",
+          "title": " Inefficient Regular Expression Complexity in chalk/ansi-regex",
+          "url": "https://github.com/advisories/GHSA-93q8-gq69-wqmw",
+          "severity": "moderate",
+          "range": ">2.1.1 <5.0.1"
+        }
+      ],
+      "effects": ["strip-ansi"],
+      "range": ">2.1.1 <5.0.1",
+      "nodes": ["node_modules/inquirer/node_modules/ansi-regex", "node_modules/nsp/node_modules/ansi-regex"],
+      "fixAvailable": true
+    },
+    "anymatch": {
+      "name": "anymatch",
+      "severity": "low",
+      "isDirect": false,
+      "via": ["micromatch"],
+      "effects": ["chokidar"],
+      "range": "1.2.0 - 1.3.2",
+      "nodes": ["node_modules/anymatch"],
+      "fixAvailable": false
+    },
+    "babel-cli": {
+      "name": "babel-cli",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["chokidar"],
+      "effects": [],
+      "range": "",
+      "nodes": ["node_modules/babel-cli"],
+      "fixAvailable": false
+    },
+    "braces": {
+      "name": "braces",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1006342,
+          "name": "braces",
+          "dependency": "braces",
+          "title": "Regular Expression Denial of Service in braces",
+          "url": "https://github.com/advisories/GHSA-g95f-p29q-9xw4",
+          "severity": "low",
+          "range": "<2.3.1"
+        }
+      ],
+      "effects": ["micromatch"],
+      "range": "<2.3.1",
+      "nodes": ["node_modules/braces"],
+      "fixAvailable": false
+    },
+    "chokidar": {
+      "name": "chokidar",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["anymatch", "glob-parent"],
+      "effects": ["babel-cli", "glob-watcher"],
+      "range": "1.0.0-rc1 - 2.1.8",
+      "nodes": ["node_modules/chokidar", "node_modules/glob-watcher/node_modules/chokidar"],
+      "fixAvailable": false
+    },
+    "cli-table2": {
+      "name": "cli-table2",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["lodash"],
+      "effects": ["nsp"],
+      "range": "",
+      "nodes": ["node_modules/cli-table2"],
+      "fixAvailable": {
+        "name": "nsp",
+        "version": "2.8.1",
+        "isSemVerMajor": true
+      }
+    },
+    "glob-base": {
+      "name": "glob-base",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["glob-parent"],
+      "effects": ["parse-glob"],
+      "range": "",
+      "nodes": ["node_modules/glob-base"],
+      "fixAvailable": false
+    },
+    "glob-parent": {
+      "name": "glob-parent",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1005154,
+          "name": "glob-parent",
+          "dependency": "glob-parent",
+          "title": "Regular expression denial of service",
+          "url": "https://github.com/advisories/GHSA-ww39-953v-wcq6",
+          "severity": "high",
+          "range": "<5.1.2"
+        }
+      ],
+      "effects": ["chokidar", "glob-base", "glob-stream"],
+      "range": "<5.1.2",
+      "nodes": [
+        "node_modules/glob-parent",
+        "node_modules/glob-stream/node_modules/glob-parent",
+        "node_modules/glob-watcher/node_modules/glob-parent"
+      ],
+      "fixAvailable": false
+    },
+    "glob-stream": {
+      "name": "glob-stream",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["glob-parent"],
+      "effects": ["vinyl-fs"],
+      "range": "5.3.0 - 6.1.0",
+      "nodes": ["node_modules/glob-stream"],
+      "fixAvailable": {
+        "name": "gulp",
+        "version": "3.9.1",
+        "isSemVerMajor": true
+      }
+    },
+    "glob-watcher": {
+      "name": "glob-watcher",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["chokidar"],
+      "effects": [],
+      "range": ">=3.0.0",
+      "nodes": ["node_modules/glob-watcher"],
+      "fixAvailable": true
+    },
+    "gulp": {
+      "name": "gulp",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["vinyl-fs"],
+      "effects": [],
+      "range": ">=4.0.0",
+      "nodes": ["node_modules/gulp"],
+      "fixAvailable": {
+        "name": "gulp",
+        "version": "3.9.1",
+        "isSemVerMajor": true
+      }
+    },
+    "inquirer": {
+      "name": "inquirer",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": ["string-width", "strip-ansi"],
+      "effects": [],
+      "range": "3.2.0 - 7.0.4",
+      "nodes": ["node_modules/inquirer"],
+      "fixAvailable": true
+    },
+    "isparta": {
+      "name": "isparta",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["nomnomnomnom"],
+      "effects": [],
+      "range": ">=3.1.0",
+      "nodes": ["node_modules/isparta"],
+      "fixAvailable": {
+        "name": "isparta",
+        "version": "3.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "lodash": {
+      "name": "lodash",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1005365,
+          "name": "lodash",
+          "dependency": "lodash",
+          "title": "Command Injection in lodash",
+          "url": "https://github.com/advisories/GHSA-35jh-r3h4-6jhm",
+          "severity": "high",
+          "range": "<4.17.21"
+        },
+        {
+          "source": 1006094,
+          "name": "lodash",
+          "dependency": "lodash",
+          "title": "Prototype Pollution in lodash",
+          "url": "https://github.com/advisories/GHSA-p6mc-m468-83gw",
+          "severity": "high",
+          "range": "<4.17.19"
+        },
+        {
+          "source": 1006231,
+          "name": "lodash",
+          "dependency": "lodash",
+          "title": "Prototype Pollution in lodash",
+          "url": "https://github.com/advisories/GHSA-jf85-cpcp-j695",
+          "severity": "critical",
+          "range": "<4.17.12"
+        },
+        {
+          "source": 1006298,
+          "name": "lodash",
+          "dependency": "lodash",
+          "title": "Prototype pollution in lodash",
+          "url": "https://github.com/advisories/GHSA-x5rq-j2xg-h7qm",
+          "severity": "moderate",
+          "range": "<4.17.11"
+        },
+        {
+          "source": 1006517,
+          "name": "lodash",
+          "dependency": "lodash",
+          "title": "Prototype Pollution in lodash",
+          "url": "https://github.com/advisories/GHSA-fvqr-27wr-82fm",
+          "severity": "low",
+          "range": "<4.17.5"
+        }
+      ],
+      "effects": ["cli-table2"],
+      "range": "<=4.17.20",
+      "nodes": ["node_modules/cli-table2/node_modules/lodash"],
+      "fixAvailable": {
+        "name": "nsp",
+        "version": "2.8.1",
+        "isSemVerMajor": true
+      }
+    },
+    "mem": {
+      "name": "mem",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1006311,
+          "name": "mem",
+          "dependency": "mem",
+          "title": "Denial of Service in mem",
+          "url": "https://github.com/advisories/GHSA-4xcv-9jjx-gfj3",
+          "severity": "moderate",
+          "range": "<4.0.0"
+        }
+      ],
+      "effects": ["os-locale"],
+      "range": "<4.0.0",
+      "nodes": ["node_modules/mem"],
+      "fixAvailable": true
+    },
+    "micromatch": {
+      "name": "micromatch",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["braces", "parse-glob"],
+      "effects": ["anymatch"],
+      "range": "0.2.0 - 2.3.11",
+      "nodes": ["node_modules/micromatch"],
+      "fixAvailable": false
+    },
+    "nomnomnomnom": {
+      "name": "nomnomnomnom",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["underscore"],
+      "effects": ["isparta"],
+      "range": "",
+      "nodes": ["node_modules/nomnomnomnom"],
+      "fixAvailable": {
+        "name": "isparta",
+        "version": "3.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "nsp": {
+      "name": "nsp",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["cli-table2"],
+      "effects": [],
+      "range": ">=3.0.0",
+      "nodes": ["node_modules/nsp"],
+      "fixAvailable": {
+        "name": "nsp",
+        "version": "2.8.1",
+        "isSemVerMajor": true
+      }
+    },
+    "os-locale": {
+      "name": "os-locale",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": ["mem"],
+      "effects": ["yargs"],
+      "range": "2.0.0 - 3.0.0",
+      "nodes": ["node_modules/nsp/node_modules/os-locale"],
+      "fixAvailable": true
+    },
+    "parse-glob": {
+      "name": "parse-glob",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["glob-base"],
+      "effects": ["micromatch"],
+      "range": ">=2.1.0",
+      "nodes": ["node_modules/parse-glob"],
+      "fixAvailable": false
+    },
+    "string-width": {
+      "name": "string-width",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": ["strip-ansi"],
+      "effects": ["inquirer"],
+      "range": "2.1.0 - 4.1.0",
+      "nodes": ["node_modules/inquirer/node_modules/string-width", "node_modules/nsp/node_modules/string-width"],
+      "fixAvailable": true
+    },
+    "strip-ansi": {
+      "name": "strip-ansi",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": ["ansi-regex"],
+      "effects": ["inquirer", "string-width"],
+      "range": "4.0.0 - 5.2.0",
+      "nodes": ["node_modules/inquirer/node_modules/strip-ansi", "node_modules/nsp/node_modules/strip-ansi"],
+      "fixAvailable": true
+    },
+    "underscore": {
+      "name": "underscore",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1005367,
+          "name": "underscore",
+          "dependency": "underscore",
+          "title": "Arbitrary Code Execution in underscore",
+          "url": "https://github.com/advisories/GHSA-cf4h-3jhx-xvhq",
+          "severity": "high",
+          "range": ">=1.3.2 <1.12.1"
+        }
+      ],
+      "effects": ["nomnomnomnom"],
+      "range": "1.3.2 - 1.12.0",
+      "nodes": ["node_modules/underscore"],
+      "fixAvailable": {
+        "name": "isparta",
+        "version": "3.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "vinyl-fs": {
+      "name": "vinyl-fs",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["glob-stream"],
+      "effects": ["gulp"],
+      "range": ">=2.4.2",
+      "nodes": ["node_modules/vinyl-fs"],
+      "fixAvailable": {
+        "name": "gulp",
+        "version": "3.9.1",
+        "isSemVerMajor": true
+      }
+    },
+    "yargs": {
+      "name": "yargs",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": ["os-locale", "yargs-parser"],
+      "effects": [],
+      "range": "8.0.0-candidate.0 - 12.0.5",
+      "nodes": ["node_modules/nsp/node_modules/yargs"],
+      "fixAvailable": true
+    },
+    "yargs-parser": {
+      "name": "yargs-parser",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1005534,
+          "name": "yargs-parser",
+          "dependency": "yargs-parser",
+          "title": "Prototype Pollution in yargs-parser",
+          "url": "https://github.com/advisories/GHSA-p9pc-299p-vxgp",
+          "severity": "moderate",
+          "range": ">=6.0.0 <13.1.2"
+        }
+      ],
+      "effects": ["yargs"],
+      "range": "6.0.0 - 13.1.1",
+      "nodes": ["node_modules/nsp/node_modules/yargs-parser"],
+      "fixAvailable": true
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 2,
+      "moderate": 8,
+      "high": 15,
+      "critical": 1,
+      "total": 26
+    },
+    "dependencies": {
+      "prod": 32,
+      "dev": 1129,
+      "optional": 41,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 1160
+    }
+  }
+}

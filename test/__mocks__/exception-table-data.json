@@ -84,9 +84,15 @@
     "Unused"
   ],
   [
-    "Note",
-    "\u001b[31minvalid\u001b[0m",
+    "CWE-126",
+    "\u001b[32mactive\u001b[0m",
     "",
-    "personal note"
+    "CWE ID"
+  ],
+  [
+    "GHSA-ww39-953v-wcq6",
+    "\u001b[32mactive\u001b[0m",
+    "",
+    "GHSA ID"
   ]
 ]

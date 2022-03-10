@@ -35,5 +35,6 @@
         "expiry": "2030-01-01"
     },
     "2100": "Unused",
-    "Note": "personal note"
+    "CWE-126": "CWE ID",
+    "GHSA-ww39-953v-wcq6": "GHSA ID"
 }

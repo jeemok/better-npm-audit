@@ -6,7 +6,7 @@ The goal of this project is to help to reshape npm audit into the way the commun
 
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm vulnerability](https://img.shields.io/snyk/vulnerabilities/npm/better-npm-audit?style=flat-square) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
 
-## Supports both NPM version 6 and 7
+## NPM version 6 and 7
 
 NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm audit`. The output of npm audit has significantly changed both in the human-readable and `--json` output styles. We have added handling so it works properly in both npm versions.
 
@@ -71,13 +71,13 @@ npm run audit
 
 ## Options
 
-| Flag           | Short | Description                                                                    |
-| -------------- | ----- | ------------------------------------------------------------------------------ |
-| `--exclude`    | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude
-| `--module-ignore` | `-m` | Names of modules to exclude                            |
-| `--level`      | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag |
-| `--production` | `-p`  | Skip checking the `devDependencies`                                            |
-| `--registry`   | `-r`  | The npm registry url to use                                                    |
+| Flag              | Short | Description                                                                                           |
+| ----------------- | ----- | ----------------------------------------------------------------------------------------------------- |
+| `--exclude`       | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
+| `--module-ignore` | `-m`  | Names of modules to exclude                                                                           |
+| `--level`         | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
+| `--production`    | `-p`  | Skip checking the `devDependencies`                                                                   |
+| `--registry`      | `-r`  | The npm registry url to use                                                                           |
 
 <br />
 
@@ -105,7 +105,7 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
     "notes": "Ignored since we don't use xxx method"
   },
   "980": "Ignored since we don't use xxx method",
-  "Note": "Any non number key will not be accepted"
+  "GHSA-ww39-953v-wcq6": "GHSA ID is acceptable too"
 }
 ```
 

@@ -10,7 +10,7 @@ import { processAuditJson } from '../utils/vulnerability';
  * @param  {Array} modulesToIgnore   List of vulnerable modules to ignore in audit results
  * @return {undefined}
  */
-export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel, exceptionIds: number[], modulesToIgnore: string[]): void {
+export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel, exceptionIds: string[], modulesToIgnore: string[]): void {
   const { unhandledIds, vulnerabilityIds, vulnerabilityModules, report, failed } = processAuditJson(
     jsonBuffer,
     auditLevel,

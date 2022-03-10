@@ -18,8 +18,9 @@ export interface v6Advisories {
 }
 
 export interface v6Advisory {
-  readonly id: string;
+  readonly id: number;
   readonly cves: string[];
+  readonly cwe: string;
   // eslint-disable-next-line camelcase
   readonly module_name: string;
   readonly title: string;
@@ -52,14 +53,14 @@ export interface v7VulnerabilityVia {
 }
 
 export interface ProcessedResult {
-  readonly unhandledIds: number[];
-  readonly vulnerabilityIds: number[];
+  readonly unhandledIds: string[];
+  readonly vulnerabilityIds: string[];
   readonly vulnerabilityModules: string[];
   readonly report: string[][];
   readonly failed?: boolean;
 }
 
 export interface ProcessedReport {
-  readonly exceptionIds: number[];
+  readonly exceptionIds: string[];
   readonly report: string[][];
 }
