@@ -1,3 +1,9 @@
+## 3.7.1 (March 19, 2022)
+- [43380eb](https://github.com/jeemok/better-npm-audit/commit/43380eb54f6699ae121617603f8e3aaba1494321) Fixed unused exceptions handler
+
+## 3.7.0 (March 10, 2022)
+- [1871068](https://github.com/jeemok/better-npm-audit/commit/1871068fa3433b5fb4b93590540ccafc59dbfb38) Handles non numeric exception IDs
+
 ## 3.6.0 (February 23, 2022)
 
 - [#71](https://github.com/jeemok/better-npm-audit/pull/71) Added new option: ignore by module name
