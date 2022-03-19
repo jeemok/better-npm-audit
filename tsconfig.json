@@ -3,8 +3,7 @@
         "target": "es5",
         "module": "commonjs",
         "lib": [
-            "ES6",
-            "ES2015"
+            "ES2018"
         ],
         "outDir": "lib",
         "strict": true,

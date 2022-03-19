@@ -15,7 +15,7 @@ describe('Flags', () => {
 
       const auditCommand = 'npm audit';
       const auditLevel = 'info';
-      const exceptionIds: number[] = [];
+      const exceptionIds: string[] = [];
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds)).to.equal(true);
     });
   });
@@ -27,7 +27,7 @@ describe('Flags', () => {
       const options = { exclude: '1567,919' };
       const auditCommand = 'npm audit';
       const auditLevel = 'info';
-      const exceptionIds = [1567, 919];
+      const exceptionIds = ['1567', '919'];
 
       expect(callbackStub.called).to.equal(false);
       handleInput(options, callbackStub);
@@ -38,26 +38,14 @@ describe('Flags', () => {
       // with space
       options.exclude = '1567, 1902';
       handleInput(options, callbackStub);
-      expect(callbackStub.calledWith(auditCommand, auditLevel, [1567, 1902])).to.equal(true);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, ['1567', '1902'])).to.equal(true);
       expect(consoleStub.calledWith('Exception IDs: 1567, 1902')).to.equal(true);
 
-      // invalid exceptions
-      options.exclude = '1134,undefined,888';
+      // string ID
+      options.exclude = '1134,GWE-1234,888';
       handleInput(options, callbackStub);
-      expect(callbackStub.calledWith(auditCommand, auditLevel, [1134, 888])).to.equal(true);
-      expect(consoleStub.calledWith('Exception IDs: 1134, 888')).to.equal(true);
-
-      // invalid NaN
-      options.exclude = '1134,NaN,3e,828';
-      handleInput(options, callbackStub);
-      expect(callbackStub.calledWith(auditCommand, auditLevel, [1134, 828])).to.equal(true);
-      expect(consoleStub.calledWith('Exception IDs: 1134, 828')).to.equal(true);
-
-      // invalid decimals
-      options.exclude = '1199,29.41,628';
-      handleInput(options, callbackStub);
-      expect(callbackStub.calledWith(auditCommand, auditLevel, [1199, 628])).to.equal(true);
-      expect(consoleStub.calledWith('Exception IDs: 1199, 628')).to.equal(true);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, ['1134', 'GWE-1234', '888'])).to.equal(true);
+      expect(consoleStub.calledWith('Exception IDs: 1134, GWE-1234, 888')).to.equal(true);
 
       consoleStub.restore();
     });
@@ -68,7 +56,7 @@ describe('Flags', () => {
       const options = { exclude: '1567,919' };
       const auditCommand = 'npm audit';
       const auditLevel = 'info';
-      const exceptionIds = [1567, 919];
+      const exceptionIds = ['1567', '919'];
 
       expect(callbackStub.called).to.equal(false);
       handleInput(options, callbackStub);
@@ -87,7 +75,7 @@ describe('Flags', () => {
       const options = {};
       const auditCommand = 'npm audit';
       const auditLevel = 'info';
-      const exceptionIds: number[] = [];
+      const exceptionIds: string[] = [];
 
       expect(callbackStub.called).to.equal(false);
       handleInput(options, callbackStub);
@@ -106,7 +94,7 @@ describe('Flags', () => {
       const options = { production: true };
       const auditCommand = 'npm audit --production';
       const auditLevel = 'info';
-      const exceptionIds: number[] = [];
+      const exceptionIds: string[] = [];
 
       expect(callbackStub.called).to.equal(false);
       handleInput(options, callbackStub);
@@ -121,7 +109,7 @@ describe('Flags', () => {
       const options: CommandOptions = { registry: 'https://registry.npmjs.org/' };
       const auditCommand = 'npm audit --registry=https://registry.npmjs.org/';
       const auditLevel = 'info';
-      const exceptionIds: number[] = [];
+      const exceptionIds: string[] = [];
 
       expect(callbackStub.called).to.equal(false);
       handleInput(options, callbackStub);
@@ -136,7 +124,7 @@ describe('Flags', () => {
       let options: CommandOptions = { level: 'info' };
 
       const auditCommand = 'npm audit';
-      const exceptionIds: number[] = [];
+      const exceptionIds: string[] = [];
 
       expect(callbackStub.called).to.equal(false);
       handleInput(options, callbackStub);
@@ -201,7 +189,7 @@ describe('Flags', () => {
       const options = { moduleIgnore: 'lodash,moment' };
       const auditCommand = 'npm audit';
       const auditLevel = 'info';
-      const exceptionIds: number[] = [];
+      const exceptionIds: string[] = [];
       const modulesToIgnore = ['lodash', 'moment'];
 
       expect(callbackStub.called).to.equal(false);

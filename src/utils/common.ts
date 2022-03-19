@@ -1,3 +1,4 @@
+// TODO: This might be unused
 /**
  * @param  {String | Number | Null | Boolean} value     The input number
  * @return {Boolean}                                    Returns true if the input is a whole number

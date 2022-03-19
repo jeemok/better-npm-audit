@@ -6,9 +6,9 @@ The goal of this project is to help to reshape npm audit into the way the commun
 
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm vulnerability](https://img.shields.io/snyk/vulnerabilities/npm/better-npm-audit?style=flat-square) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
 
-## Supports both NPM version 6 and 7
+## NPM version 6 and 7, and 8
 
-NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm audit`. The output of npm audit has significantly changed both in the human-readable and `--json` output styles. We have added handling so it works properly in both npm versions.
+NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm audit`. The output of npm audit has significantly changed both in the human-readable and `--json` output styles. Even more unfortunately, when NPM changed the JSON output in npm v7, they removed many of the other useful identifiers (`cves`, `cwe`, `github_advisory_id`) and the only thing left is the URL. We are trying our best to handle each version and provide consistent functionality to all of them. Related docs on v6 and v7 changes:
 
 | Docs                       | Link                                                                                       |
 | -------------------------- | ------------------------------------------------------------------------------------------ |
@@ -71,13 +71,13 @@ npm run audit
 
 ## Options
 
-| Flag           | Short | Description                                                                    |
-| -------------- | ----- | ------------------------------------------------------------------------------ |
-| `--exclude`    | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude
-| `--module-ignore` | `-m` | Names of modules to exclude                            |
-| `--level`      | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag |
-| `--production` | `-p`  | Skip checking the `devDependencies`                                            |
-| `--registry`   | `-r`  | The npm registry url to use                                                    |
+| Flag              | Short | Description                                                                                           |
+| ----------------- | ----- | ----------------------------------------------------------------------------------------------------- |
+| `--exclude`       | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
+| `--module-ignore` | `-m`  | Names of modules to exclude                                                                           |
+| `--level`         | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
+| `--production`    | `-p`  | Skip checking the `devDependencies`                                                                   |
+| `--registry`      | `-r`  | The npm registry url to use                                                                           |
 
 <br />
 
@@ -104,8 +104,9 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
     "active": false,
     "notes": "Ignored since we don't use xxx method"
   },
-  "980": "Ignored since we don't use xxx method",
-  "Note": "Any non number key will not be accepted"
+  "CWE-471": "CWE ID is acceptable",
+  "GHSA-ww39-953v-wcq6": "GHSA ID is acceptable",
+  "https://npmjs.com/advisories/1213": "Full or partial URL is acceptable too"
 }
 ```
 
@@ -133,13 +134,10 @@ You can find the changelog [here](https://github.com/jeemok/better-npm-audit/blo
 
 <br />
 
-## Special mentions
+## Contributors
 
-- [@IanWright](https://github.com/IPWright83) for his solutions in improving the vulnerability validation for us to have the minimum-audit-level and production-mode flags.
+[Ian Wright](https://github.com/IPWright83), [Edwin Taylor](https://github.com/alertme-edwin), [Maarten Hus](https://github.com/MrHus), [Alex Burkowsky](https://github.com/alexburkowskypolysign), [David M. Lee](https://github.com/leedm777), [Kyle Clark](https://github.com/kyle-clark1824), [Guillermo Pincay](https://github.com/guillermaster), [Grzegorz Pawłowski](https://github.com/GrzesiekP), [CSLTech](https://github.com/CSLTech), [Paul Clarkin](https://github.com/paulclarkin), [mgdodge](https://github.com/mgdodge), [Ricky Sullivan](https://github.com/rickysullivan), [Sam Gregory](https://github.com/samgregory88), [Tristan WAGNER](https://github.com/tristanwagner)
 
-- [@EdwinTaylor](https://github.com/alertme-edwin) for all the bug reports and improvement suggestions.
-
-- [@MrHus](https://github.com/MrHus) for the logging of unused exceptions from the .nsprc file and -ignore flags. Courtesy of 42 BV.
 
 <br />
 

@@ -12,13 +12,13 @@ describe('Events handling', () => {
     const consoleStub = sinon.stub(console, 'error');
     const jsonBuffer = '';
     const auditLevel = 'info';
-    const exceptionIds: number[] = [];
-    const modulesToIgnore: string[] = [];
+    const exceptionIds: string[] = [];
+    const exceptionModules: string[] = [];
 
     expect(processStub.called).to.equal(false);
     expect(consoleStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -35,11 +35,11 @@ describe('Events handling', () => {
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER_EMPTY);
     const auditLevel = 'info';
-    const exceptionIds: number[] = [];
-    const modulesToIgnore: string[] = [];
+    const exceptionIds: string[] = [];
+    const exceptionModules: string[] = [];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(0)).to.equal(true);
@@ -56,11 +56,11 @@ describe('Events handling', () => {
     const consoleStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
-    const exceptionIds = [975, 985, 1179, 1213, 1500, 1523, 1555, 1556, 1589];
-    const modulesToIgnore = ['swagger-ui', 'mem'];
+    const exceptionIds = ['975', '985', '1179', '1213', '1500', '1523', '1555', '1556', '1589'];
+    const exceptionModules = ['swagger-ui', 'mem'];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(0)).to.equal(true);
@@ -78,14 +78,14 @@ describe('Events handling', () => {
     const consoleInfoStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
-    const exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555];
-    const modulesToIgnore: string[] = [];
+    const exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555'];
+    const exceptionModules: string[] = [];
 
     expect(processStub.called).to.equal(false);
     expect(consoleErrorStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(consoleErrorStub.called).to.equal(true);
@@ -106,16 +106,15 @@ describe('Events handling', () => {
     const consoleInfoStub = sinon.stub(console, 'info');
     const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
-    let modulesToIgnore = ['fakeModule1', 'fakeModule2'];
-
-    let exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001];
+    let exceptionModules = ['fakeModule1', 'fakeModule2'];
+    let exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555', '2001'];
 
     expect(processStub.called).to.equal(false);
     expect(consoleErrorStub.called).to.equal(false);
     expect(consoleWarnStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -126,16 +125,24 @@ describe('Events handling', () => {
     expect(consoleWarnStub.called).to.equal(true);
 
     // Message for one unused exception
-    // eslint-disable-next-line max-len
-    let message = `1 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001. It can be removed from the .nsprc file or --exclude -x flags. 2 of the ignored modules did not match any of the found vulnerabilites: fakeModule1, fakeModule2. They can be removed from the --module-ignore -m flags.`;
+    let message = [
+      '1 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001.',
+      'It can be removed from the .nsprc file or --exclude -x flags.',
+      '2 of the ignored modules did not match any of the found vulnerabilities: fakeModule1, fakeModule2.',
+      'They can be removed from the --module-ignore -m flags.',
+    ].join(' ');
     expect(consoleWarnStub.calledWith(message)).to.equal(true);
 
     // Message for multiple unused exceptions
-    exceptionIds = [975, 976, 985, 1084, 1179, 1213, 1500, 1523, 1555, 2001, 2002];
-    modulesToIgnore = ['fakeModule1'];
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore);
-    // eslint-disable-next-line max-len
-    message = `2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002. They can be removed from the .nsprc file or --exclude -x flags. 1 of the ignored modules did not match any of the found vulnerabilites: fakeModule1. It can be removed from the --module-ignore -m flags.`;
+    exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555', '2001', '2002'];
+    exceptionModules = ['fakeModule1'];
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    message = [
+      '2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002.',
+      'They can be removed from the .nsprc file or --exclude -x flags.',
+      '1 of the ignored modules did not match any of the found vulnerabilities: fakeModule1.',
+      'It can be removed from the --module-ignore -m flags.',
+    ].join(' ');
     expect(consoleWarnStub.calledWith(message)).to.equal(true);
 
     processStub.restore();
