@@ -1,21 +1,20 @@
 import { AuditLevel } from 'src/types';
 import { printSecurityReport } from '../utils/print';
-import { processAuditJson } from '../utils/vulnerability';
+import { processAuditJson, handleUnusedExceptions } from '../utils/vulnerability';
 
 /**
  * Process and analyze the NPM audit JSON
- * @param  {String} jsonBuffer    NPM audit stringified JSON payload
- * @param  {Number} auditLevel    The level of vulnerabilities we care about
- * @param  {Array} exceptionIds   List of vulnerability IDs to exclude
- * @param  {Array} modulesToIgnore   List of vulnerable modules to ignore in audit results
- * @return {undefined}
+ * @param  {String} jsonBuffer        NPM audit stringified JSON payload
+ * @param  {Number} auditLevel        The level of vulnerabilities we care about
+ * @param  {Array} exceptionIds       List of vulnerability IDs to exclude
+ * @param  {Array} exceptionModules   List of vulnerable modules to ignore in audit results
  */
-export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel, exceptionIds: string[], modulesToIgnore: string[]): void {
-  const { unhandledIds, vulnerabilityIds, vulnerabilityModules, report, failed } = processAuditJson(
+export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel, exceptionIds: string[], exceptionModules: string[]): void {
+  const { unhandledIds, report, failed, unusedExceptionIds, unusedExceptionModules } = processAuditJson(
     jsonBuffer,
     auditLevel,
     exceptionIds,
-    modulesToIgnore,
+    exceptionModules,
   );
 
   // If unable to process the audit JSON
@@ -31,28 +30,8 @@ export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel,
     printSecurityReport(report);
   }
 
-  // Grab any un-filtered vulnerabilities at the appropriate level
-  const unusedExceptionIds = exceptionIds.filter((id) => !vulnerabilityIds.includes(id));
-  const unusedIgnoredModules = modulesToIgnore.filter((moduleName) => !vulnerabilityModules.includes(moduleName));
-
-  const messages = [
-    `${unusedExceptionIds.length} of the excluded vulnerabilities did not match any of the found vulnerabilities: ${unusedExceptionIds.join(
-      ', ',
-    )}.`,
-    `${unusedExceptionIds.length > 1 ? 'They' : 'It'} can be removed from the .nsprc file or --exclude -x flags.`,
-  ];
-  // Display the unused exceptionId's
-  if (unusedExceptionIds.length) {
-    if (unusedIgnoredModules.length) {
-      messages.push(
-        `${unusedIgnoredModules.length} of the ignored modules did not match any of the found vulnerabilites: ${unusedIgnoredModules.join(
-          ', ',
-        )}.`,
-        `${unusedIgnoredModules.length > 1 ? 'They' : 'It'} can be removed from the --module-ignore -m flags.`,
-      );
-    }
-    console.warn(messages.join(' '));
-  }
+  // Handle unused exceptions
+  handleUnusedExceptions(unusedExceptionIds, unusedExceptionModules);
 
   // Display the found unhandled vulnerabilities
   if (unhandledIds.length) {

@@ -54,10 +54,12 @@ export interface v7VulnerabilityVia {
 
 export interface ProcessedResult {
   readonly unhandledIds: string[];
-  readonly vulnerabilityIds: string[];
-  readonly vulnerabilityModules: string[];
+  readonly vulnerabilityIds: string[]; // Currently unused, but very valuable info so leave it here for now
+  readonly vulnerabilityModules: string[]; // Currently unused, but very valuable info so leave it here for now
   readonly report: string[][];
   readonly failed?: boolean;
+  unusedExceptionIds: string[];
+  unusedExceptionModules: string[];
 }
 
 export interface ProcessedReport {
