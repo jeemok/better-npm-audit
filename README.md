@@ -1,6 +1,6 @@
 # Better NPM Audit
 
-The goal of this project is to help to reshape npm audit into the way the community would like, by the community itself. Giving another option for everyone and encourage more people to do security audits.
+The goal of this project is to provide additional features on top of the existing npm audit options. We hope to encourage more people to do security audits for their projects.
 
 [![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
 
@@ -17,6 +17,8 @@ NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm 
 | Official NPM v6 audit docs | https://docs.npmjs.com/cli/v6/commands/npm-audit                                           |
 | Official NPM v7 audit docs | https://docs.npmjs.com/cli/v7/commands/npm-audit                                           |
 | Dealing with new npm audit | https://uko.codes/dealing-with-npm-v7-audit-changes                                        |
+
+You may find the sample JSON outputs for each NPM versions in our codebase: [v6](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/v6-json-buffer.json), [v7](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/v7-json-buffer.json) & [v8](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/v8-json-buffer.json).
 
 <br />
 
