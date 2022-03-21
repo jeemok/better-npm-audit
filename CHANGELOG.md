@@ -1,3 +1,6 @@
+## 3.7.3 (March 22, 2022))
+- [99c0697](https://github.com/jeemok/better-npm-audit/commit/99c069702ca7f18de641af34eea5c75e4df99b25) Added handling for empty strings in displaying unused exception message
+
 ## 3.7.2 (March 21, 2022)
 - [ce8eb4d](https://github.com/jeemok/better-npm-audit/commit/ce8eb4d657f3176a092123d641a94da177336c76) Updated README
 
