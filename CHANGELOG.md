@@ -1,3 +1,6 @@
+## 3.7.2 (March 21, 2022)
+- [ce8eb4d](https://github.com/jeemok/better-npm-audit/commit/ce8eb4d657f3176a092123d641a94da177336c76) Updated README
+
 ## 3.7.1 (March 19, 2022)
 - [43380eb](https://github.com/jeemok/better-npm-audit/commit/43380eb54f6699ae121617603f8e3aaba1494321) Fixed unused exceptions handler
 
