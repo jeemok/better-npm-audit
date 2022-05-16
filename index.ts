@@ -23,7 +23,6 @@ const program = new Command();
 export function callback(auditCommand: string, auditLevel: AuditLevel, exceptionIds: string[], modulesToIgnore: string[]): void {
   // Increase the default max buffer size (1 MB)
   const audit = exec(`${auditCommand} --json`, { maxBuffer: MAX_BUFFER_SIZE });
-
   // Grab the data in chunks and buffer it as we're unable to parse JSON straight from stdout
   let jsonBuffer = '';
 
