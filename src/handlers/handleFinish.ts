@@ -4,14 +4,22 @@ import { processAuditJson, handleUnusedExceptions } from '../utils/vulnerability
 import { devDependenciesGetter } from '../utils/devDeps';
 /**
  * Process and analyze the NPM audit JSON
- * @param  {String} jsonBuffer        NPM audit stringified JSON payload
+ * @param  {String} jsonProdBuffer        NPM audit production dependencies stringified JSON payload
+ * @param  {String} jsonDevBuffer         NPM audit developer dependencies stringified JSON payload
  * @param  {Number} auditLevel        The level of vulnerabilities we care about
  * @param  {Array} exceptionIds       List of vulnerability IDs to exclude
  * @param  {Array} exceptionModules   List of vulnerable modules to ignore in audit results
  */
-export default function handleFinish(jsonBuffer: string, auditLevel: AuditLevel, exceptionIds: string[], exceptionModules: string[]): void {
+export default function handleFinish(
+  jsonProdBuffer: string,
+  jsonDevBuffer: string,
+  auditLevel: AuditLevel,
+  exceptionIds: string[],
+  exceptionModules: string[],
+): void {
   const { unhandledIds, report, failed, unusedExceptionIds, unusedExceptionModules } = processAuditJson(
-    jsonBuffer,
+    jsonProdBuffer,
+    jsonDevBuffer,
     auditLevel,
     exceptionIds,
     exceptionModules,
