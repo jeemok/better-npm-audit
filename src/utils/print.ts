@@ -2,7 +2,7 @@ import get from 'lodash.get';
 import { table, TableUserConfig } from 'table';
 import { SecurityReportHeader, ExceptionReportHeader } from 'src/types';
 
-const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Sev.', 'URL', 'Ex.'];
+const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Sev.', 'URL', 'Ex.', 'DEV'];
 const EXCEPTION_REPORT_HEADER: ExceptionReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes'];
 
 // TODO: Add unit tests

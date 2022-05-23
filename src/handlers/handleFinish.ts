@@ -1,7 +1,6 @@
 import { AuditLevel } from 'src/types';
 import { printSecurityReport } from '../utils/print';
 import { processAuditJson, handleUnusedExceptions } from '../utils/vulnerability';
-import { devDependenciesGetter } from '../utils/devDeps';
 /**
  * Process and analyze the NPM audit JSON
  * @param  {String} jsonProdBuffer        NPM audit production dependencies stringified JSON payload
