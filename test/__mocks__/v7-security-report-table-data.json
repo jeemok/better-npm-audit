@@ -6,7 +6,8 @@
     "\u001b[33mbl\u001b[0m",
     "\u001b[33m\u001b[41mcritical\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1555\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m1213\u001b[0m",
@@ -15,7 +16,8 @@
     "\u001b[33mdot-prop\u001b[0m",
     "\u001b[33m\u001b[41mhigh\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1213\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m1589\u001b[0m",
@@ -24,7 +26,8 @@
     "\u001b[33mfsevents>ini\nini\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1589\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m1523\u001b[0m",
@@ -33,7 +36,8 @@
     "\u001b[33mlodash\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1523\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m1084\u001b[0m",
@@ -42,7 +46,8 @@
     "\u001b[33mloopback-connector-rest>mem\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1084\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m1179\u001b[0m",
@@ -51,7 +56,8 @@
     "\u001b[33mmocha>minimist\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1179\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m1556\u001b[0m",
@@ -60,7 +66,8 @@
     "\u001b[33mnode-fetch\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1556\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m975\u001b[0m",
@@ -69,7 +76,8 @@
     "\u001b[33mswagger-ui\u001b[0m",
     "\u001b[33mmoderate\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/975\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m976\u001b[0m",
@@ -78,7 +86,8 @@
     "\u001b[33mswagger-ui\u001b[0m",
     "\u001b[33mmoderate\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/976\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m985\u001b[0m",
@@ -87,7 +96,8 @@
     "\u001b[33mswagger-ui\u001b[0m",
     "\u001b[33mmoderate\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/985\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ],
   [
     "\u001b[33m1500\u001b[0m",
@@ -96,6 +106,7 @@
     "\u001b[33mmocha>yargs-parser\nyargs-unparser>yargs-parser\u001b[0m",
     "\u001b[33mlow\u001b[0m",
     "\u001b[33mhttps://npmjs.com/advisories/1500\u001b[0m",
-    "\u001b[33mn\u001b[0m"
+    "\u001b[33mn\u001b[0m",
+    "\u001b[31mno\u001b[0m"
   ]
 ]

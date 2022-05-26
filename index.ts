@@ -25,15 +25,26 @@ export function callback(auditCommand: string, auditLevel: AuditLevel, exception
   const audit = exec(`${auditCommand} --json`, { maxBuffer: MAX_BUFFER_SIZE });
 
   // Grab the data in chunks and buffer it as we're unable to parse JSON straight from stdout
-  let jsonBuffer = '';
+  let jsonDevBuffer = '';
+  let jsonProdBuffer = '';
 
   if (audit.stdout) {
-    audit.stdout.on('data', (data: string) => (jsonBuffer += data));
+    audit.stdout.on('data', (data: string) => (jsonDevBuffer += data));
   }
 
   // Once the stdout has completed, process the output
   if (audit.stderr) {
-    audit.stderr.on('close', () => handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore));
+    audit.stderr.on('close', () => {
+      const auditProd = exec(`npm audit --production --json`, { maxBuffer: MAX_BUFFER_SIZE });
+      if (auditProd.stderr) {
+        if (auditProd.stdout) {
+          auditProd.stdout.on('data', (data: string) => (jsonProdBuffer += data));
+        }
+        auditProd.stderr.on('close', () => {
+          handleFinish(jsonProdBuffer, jsonDevBuffer, auditLevel, exceptionIds, modulesToIgnore);
+        });
+      }
+    });
     // stderr
     audit.stderr.on('data', console.error);
   }

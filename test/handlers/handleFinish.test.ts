@@ -10,7 +10,8 @@ describe('Events handling', () => {
   it('should exit if unable to process the JSON buffer', () => {
     const processStub = sinon.stub(process, 'exit');
     const consoleStub = sinon.stub(console, 'error');
-    const jsonBuffer = '';
+    const jsonProdBuffer = '';
+    const jsonDevBuffer = '';
     const auditLevel = 'info';
     const exceptionIds: string[] = [];
     const exceptionModules: string[] = [];
@@ -18,7 +19,7 @@ describe('Events handling', () => {
     expect(processStub.called).to.equal(false);
     expect(consoleStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonProdBuffer, jsonDevBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -33,13 +34,14 @@ describe('Events handling', () => {
   it('should be able to handle success case properly', () => {
     const processStub = sinon.stub(process, 'exit');
     const consoleStub = sinon.stub(console, 'info');
-    const jsonBuffer = JSON.stringify(V6_JSON_BUFFER_EMPTY);
+    const jsonDevBuffer = JSON.stringify(V6_JSON_BUFFER_EMPTY);
+    const jsonProdBuffer = JSON.stringify(V6_JSON_BUFFER_EMPTY);
     const auditLevel = 'info';
     const exceptionIds: string[] = [];
     const exceptionModules: string[] = [];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonProdBuffer, jsonDevBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(0)).to.equal(true);
@@ -54,13 +56,14 @@ describe('Events handling', () => {
   it('should be able to except vulnerabilities by id properly', () => {
     const processStub = sinon.stub(process, 'exit');
     const consoleStub = sinon.stub(console, 'info');
-    const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
+    const jsonDevBuffer = JSON.stringify(V6_JSON_BUFFER);
+    const jsonProdBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
     const exceptionIds = ['975', '985', '1179', '1213', '1500', '1523', '1555', '1556', '1589'];
     const exceptionModules = ['swagger-ui', 'mem'];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonProdBuffer, jsonDevBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(0)).to.equal(true);
@@ -76,7 +79,8 @@ describe('Events handling', () => {
     const processStub = sinon.stub(process, 'exit');
     const consoleErrorStub = sinon.stub(console, 'error');
     const consoleInfoStub = sinon.stub(console, 'info');
-    const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
+    const jsonDevBuffer = JSON.stringify(V6_JSON_BUFFER);
+    const jsonProdBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
     const exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555'];
     const exceptionModules: string[] = [];
@@ -85,7 +89,7 @@ describe('Events handling', () => {
     expect(consoleErrorStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonProdBuffer, jsonDevBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(consoleErrorStub.called).to.equal(true);
@@ -104,7 +108,8 @@ describe('Events handling', () => {
     const consoleErrorStub = sinon.stub(console, 'error');
     const consoleWarnStub = sinon.stub(console, 'warn');
     const consoleInfoStub = sinon.stub(console, 'info');
-    const jsonBuffer = JSON.stringify(V6_JSON_BUFFER);
+    const jsonDevBuffer = JSON.stringify(V6_JSON_BUFFER);
+    const jsonProdBuffer = JSON.stringify(V6_JSON_BUFFER);
     const auditLevel = 'info';
     let exceptionModules = ['fakeModule1', 'fakeModule2'];
     let exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555', '2001'];
@@ -114,7 +119,7 @@ describe('Events handling', () => {
     expect(consoleWarnStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonProdBuffer, jsonDevBuffer, auditLevel, exceptionIds, exceptionModules);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -136,7 +141,7 @@ describe('Events handling', () => {
     // Message for multiple unused exceptions
     exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555', '2001', '2002'];
     exceptionModules = ['fakeModule1'];
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonProdBuffer, jsonDevBuffer, auditLevel, exceptionIds, exceptionModules);
     message = [
       '2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002.',
       'They can be removed from the .nsprc file or --exclude -x flags.',
