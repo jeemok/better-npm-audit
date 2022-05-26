@@ -35,17 +35,12 @@ export function callback(auditCommand: string, auditLevel: AuditLevel, exception
   // Once the stdout has completed, process the output
   if (audit.stderr) {
     audit.stderr.on('close', () => {
-      console.log('first call');
       const auditProd = exec(`npm audit --production --json`, { maxBuffer: MAX_BUFFER_SIZE });
       if (auditProd.stderr) {
         if (auditProd.stdout) {
           auditProd.stdout.on('data', (data: string) => (jsonProdBuffer += data));
         }
         auditProd.stderr.on('close', () => {
-          // console.log(jsonBuffer);
-          // console.log('===============================================');
-          // console.log(jsonProdBuffer);
-          // jsonDevBuffer
           handleFinish(jsonProdBuffer, jsonDevBuffer, auditLevel, exceptionIds, modulesToIgnore);
         });
       }
