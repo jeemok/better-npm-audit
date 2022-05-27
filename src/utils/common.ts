@@ -20,7 +20,7 @@ export function isWholeNumber(value: string | number | null | undefined): boolea
  * @param {Boolean} logError    A boolean that determines if the function should log a caught error to console
  * @return {Boolean}            Returns true if the input string is parse-able
  */
-export function isYamlString(string: string, logError = true): boolean {
+export function isYamlString(string: string, logError:boolean = true): boolean {
   try {
     YAML.parse(string);
   } catch (e) {
@@ -53,7 +53,7 @@ export function getValidStatusAndType(string: string): Array<boolean> {
  * @param {Boolean} logError    A boolean that determines if the function should log a caught error to console
  * @return {Boolean}            Returns true if the input string is parse-able
  */
-export function isJsonString(string: string, logError = true): boolean {
+export function isJsonString(string: string, logError:boolean = true): boolean {
   try {
     JSON.parse(string);
   } catch (e) {
