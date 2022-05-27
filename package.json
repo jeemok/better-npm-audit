@@ -32,7 +32,8 @@
     "commander": "^8.0.0",
     "dayjs": "^1.10.6",
     "lodash.get": "^4.4.2",
-    "table": "^6.7.1"
+    "table": "^6.7.1",
+    "yaml": "^2.1.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",

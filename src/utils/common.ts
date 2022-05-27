@@ -1,3 +1,5 @@
+import YAML from 'yaml';
+
 // TODO: This might be unused
 /**
  * @param  {String | Number | Null | Boolean} value     The input number
@@ -14,14 +16,50 @@ export function isWholeNumber(value: string | number | null | undefined): boolea
 }
 
 /**
- * @param  {String} string    The JSON stringified object
- * @return {Boolean}          Returns true if the input string is parse-able
+ * @param {String} string       The YAML stringified object
+ * @param {Boolean} logError    A boolean that determines if the function should log a caught error to console
+ * @return {Boolean}            Returns true if the input string is parse-able
  */
-export function isJsonString(string: string): boolean {
+export function isYamlString(string: string, logError:boolean = true): boolean {
+  try {
+    YAML.parse(string);
+  } catch (e) {
+    if (logError) {
+      console.log('Failed parsing .nsprc file: ' + e);
+      throw e;
+    }
+  }
+  return true;
+}
+
+/**
+ * @param {String} string       The YAML/JSON stringified object
+ * @return {Array<Boolean>}     The first boolean determines if the input string was valid, the second if it is yaml or not
+ */
+export function getValidStatusAndType(string: string): Array<boolean> {
+  let isYaml = false;
+  try {
+    if ((isYaml = isYamlString(string, false) || isJsonString(string, false))) {
+      return [true, isYaml];
+    }
+  } catch (e) {
+    console.log('Failed parsing .nsprc file: ' + e);
+  }
+  return [false, false];
+}
+
+/**
+ * @param  {String} string      The JSON stringified object
+ * @param {Boolean} logError    A boolean that determines if the function should log a caught error to console
+ * @return {Boolean}            Returns true if the input string is parse-able
+ */
+export function isJsonString(string: string, logError:boolean = true): boolean {
   try {
     JSON.parse(string);
   } catch (e) {
-    console.log('Failed parsing .nsprc file: ' + e);
+    if (logError) {
+      console.log('Failed parsing .nsprc file: ' + e);
+    }
     return false;
   }
   return true;

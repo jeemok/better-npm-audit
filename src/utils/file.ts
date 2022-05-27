@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { NsprcFile } from 'src/types';
-import { isJsonString } from './common';
+import { getValidStatusAndType } from './common';
+import YAML from 'yaml';
 
 /**
  * Read file from path
@@ -10,10 +11,17 @@ import { isJsonString } from './common';
 export function readFile(path: string): NsprcFile | boolean {
   try {
     const data = fs.readFileSync(path, 'utf8');
-    if (!isJsonString(data)) {
-      return false;
+    const validAndType = getValidStatusAndType(data);
+
+    if (validAndType[0]) {
+      if (validAndType[1]) {
+        return YAML.parse(data);
+      } else {
+        return JSON.parse(data);
+      }
     }
-    return JSON.parse(data);
+
+    return false;
   } catch (err) {
     return false;
   }
