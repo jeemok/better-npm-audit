@@ -1,3 +1,7 @@
+import { ExecException } from "child_process";
+
+const { load } = require("js-yaml");
+
 // TODO: This might be unused
 /**
  * @param  {String | Number | Null | Boolean} value     The input number
@@ -14,14 +18,49 @@ export function isWholeNumber(value: string | number | null | undefined): boolea
 }
 
 /**
- * @param  {String} string    The JSON stringified object
- * @return {Boolean}          Returns true if the input string is parse-able
+ * @param {string} string     The YAML stringified object
+ * @returns {Boolean}         Returns true if the input string is parse-able
  */
-export function isJsonString(string: string): boolean {
+export function isYamlString(string: string, logError: boolean = true): boolean {
+  try {
+    load(string);
+  } catch(e){
+    if (logError){      
+      console.log('Failed parsing .nsprc file: ' + e);
+      throw e;
+    }
+  }
+  return true;
+}
+
+/**
+ * @param {String} string     The YAML/JSON stringified object
+ * @returns {Array<Boolean>}  An array with two booleans where the first determines if the input string was valid and the second if the contents are yaml or not.
+ */
+export function getValidStatusAndType(string: string): Array<Boolean> {
+  let isYaml = false;  
+  try{
+    if (isYaml = isYamlString(string, false) || isJsonString(string, false)){
+      return [true, isYaml];
+    }      
+  } catch (e) {
+    console.log('Failed parsing .nsprc file: ' + e);     
+  }  
+  return [false,false];
+}
+
+/**
+ * @param  {String} string      The JSON stringified object
+ * @param  {Boolean} logError  A boolean that determines if an error should be logged to console
+ * @return {Boolean}            Returns true if the input string is parse-able
+ */
+export function isJsonString(string: string, logError: boolean = true): boolean {
   try {
     JSON.parse(string);
   } catch (e) {
-    console.log('Failed parsing .nsprc file: ' + e);
+    if (logError){
+      console.log('Failed parsing .nsprc file: ' + e);
+    }
     return false;
   }
   return true;
