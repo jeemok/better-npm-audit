@@ -1,6 +1,4 @@
-import { ExecException } from "child_process";
-
-const { load } = require("js-yaml");
+import YAML from 'yaml';
 
 // TODO: This might be unused
 /**
@@ -18,14 +16,15 @@ export function isWholeNumber(value: string | number | null | undefined): boolea
 }
 
 /**
- * @param {string} string     The YAML stringified object
- * @returns {Boolean}         Returns true if the input string is parse-able
+ * @param {String} string       The YAML stringified object
+ * @param {Boolean} logError    A boolean that determines if the function should log a caught error to console
+ * @return {Boolean}            Returns true if the input string is parse-able
  */
-export function isYamlString(string: string, logError: boolean = true): boolean {
+export function isYamlString(string: string, logError = true): boolean {
   try {
-    load(string);
-  } catch(e){
-    if (logError){      
+    YAML.parse(string);
+  } catch (e) {
+    if (logError) {
       console.log('Failed parsing .nsprc file: ' + e);
       throw e;
     }
@@ -34,31 +33,31 @@ export function isYamlString(string: string, logError: boolean = true): boolean 
 }
 
 /**
- * @param {String} string     The YAML/JSON stringified object
- * @returns {Array<Boolean>}  An array with two booleans where the first determines if the input string was valid and the second if the contents are yaml or not.
+ * @param {String} string       The YAML/JSON stringified object
+ * @return {Array<Boolean>}     The first boolean determines if the input string was valid, the second if it is yaml or not
  */
-export function getValidStatusAndType(string: string): Array<Boolean> {
-  let isYaml = false;  
-  try{
-    if (isYaml = isYamlString(string, false) || isJsonString(string, false)){
+export function getValidStatusAndType(string: string): Array<boolean> {
+  let isYaml = false;
+  try {
+    if ((isYaml = isYamlString(string, false) || isJsonString(string, false))) {
       return [true, isYaml];
-    }      
+    }
   } catch (e) {
-    console.log('Failed parsing .nsprc file: ' + e);     
-  }  
-  return [false,false];
+    console.log('Failed parsing .nsprc file: ' + e);
+  }
+  return [false, false];
 }
 
 /**
  * @param  {String} string      The JSON stringified object
- * @param  {Boolean} logError  A boolean that determines if an error should be logged to console
+ * @param {Boolean} logError    A boolean that determines if the function should log a caught error to console
  * @return {Boolean}            Returns true if the input string is parse-able
  */
-export function isJsonString(string: string, logError: boolean = true): boolean {
+export function isJsonString(string: string, logError = true): boolean {
   try {
     JSON.parse(string);
   } catch (e) {
-    if (logError){
+    if (logError) {
       console.log('Failed parsing .nsprc file: ' + e);
     }
     return false;
