@@ -92,7 +92,7 @@ describe('Flags', () => {
     it('should be able to set production mode from the command flag correctly', () => {
       const callbackStub = sinon.stub();
       const options = { production: true };
-      const auditCommand = 'npm audit --production';
+      const auditCommand = 'npm audit --omit=dev';
       const auditLevel = 'info';
       const exceptionIds: string[] = [];
 
