@@ -1,7 +1,22 @@
 import get from 'lodash.get';
+import semver from 'semver';
 import { AuditLevel, CommandOptions } from 'src/types';
+import { getNpmVersion } from '../utils/npm';
 import { readFile } from '../utils/file';
 import { getExceptionsIds } from '../utils/vulnerability';
+
+/**
+ * Get the `npm audit` flag to audit only production dependencies.
+ * @return {String} The flag.
+ */
+function getProductionOnlyOption() {
+  const npmVersion = getNpmVersion();
+  if (semver.satisfies(npmVersion, '<=8.13.2')) {
+    return '--production';
+  } else {
+    return '--omit=dev';
+  }
+}
 
 /**
  * Handle user's input
@@ -13,7 +28,7 @@ export default function handleInput(options: CommandOptions, fn: (T1: string, T2
   const auditCommand: string = [
     'npm audit',
     // flags
-    get(options, 'production') ? '--production' : '',
+    get(options, 'production') ? getProductionOnlyOption() : '',
     get(options, 'registry') ? `--registry=${options.registry}` : '',
   ]
     .filter(Boolean)
