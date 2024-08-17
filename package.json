@@ -25,8 +25,8 @@
     "prebuild": "npm run qc && npm run clean",
     "build": "tsc",
     "postbuild": "cp README.md lib && chmod +x ./lib/index.js",
-    "publish:live": "npm run build && npm publish lib --tag latest",
-    "publish:next": "npm run build && npm publish lib --tag next"
+    "publish:live": "npm run build && npm publish ./lib --tag latest",
+    "publish:next": "npm run build && npm publish ./lib --tag next"
   },
   "dependencies": {
     "commander": "^8.0.0",

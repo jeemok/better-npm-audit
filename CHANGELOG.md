@@ -1,4 +1,4 @@
-## 3.8.1 (August 17, 2024)
+## 3.8.1 - 3.8.3 (August 17, 2024)
 
 - [607f16e](https://github.com/jeemok/better-npm-audit/commit/607f16edd1eebf2c022a8e6279d8061d9529ebd7) fix(build): ensure lib/index.js is executable after build
 
