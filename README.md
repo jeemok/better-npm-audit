@@ -6,6 +6,19 @@ The goal of this project is to provide additional features on top of the existin
 
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm downloads](https://img.shields.io/npm/d18m/better-npm-audit) ![node current](https://img.shields.io/node/v/better-npm-audit) ![node support](https://img.shields.io/badge/node-up_to_v22-brightgreen) ![npm vulnerability](https://snyk.io/test/github/jeemok/better-npm-audit/badge.svg?targetFile=package.json) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
 
+## Looking for Collaborators
+
+Hi there! 👋
+
+I’m currently looking for collaborators to help maintain and develop this project. Due to time constraints, I haven’t been able to give it the attention it deserves, but I believe it has great potential to grow with the help of passionate contributors.
+
+Become a Collaborator
+If you’re interested in contributing on a regular basis, I’d love to have you on board as a collaborator. Whether you’re interested in fixing bugs, adding new features, or improving documentation, your contributions will be highly valued.
+
+As a collaborator, you’ll have push access to the repository and play a key role in shaping the future of the project. If this sounds like something you’d be interested in, please reach out! You can open an issue titled “Interested in Collaborating” or contact me directly via email.
+
+Let’s work together to make this project even better!
+
 ## NPM version 6 and 7, and 8
 
 NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm audit`. The output of npm audit has significantly changed both in the human-readable and `--json` output styles. Even more unfortunately, when NPM changed the JSON output in npm v7, they removed many of the other useful identifiers (`cves`, `cwe`, `github_advisory_id`) and the only thing left is the URL. We are trying our best to handle each version and provide consistent functionality to all of them. Related docs on v6 and v7 changes:
