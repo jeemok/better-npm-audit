@@ -4,10 +4,7 @@ The goal of this project is to provide additional features on top of the existin
 
 [![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
 
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm downloads](https://img.shields.io/npm/d18m/better-npm-audit
-) ![node current](https://img.shields.io/node/v/better-npm-audit
-) ![node support](https://img.shields.io/badge/node-up_to_v22-brightgreen
-) ![npm vulnerability](https://snyk.io/test/github/jeemok/better-npm-audit/badge.svg?targetFile=package.json) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm downloads](https://img.shields.io/npm/d18m/better-npm-audit) ![node current](https://img.shields.io/node/v/better-npm-audit) ![node support](https://img.shields.io/badge/node-up_to_v22-brightgreen) ![npm vulnerability](https://snyk.io/test/github/jeemok/better-npm-audit/badge.svg?targetFile=package.json) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
 
 ## NPM version 6 and 7, and 8
 
@@ -81,7 +78,7 @@ npm run audit
 | `--exclude`       | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
 | `--module-ignore` | `-m`  | Names of modules to exclude                                                                           |
 | `--level`         | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
-| `--production`    | `-p`  | Skip checking the `devDependencies`                                                                   |
+| `--production`    | `-p`  | Skip the `devDependencies`                                                                            |
 | `--registry`      | `-r`  | The npm registry url to use                                                                           |
 
 <br />
