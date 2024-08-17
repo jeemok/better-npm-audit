@@ -1,4 +1,9 @@
-## 3.7.3 (March 22, 2022))
+## 3.8.0 (August 17, 2024)
+
+- [27a7cb3](https://github.com/jeemok/better-npm-audit/commit/27a7cb3bb31dda0d990f4686eb8b7b20085cfa79) Use "--omit=dev" internally on newer npm version
+- [76b4c57](https://github.com/jeemok/better-npm-audit/commit/76b4c576ea6581feac6f516868da83e7081d5995) [b3e04d3](https://github.com/jeemok/better-npm-audit/commit/b3e04d3de4ced028b4c9692dccafce0c52c4eed2) NPM Audit for fixing vulnerabilities
+
+## 3.7.3 (March 22, 2022)
 - [99c0697](https://github.com/jeemok/better-npm-audit/commit/99c069702ca7f18de641af34eea5c75e4df99b25) Added handling for empty strings in displaying unused exception message
 
 ## 3.7.2 (March 21, 2022)
