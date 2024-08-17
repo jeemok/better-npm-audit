@@ -1,3 +1,7 @@
+## 3.8.1 (August 17, 2024)
+
+- [607f16e](https://github.com/jeemok/better-npm-audit/commit/607f16edd1eebf2c022a8e6279d8061d9529ebd7) fix(build): ensure lib/index.js is executable after build
+
 ## 3.8.0 (August 17, 2024)
 
 - [27a7cb3](https://github.com/jeemok/better-npm-audit/commit/27a7cb3bb31dda0d990f4686eb8b7b20085cfa79) Use "--omit=dev" internally on newer npm version
