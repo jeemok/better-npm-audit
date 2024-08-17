@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "index.js",
   "bin": {
-    "better-npm-audit": "index.js"
+    "better-npm-audit": "./index.js"
   },
   "repository": {
     "type": "git",
