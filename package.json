@@ -13,7 +13,7 @@
     "url": "https://github.com/jeemok/better-npm-audit"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">= 8.12"
   },
   "scripts": {
     "preaudit": "npm run build",
