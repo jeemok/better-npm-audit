@@ -1,11 +1,10 @@
-import { exec } from 'child_process';
-import { Readable } from 'stream';
+import { execSync } from 'child_process';
 
 /**
  * Get the current npm version
  * @return {String} The npm version
  */
 export function getNpmVersion(): string {
-  const version = exec('npm --version');
-  return (version.stdout as Readable).toString();
+  const version = execSync('npm --version');
+  return version.toString();
 }
