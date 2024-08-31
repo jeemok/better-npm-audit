@@ -18,9 +18,16 @@ const program = new Command();
  * @param  {String} auditCommand    The NPM audit command to use (with flags)
  * @param  {String} auditLevel      The level of vulnerabilities we care about
  * @param  {Array}  exceptionIds    List of vulnerability IDs to exclude
- * @param  {Array} modulesToIgnore   List of vulnerable modules to ignore in audit results
+ * @param  {Array} modulesToIgnore  List of vulnerable modules to ignore in audit results
+ * @param  {Array} columnsToInclude List of columns to include in audit results
  */
-export function callback(auditCommand: string, auditLevel: AuditLevel, exceptionIds: string[], modulesToIgnore: string[]): void {
+export function callback(
+  auditCommand: string,
+  auditLevel: AuditLevel,
+  exceptionIds: string[],
+  modulesToIgnore: string[],
+  columnsToInclude: string[],
+): void {
   // Increase the default max buffer size (1 MB)
   const audit = exec(`${auditCommand} --json`, { maxBuffer: MAX_BUFFER_SIZE });
 
@@ -33,7 +40,7 @@ export function callback(auditCommand: string, auditLevel: AuditLevel, exception
 
   // Once the stdout has completed, process the output
   if (audit.stderr) {
-    audit.stderr.on('close', () => handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore));
+    audit.stderr.on('close', () => handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude));
     // stderr
     audit.stderr.on('data', console.error);
   }
@@ -49,6 +56,7 @@ program
   .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
   .option('-p, --production', 'Skip checking the devDependencies.')
   .option('-r, --registry <url>', 'The npm registry url to use.')
+  .option('-i, --include-columns <columnName1>,<columnName2>,..,<columnNameN>', 'Columns to include in report.')
   .action((options: CommandOptions) => handleInput(options, callback));
 
 program.parse(process.argv);

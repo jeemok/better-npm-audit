@@ -14,11 +14,12 @@ describe('Events handling', () => {
     const auditLevel = 'info';
     const exceptionIds: string[] = [];
     const exceptionModules: string[] = [];
+    const columnsToInclude: string[] = [];
 
     expect(processStub.called).to.equal(false);
     expect(consoleStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules, columnsToInclude);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -37,9 +38,10 @@ describe('Events handling', () => {
     const auditLevel = 'info';
     const exceptionIds: string[] = [];
     const exceptionModules: string[] = [];
+    const columnsToInclude: string[] = [];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules, columnsToInclude);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(0)).to.equal(true);
@@ -58,9 +60,10 @@ describe('Events handling', () => {
     const auditLevel = 'info';
     const exceptionIds = ['975', '985', '1179', '1213', '1500', '1523', '1555', '1556', '1589'];
     const exceptionModules = ['swagger-ui', 'mem'];
+    const columnsToInclude: string[] = [];
 
     expect(consoleStub.called).to.equal(false);
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules, columnsToInclude);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(0)).to.equal(true);
@@ -80,12 +83,13 @@ describe('Events handling', () => {
     const auditLevel = 'info';
     const exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555'];
     const exceptionModules: string[] = [];
+    const columnsToInclude: string[] = [];
 
     expect(processStub.called).to.equal(false);
     expect(consoleErrorStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules, columnsToInclude);
 
     expect(processStub.called).to.equal(true);
     expect(consoleErrorStub.called).to.equal(true);
@@ -108,13 +112,14 @@ describe('Events handling', () => {
     const auditLevel = 'info';
     let exceptionModules = ['fakeModule1', 'fakeModule2'];
     let exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555', '2001'];
+    const columnsToInclude: string[] = [];
 
     expect(processStub.called).to.equal(false);
     expect(consoleErrorStub.called).to.equal(false);
     expect(consoleWarnStub.called).to.equal(false);
     expect(consoleInfoStub.called).to.equal(false);
 
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules, columnsToInclude);
 
     expect(processStub.called).to.equal(true);
     expect(processStub.calledWith(1)).to.equal(true);
@@ -136,7 +141,7 @@ describe('Events handling', () => {
     // Message for multiple unused exceptions
     exceptionIds = ['975', '976', '985', '1084', '1179', '1213', '1500', '1523', '1555', '2001', '2002'];
     exceptionModules = ['fakeModule1'];
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules);
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, exceptionModules, columnsToInclude);
     message = [
       '2 of the excluded vulnerabilities did not match any of the found vulnerabilities: 2001, 2002.',
       'They can be removed from the .nsprc file or --exclude -x flags.',

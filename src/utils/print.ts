@@ -2,7 +2,7 @@ import get from 'lodash.get';
 import { table, TableUserConfig } from 'table';
 import { SecurityReportHeader, ExceptionReportHeader } from 'src/types';
 
-const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Sev.', 'URL', 'Ex.'];
+const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Severity', 'URL', 'Ex.'];
 const EXCEPTION_REPORT_HEADER: ExceptionReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes'];
 
 // TODO: Add unit tests
@@ -35,10 +35,11 @@ export function getColumnWidth(tableData: string[][], columnIndex: number, maxWi
 
 /**
  * Print the security report in a table format
- * @param  {Array} data   Array of arrays
- * @return {undefined}    Returns void
+ * @param  {Array} data               Array of arrays
+ * @return {undefined}                Returns void
+ * @param  {Array} columnsToInclude   List of columns to include in audit results
  */
-export function printSecurityReport(data: string[][]): void {
+export function printSecurityReport(data: string[][], columnsToInclude: string[]): void {
   const configs: TableUserConfig = {
     singleLine: true,
     header: {
@@ -58,8 +59,9 @@ export function printSecurityReport(data: string[][]): void {
       },
     },
   };
+  const headers = columnsToInclude.length ? SECURITY_REPORT_HEADER.filter((h) => columnsToInclude.includes(h)) : SECURITY_REPORT_HEADER;
 
-  console.info(table([SECURITY_REPORT_HEADER, ...data], configs));
+  console.info(table([headers, ...data], configs));
 }
 
 /**
