@@ -1,7 +1,9 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
+import * as semver from 'semver';
 import { CommandOptions } from '../../src/types';
 import handleInput from '../../src/handlers/handleInput';
+import { getNpmVersion } from '../../src/utils/npm';
 
 describe('Flags', () => {
   describe('default', () => {
@@ -92,7 +94,9 @@ describe('Flags', () => {
     it('should be able to set production mode from the command flag correctly', () => {
       const callbackStub = sinon.stub();
       const options = { production: true };
-      const auditCommand = 'npm audit --omit=dev';
+      const npmVersion = getNpmVersion();
+      const flag = semver.satisfies(npmVersion, '<=8.13.2') ? '--production' : '--omit=dev';
+      const auditCommand = `npm audit ${flag}`;
       const auditLevel = 'info';
       const exceptionIds: string[] = [];
 
