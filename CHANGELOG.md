@@ -1,3 +1,8 @@
+## 3.9.0 (September 2, 2024)
+
+- [5df4120](https://github.com/jeemok/better-npm-audit/commit/5df4120aeadb5dc1d8750c4d863eee3bd6e1aab6) Bump micromatch from 4.0.4 to 4.0.8
+- [8820f03](https://github.com/jeemok/better-npm-audit/commit/8820f035a6ec93f402085d81f680443dd81b3906) Fix getting npm version through CLI
+
 ## 3.8.1 - 3.8.3 (August 17, 2024)
 
 - [607f16e](https://github.com/jeemok/better-npm-audit/commit/607f16edd1eebf2c022a8e6279d8061d9529ebd7) fix(build): ensure lib/index.js is executable after build
