@@ -86,13 +86,14 @@ npm run audit
 
 ## Options
 
-| Flag              | Short | Description                                                                                           |
-| ----------------- | ----- | ----------------------------------------------------------------------------------------------------- |
-| `--exclude`       | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
-| `--module-ignore` | `-m`  | Names of modules to exclude                                                                           |
-| `--level`         | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
-| `--production`    | `-p`  | Skip the `devDependencies`                                                                            |
-| `--registry`      | `-r`  | The npm registry url to use                                                                           |
+| Flag                | Short | Description                                                                                           |
+| --------------------| ----- | ----------------------------------------------------------------------------------------------------- |
+| `--exclude`         | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
+| `--module-ignore`   | `-m`  | Names of modules to exclude                                                                           |
+| `--level`           | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
+| `--production`      | `-p`  | Skip the `devDependencies`                                                                            |
+| `--registry`        | `-r`  | The npm registry url to use                                                                           |
+| `--include-columns` | `-i`  | Columns to include in report                                                                          |
 
 <br />
 

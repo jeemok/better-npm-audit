@@ -203,6 +203,7 @@ describe('Flags', () => {
 
       // with space
       options.moduleIgnore = 'lodash, moment';
+
       handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore)).to.equal(true);
 
@@ -215,6 +216,38 @@ describe('Flags', () => {
       options.moduleIgnore = 'lodash,null,moment';
       handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore)).to.equal(true);
+    });
+  });
+
+  describe('--include-columns', () => {
+    it('should be able to pass column names using the command flag smoothly', () => {
+      const callbackStub = sinon.stub();
+      const options = { includeColumns: 'ID,Module' };
+      const auditCommand = 'npm audit';
+      const auditLevel = 'info';
+      const exceptionIds: string[] = [];
+      const modulesToIgnore: string[] = [''];
+      const columnsToInclude = ['ID', 'Module'];
+
+      expect(callbackStub.called).to.equal(false);
+      handleInput(options, callbackStub);
+      expect(callbackStub.called).to.equal(true);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude)).to.equal(true);
+
+      // with space
+      options.includeColumns = 'ID, Module';
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude)).to.equal(true);
+
+      // invalid exceptions
+      options.includeColumns = 'ID,undefined,Module';
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude)).to.equal(true);
+
+      // invalid null
+      options.includeColumns = 'ID,null,Module';
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude)).to.equal(true);
     });
   });
 });

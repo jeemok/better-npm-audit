@@ -22,7 +22,10 @@ function getProductionOnlyOption() {
  * @param  {Object} options     User's command options or flags
  * @param  {Function} fn        The function to handle the inputs
  */
-export default function handleInput(options: CommandOptions, fn: (T1: string, T2: AuditLevel, T3: string[], T4: string[]) => void): void {
+export default function handleInput(
+  options: CommandOptions,
+  fn: (T1: string, T2: AuditLevel, T3: string[], T4: string[], T5: string[]) => void,
+): void {
   // Generate NPM Audit command
   const auditCommand: string = [
     'npm audit',
@@ -45,6 +48,10 @@ export default function handleInput(options: CommandOptions, fn: (T1: string, T2
     .filter((each) => each !== '');
   const exceptionIds: string[] = getExceptionsIds(nsprc, cmdExceptions);
   const cmdModuleIgnore: string[] = get(options, 'moduleIgnore', '').split(',');
+  const cmdIncludeColumns: string[] = get(options, 'includeColumns', '')
+    .split(',')
+    .map((each: string) => each.trim())
+    .filter((each: string) => !!each);
 
-  fn(auditCommand, auditLevel, exceptionIds, cmdModuleIgnore);
+  fn(auditCommand, auditLevel, exceptionIds, cmdModuleIgnore, cmdIncludeColumns);
 }
