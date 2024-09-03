@@ -1,3 +1,7 @@
+## 3.10.0 (September 3, 2024)
+
+- [#100](https://github.com/jeemok/better-npm-audit/pull/100) Add support for including specific columns in audit report
+
 ## 3.9.0 (September 2, 2024)
 
 - [5df4120](https://github.com/jeemok/better-npm-audit/commit/5df4120aeadb5dc1d8750c4d863eee3bd6e1aab6) Bump micromatch from 4.0.4 to 4.0.8
