@@ -1,3 +1,7 @@
+## 3.11.0 (September 9, 2024)
+
+- [#102](https://github.com/jeemok/better-npm-audit/pull/102) Respect the `NO_COLOR` environment variable
+
 ## 3.10.0 (September 3, 2024)
 
 - [#100](https://github.com/jeemok/better-npm-audit/pull/100) Add support for including specific columns in audit report

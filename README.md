@@ -87,7 +87,7 @@ npm run audit
 ## Options
 
 | Flag                | Short | Description                                                                                           |
-| --------------------| ----- | ----------------------------------------------------------------------------------------------------- |
+| ------------------- | ----- | ----------------------------------------------------------------------------------------------------- |
 | `--exclude`         | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
 | `--module-ignore`   | `-m`  | Names of modules to exclude                                                                           |
 | `--level`           | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
@@ -101,6 +101,7 @@ npm run audit
 
 | Variable                 | Description                                                                                                                |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `NO_COLOR`               | Support the [no-color standard](https://no-color.org/) to allow users use the tool without colored output.                 |
 | `NPM_CONFIG_AUDIT_LEVEL` | Used in setting the audit level. <br /> _Note: this will be disregard if the audit level flag is passed onto the command._ |
 
 <br />
