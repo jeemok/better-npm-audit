@@ -49,6 +49,10 @@ const COLORS = <const>{
  * @return {String}             Message
  */
 export function color(message: string, fgColor?: Color, bgColor?: Color): string {
+  if ('NO_COLOR' in process.env) {
+    return message;
+  }
+
   return [
     <ColorCode>get(COLORS, `${fgColor}.fg`, ''),
     <ColorCode>get(COLORS, `${bgColor}.bg`, ''),

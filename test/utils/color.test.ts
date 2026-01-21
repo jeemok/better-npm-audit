@@ -2,6 +2,21 @@ import { expect } from 'chai';
 import { color, getSeverityBgColor } from '../../src/utils/color';
 
 describe('Color utils', () => {
+  let originalNoColor: string | undefined;
+
+  before(() => {
+    originalNoColor = process.env.NO_COLOR;
+    delete process.env.NO_COLOR;
+  });
+
+  after(() => {
+    if (originalNoColor !== undefined) {
+      process.env.NO_COLOR = originalNoColor;
+    } else {
+      delete process.env.NO_COLOR;
+    }
+  });
+
   describe('#color', () => {
     it('should handle correctly without given colors specificed', () => {
       expect(color('message')).to.equal('message\u001b[0m');

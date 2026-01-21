@@ -1,4 +1,26 @@
-## 3.7.3 (March 22, 2022))
+## 3.11.0 (September 9, 2024)
+
+- [#102](https://github.com/jeemok/better-npm-audit/pull/102) Respect the `NO_COLOR` environment variable
+
+## 3.10.0 (September 3, 2024)
+
+- [#100](https://github.com/jeemok/better-npm-audit/pull/100) Add support for including specific columns in audit report
+
+## 3.9.0 (September 2, 2024)
+
+- [5df4120](https://github.com/jeemok/better-npm-audit/commit/5df4120aeadb5dc1d8750c4d863eee3bd6e1aab6) Bump micromatch from 4.0.4 to 4.0.8
+- [8820f03](https://github.com/jeemok/better-npm-audit/commit/8820f035a6ec93f402085d81f680443dd81b3906) Fix getting npm version through CLI
+
+## 3.8.1 - 3.8.3 (August 17, 2024)
+
+- [607f16e](https://github.com/jeemok/better-npm-audit/commit/607f16edd1eebf2c022a8e6279d8061d9529ebd7) fix(build): ensure lib/index.js is executable after build
+
+## 3.8.0 (August 17, 2024)
+
+- [27a7cb3](https://github.com/jeemok/better-npm-audit/commit/27a7cb3bb31dda0d990f4686eb8b7b20085cfa79) Use "--omit=dev" internally on newer npm version
+- [76b4c57](https://github.com/jeemok/better-npm-audit/commit/76b4c576ea6581feac6f516868da83e7081d5995) [b3e04d3](https://github.com/jeemok/better-npm-audit/commit/b3e04d3de4ced028b4c9692dccafce0c52c4eed2) NPM Audit for fixing vulnerabilities
+
+## 3.7.3 (March 22, 2022)
 - [99c0697](https://github.com/jeemok/better-npm-audit/commit/99c069702ca7f18de641af34eea5c75e4df99b25) Added handling for empty strings in displaying unused exception message
 
 ## 3.7.2 (March 21, 2022)

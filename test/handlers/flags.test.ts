@@ -1,7 +1,9 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
+import * as semver from 'semver';
 import { CommandOptions } from '../../src/types';
 import handleInput from '../../src/handlers/handleInput';
+import { getNpmVersion } from '../../src/utils/npm';
 
 describe('Flags', () => {
   describe('default', () => {
@@ -92,7 +94,9 @@ describe('Flags', () => {
     it('should be able to set production mode from the command flag correctly', () => {
       const callbackStub = sinon.stub();
       const options = { production: true };
-      const auditCommand = 'npm audit --production';
+      const npmVersion = getNpmVersion();
+      const flag = semver.satisfies(npmVersion, '<=8.13.2') ? '--production' : '--omit=dev';
+      const auditCommand = `npm audit ${flag}`;
       const auditLevel = 'info';
       const exceptionIds: string[] = [];
 
@@ -199,6 +203,7 @@ describe('Flags', () => {
 
       // with space
       options.moduleIgnore = 'lodash, moment';
+
       handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore)).to.equal(true);
 
@@ -211,6 +216,38 @@ describe('Flags', () => {
       options.moduleIgnore = 'lodash,null,moment';
       handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore)).to.equal(true);
+    });
+  });
+
+  describe('--include-columns', () => {
+    it('should be able to pass column names using the command flag smoothly', () => {
+      const callbackStub = sinon.stub();
+      const options = { includeColumns: 'ID,Module' };
+      const auditCommand = 'npm audit';
+      const auditLevel = 'info';
+      const exceptionIds: string[] = [];
+      const modulesToIgnore: string[] = [''];
+      const columnsToInclude = ['ID', 'Module'];
+
+      expect(callbackStub.called).to.equal(false);
+      handleInput(options, callbackStub);
+      expect(callbackStub.called).to.equal(true);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude)).to.equal(true);
+
+      // with space
+      options.includeColumns = 'ID, Module';
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude)).to.equal(true);
+
+      // invalid exceptions
+      options.includeColumns = 'ID,undefined,Module';
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude)).to.equal(true);
+
+      // invalid null
+      options.includeColumns = 'ID,null,Module';
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude)).to.equal(true);
     });
   });
 });

@@ -4,7 +4,20 @@ The goal of this project is to provide additional features on top of the existin
 
 [![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
 
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm vulnerability](https://img.shields.io/snyk/vulnerabilities/npm/better-npm-audit?style=flat-square) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm downloads](https://img.shields.io/npm/d18m/better-npm-audit) ![node current](https://img.shields.io/node/v/better-npm-audit) ![node support](https://img.shields.io/badge/node-up_to_v22-brightgreen) ![npm vulnerability](https://snyk.io/test/github/jeemok/better-npm-audit/badge.svg?targetFile=package.json) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
+
+## Looking for Collaborators
+
+Hi there! 👋
+
+I’m currently looking for collaborators to help maintain and develop this project. Due to time constraints, I haven’t been able to give it the attention it deserves, but I believe it has great potential to grow with the help of passionate contributors.
+
+Become a Collaborator
+If you’re interested in contributing on a regular basis, I’d love to have you on board as a collaborator. Whether you’re interested in fixing bugs, adding new features, or improving documentation, your contributions will be highly valued.
+
+As a collaborator, you’ll have push access to the repository and play a key role in shaping the future of the project. If this sounds like something you’d be interested in, please reach out! You can open an issue titled “Interested in Collaborating” or contact me directly via email.
+
+Let’s work together to make this project even better!
 
 ## NPM version 6 and 7, and 8
 
@@ -69,17 +82,36 @@ Now you can run locally or in your CI pipeline:
 npm run audit
 ```
 
+### Filter vulnerability table
+
+You can filter the vulnerability table to show only vulnerabilities at or above a specified severity level using the `--filter-table` flag. This is useful for reducing noise in the output while maintaining the original audit behavior for exit codes.
+
+```bash
+# Filter table to show only high and critical vulnerabilities
+better-npm-audit audit --filter-table high
+
+# Filter table to match the audit level
+better-npm-audit audit --level moderate --filter-table
+
+# Set different levels for exit behavior vs table display
+better-npm-audit audit --level high --filter-table moderate
+```
+
+**Note:** The `--filter-table` flag only affects what vulnerabilities are displayed in the table. The audit level (`--level`) still controls the exit behavior and vulnerability counting.
+
 <br />
 
 ## Options
 
-| Flag              | Short | Description                                                                                           |
-| ----------------- | ----- | ----------------------------------------------------------------------------------------------------- |
-| `--exclude`       | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
-| `--module-ignore` | `-m`  | Names of modules to exclude                                                                           |
-| `--level`         | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
-| `--production`    | `-p`  | Skip checking the `devDependencies`                                                                   |
-| `--registry`      | `-r`  | The npm registry url to use                                                                           |
+| Flag                | Short | Description                                                                                           |
+| ------------------- | ----- | ----------------------------------------------------------------------------------------------------- |
+| `--exclude`         | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
+| `--module-ignore`   | `-m`  | Names of modules to exclude                                                                           |
+| `--level`           | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
+| `--filter-table`    | `-f`  | Filter the vulnerability table to show only vulnerabilities at or above the specified level. Accepts a level (`info`, `low`, `moderate`, `high`, `critical`) or can be used as a boolean flag to filter by the audit level |
+| `--production`      | `-p`  | Skip the `devDependencies`                                                                            |
+| `--registry`        | `-r`  | The npm registry url to use                                                                           |
+| `--include-columns` | `-i`  | Columns to include in report                                                                          |
 
 <br />
 
@@ -87,6 +119,7 @@ npm run audit
 
 | Variable                 | Description                                                                                                                |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `NO_COLOR`               | Support the [no-color standard](https://no-color.org/) to allow users use the tool without colored output.                 |
 | `NPM_CONFIG_AUDIT_LEVEL` | Used in setting the audit level. <br /> _Note: this will be disregard if the audit level flag is passed onto the command._ |
 
 <br />
@@ -138,7 +171,7 @@ You can find the changelog [here](https://github.com/jeemok/better-npm-audit/blo
 
 ## Contributors
 
-[Ian Wright](https://github.com/IPWright83), [Edwin Taylor](https://github.com/alertme-edwin), [Maarten Hus](https://github.com/MrHus), [Alex Burkowsky](https://github.com/alexburkowskypolysign), [David M. Lee](https://github.com/leedm777), [Kyle Clark](https://github.com/kyle-clark1824), [Guillermo Pincay](https://github.com/guillermaster), [Grzegorz Pawłowski](https://github.com/GrzesiekP), [CSLTech](https://github.com/CSLTech), [Paul Clarkin](https://github.com/paulclarkin), [mgdodge](https://github.com/mgdodge), [Ricky Sullivan](https://github.com/rickysullivan), [Sam Gregory](https://github.com/samgregory88), [Tristan WAGNER](https://github.com/tristanwagner), [Zak](https://github.com/ZedLove)
+[Ian Wright](https://github.com/IPWright83), [Edwin Taylor](https://github.com/alertme-edwin), [Maarten Hus](https://github.com/MrHus), [Alex Burkowsky](https://github.com/alexburkowskypolysign), [David M. Lee](https://github.com/leedm777), [Kyle Clark](https://github.com/kyle-clark1824), [Guillermo Pincay](https://github.com/guillermaster), [Grzegorz Pawłowski](https://github.com/GrzesiekP), [CSLTech](https://github.com/CSLTech), [Paul Clarkin](https://github.com/paulclarkin), [mgdodge](https://github.com/mgdodge), [Ricky Sullivan](https://github.com/rickysullivan), [Sam Gregory](https://github.com/samgregory88), [Tristan WAGNER](https://github.com/tristanwagner), [Zak](https://github.com/ZedLove), [Eric Cornelissen](https://github.com/ericcornelissen), [Gaurav Chinavle](https://github.com/GauravChinavle)
 
 <br />
 

@@ -1,6 +1,6 @@
 {
   "name": "better-npm-audit",
-  "version": "3.7.3",
+  "version": "3.11.0",
   "author": "Jee Mok <jee.ict@hotmail.com>",
   "description": "Reshape into a better npm audit for the community and encourage more people to include security audit into their process.",
   "license": "MIT",
@@ -24,14 +24,15 @@
     "clean": "rimraf lib",
     "prebuild": "npm run qc && npm run clean",
     "build": "tsc",
-    "postbuild": "cp README.md lib",
-    "publish:live": "npm run build && npm publish lib --tag latest",
-    "publish:next": "npm run build && npm publish lib --tag next"
+    "postbuild": "cp README.md lib && chmod +x ./lib/index.js",
+    "publish:live": "npm run build && npm publish ./lib --tag latest",
+    "publish:next": "npm run build && npm publish ./lib --tag next"
   },
   "dependencies": {
     "commander": "^8.0.0",
     "dayjs": "^1.10.6",
     "lodash.get": "^4.4.2",
+    "semver": "^7.6.3",
     "table": "^6.7.1",
     "yaml": "^2.1.0"
   },
@@ -40,6 +41,7 @@
     "@types/lodash.get": "^4.4.6",
     "@types/mocha": "^8.2.3",
     "@types/node": "^16.0.0",
+    "@types/semver": "^7.5.8",
     "@types/sinon": "^10.0.2",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
@@ -48,7 +50,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "mocha": "^8.3.0",
+    "mocha": "^10.7.3",
     "prettier": "2.3.2",
     "rimraf": "^3.0.2",
     "sinon": "^9.2.4",

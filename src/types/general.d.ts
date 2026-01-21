@@ -5,7 +5,9 @@ export interface CommandOptions {
   readonly moduleIgnore?: string;
   readonly production?: boolean;
   readonly level?: AuditLevel;
+  readonly filterTable?: string | boolean;
   readonly registry?: string;
+  readonly includeColumns?: string;
 }
 
 export interface NpmAuditJson {
