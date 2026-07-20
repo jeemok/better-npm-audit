@@ -6,6 +6,31 @@ import { readFile } from '../utils/file';
 import { getExceptionsIds } from '../utils/vulnerability';
 
 /**
+ * Validate registry URL to prevent command injection
+ * @param {string} url - The registry URL to validate
+ * @return {boolean} True if valid URL, false otherwise
+ */
+function validateRegistryUrl(url: string): boolean {
+  if (!url || typeof url !== 'string') {
+    return false;
+  }
+
+  // Check for shell metacharacters that could enable command injection
+  const dangerousPatterns = /[;|&`$(){}[\]<>\n\r]/;
+  if (dangerousPatterns.test(url)) {
+    return false;
+  }
+
+  // Validate as proper URL
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Get the `npm audit` flag to audit only production dependencies.
  * @return {String} The flag.
  */
@@ -26,12 +51,19 @@ export default function handleInput(
   options: CommandOptions,
   fn: (T1: string, T2: AuditLevel, T3: string[], T4: string[], T5: string[], T6?: AuditLevel) => void,
 ): void {
+  // Validate registry URL if provided
+  const registryOption = get(options, 'registry');
+  if (registryOption && !validateRegistryUrl(registryOption)) {
+    console.error('Error: Invalid registry URL. URL must be a valid http/https URL without shell metacharacters.');
+    process.exit(1);
+  }
+
   // Generate NPM Audit command
   const auditCommand: string = [
     'npm audit',
     // flags
     get(options, 'production') ? getProductionOnlyOption() : '',
-    get(options, 'registry') ? `--registry=${options.registry}` : '',
+    registryOption ? `--registry=${registryOption}` : '',
   ]
     .filter(Boolean)
     .join(' ');
