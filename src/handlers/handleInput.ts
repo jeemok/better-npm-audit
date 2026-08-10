@@ -1,4 +1,4 @@
-import get from 'lodash.get';
+import { get } from 'lodash-es';
 import semver from 'semver';
 import { AuditLevel, CommandOptions } from 'src/types';
 import { getNpmVersion } from '../utils/npm';

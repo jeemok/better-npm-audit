@@ -1,4 +1,4 @@
-import get from 'lodash.get';
+import { get } from 'lodash-es';
 import { Severity, Color, ColorCode } from 'src/types';
 
 const RESET = '\x1b[0m' as const;

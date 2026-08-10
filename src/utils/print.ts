@@ -1,4 +1,4 @@
-import get from 'lodash.get';
+import { get } from 'lodash-es';
 import { table, TableUserConfig } from 'table';
 import { SecurityReportHeader, ExceptionReportHeader } from 'src/types';
 
