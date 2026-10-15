@@ -20,6 +20,7 @@
     "audit": "node lib audit -x 1064843,1067245",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "qc": "npm run test && npm run lint",
     "clean": "rimraf lib",
     "prebuild": "npm run qc && npm run clean",
