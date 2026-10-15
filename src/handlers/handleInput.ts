@@ -4,6 +4,7 @@ import { AuditLevel, CommandOptions } from 'src/types';
 import { getNpmVersion } from '../utils/npm';
 import { readFile } from '../utils/file';
 import { getExceptionsIds } from '../utils/vulnerability';
+import dayjs from 'dayjs';
 
 /**
  * Get the `npm audit` flag to audit only production dependencies.
@@ -53,8 +54,58 @@ export default function handleInput(
     }
   }
 
+  if (options.exclude) {
+    if (options.requireExpiry) {
+      console.error('Exclusions have been set via the commandline without expiry dates, use .nsprc instead or disable requireExpiry');
+      process.exit(1);
+    }
+    if (options.requireNotes) {
+      console.error('Exclusions have been set via the commandline without without notes, use .nsprc instead or disable requireNotes');
+      process.exit(1);
+    }
+  }
+
   // Get the exceptions
   const nsprc = readFile('.nsprc');
+
+  if (nsprc && typeof nsprc === 'object') {
+    const exclusions = Object.entries(nsprc);
+
+    exclusions.forEach(([cve, exclusion]) => {
+      if (typeof exclusion === 'string') {
+        if (options.requireExpiry) {
+          console.error(`Exclusion ${cve} in .nsprc is missing an expiry date`);
+          process.exit(1);
+        }
+        if (options.requireNotes) {
+          console.error(`Exclusion ${cve} in .nsprc is missing notes`);
+          process.exit(1);
+        }
+      } else {
+        if (options.requireExpiry && !exclusion.expiry) {
+          console.error(`Exclusion ${cve} in .nsprc is missing an expiry date`);
+          process.exit(1);
+        }
+        if (options.requireNotes && !exclusion.notes) {
+          console.error(`Exclusion ${cve} in .nsprc is missing notes`);
+          process.exit(1);
+        }
+
+        if (options.maxExpiryDays) {
+          const dayjsNow = dayjs(Date.now());
+          const dayjsMaxExpiryDate = dayjsNow.add(options.maxExpiryDays, 'day');
+
+          if (dayjsMaxExpiryDate.isAfter(exclusion.expiry)) {
+            console.error(
+              `Exclusion ${cve} in .nsprc has an expiry too far in the future (maximum ${options.maxExpiryDays} days from today)`,
+            );
+            process.exit(1);
+          }
+        }
+      }
+    });
+  }
+
   const cmdExceptions: string[] = get(options, 'exclude', '')
     .split(',')
     .map((each) => each.trim())
