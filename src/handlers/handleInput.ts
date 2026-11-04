@@ -1,4 +1,3 @@
-import get from 'lodash.get';
 import semver from 'semver';
 import { AuditLevel, CommandOptions } from 'src/types';
 import { getNpmVersion } from '../utils/npm';
@@ -52,7 +51,7 @@ export default function handleInput(
   fn: (T1: string, T2: AuditLevel, T3: string[], T4: string[], T5: string[], T6?: AuditLevel) => void,
 ): void {
   // Validate registry URL if provided
-  const registryOption = get(options, 'registry');
+  const registryOption = options.registry;
   if (registryOption && !validateRegistryUrl(registryOption)) {
     console.error('Error: Invalid registry URL. URL must be a valid http/https URL without shell metacharacters.');
     process.exit(1);
@@ -62,7 +61,7 @@ export default function handleInput(
   const auditCommand: string = [
     'npm audit',
     // flags
-    get(options, 'production') ? getProductionOnlyOption() : '',
+    options.production ? getProductionOnlyOption() : '',
     registryOption ? `--registry=${registryOption}` : '',
   ]
     .filter(Boolean)
@@ -70,11 +69,11 @@ export default function handleInput(
 
   // Taking the audit level from the command or environment variable
   const envVar = process.env.NPM_CONFIG_AUDIT_LEVEL as AuditLevel;
-  const auditLevel: AuditLevel = get(options, 'level', envVar) || 'info';
+  const auditLevel: AuditLevel = options.level || envVar || 'info';
 
   // Process filter table option
   let filterLevel: AuditLevel | undefined;
-  const filterTableOption = get(options, 'filterTable');
+  const filterTableOption = options.filterTable;
   if (filterTableOption) {
     if (typeof filterTableOption === 'string') {
       // User provided a specific level for filtering
@@ -107,13 +106,13 @@ export default function handleInput(
     }
   }
 
-  const cmdExceptions: string[] = get(options, 'exclude', '')
+  const cmdExceptions: string[] = (options.exclude ?? '')
     .split(',')
     .map((each) => each.trim())
     .filter((each) => each !== '');
   const exceptionIds: string[] = getExceptionsIds(nsprc, cmdExceptions);
-  const cmdModuleIgnore: string[] = get(options, 'moduleIgnore', '').split(',');
-  const cmdIncludeColumns: string[] = get(options, 'includeColumns', '')
+  const cmdModuleIgnore: string[] = (options.moduleIgnore ?? '').split(',');
+  const cmdIncludeColumns: string[] = (options.includeColumns ?? '')
     .split(',')
     .map((each: string) => each.trim())
     .filter((each: string) => !!each);

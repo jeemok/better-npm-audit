@@ -9,6 +9,9 @@ import { NsprcFile } from 'src/types';
  */
 export function readFile(path: string): NsprcFile | boolean {
   try {
+    if (!fs.existsSync(path)) {
+      return false;
+    }
     const data = fs.readFileSync(path, 'utf8');
     const parsed = YAML.parse(data);
     if (parsed === null || typeof parsed !== 'object') {

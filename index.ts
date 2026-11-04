@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 
 import { AuditLevel, CommandOptions } from 'src/types';
 
@@ -31,7 +31,10 @@ export function callback(
   filterLevel?: AuditLevel,
 ): void {
   // Increase the default max buffer size (1 MB)
-  const audit = exec(`${auditCommand} --json`, { maxBuffer: MAX_BUFFER_SIZE });
+  // Run npm directly without a shell, so no argument can be interpreted as a shell command.
+  // Windows needs a shell to run `npm.cmd`; the only user-provided argument (the registry URL) is allowlist-validated.
+  const [command, ...args] = `${auditCommand} --json`.split(' ');
+  const audit = execFile(command, args, { maxBuffer: MAX_BUFFER_SIZE, shell: process.platform === 'win32' });
 
   // Grab the data in chunks and buffer it as we're unable to parse JSON straight from stdout
   let jsonBuffer = '';
