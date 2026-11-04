@@ -152,6 +152,10 @@ better-npm-audit audit --json 2>/dev/null | jq '.summary'
 
 `vulnerabilities` always lists everything found; `--filter-table` and `--include-columns` only affect the table. If the audit output can't be processed, the document is `{ "passed": false, "error": "..." }` and the exit code is `1`.
 
+### pnpm
+
+If your project has a `pnpm-lock.yaml` and no `package-lock.json`, `better-npm-audit` runs `pnpm audit` instead of `npm audit`, and everything else (exceptions, `--level`, `--json`, ...) works the same. `pnpm` must be installed. To choose explicitly, use `--package-manager pnpm` (or `npm`). `--production` becomes `--prod` and `--skip-optional` becomes `--no-optional`. This was tested with pnpm 10; Yarn is not supported.
+
 <br />
 
 ## Options
@@ -165,6 +169,7 @@ better-npm-audit audit --json 2>/dev/null | jq '.summary'
 | `--production`      | `-p`  | Skip the `devDependencies`                                                                            |
 | `--skip-optional`   |       | Skip the `optionalDependencies`                                                                       |
 | `--json`            |       | Print the result as JSON on stdout; the table and other messages go to stderr |
+| `--package-manager` |       | `npm` or `pnpm`; detected from the lockfile by default |
 | `--registry`        | `-r`  | The npm registry url to use                                                                           |
 | `--include-columns` | `-i`  | Columns to include in report. Available columns: `ID`, `Module`, `Title`, `Paths`, `Severity`, `URL`, `Fix` (opt-in; `Yes`, `Major` or `No`, `N/A` on npm v6), `Ex.` (e.g. `-i Module,Title,Severity`) |
 | `--require-notes`   |       | Fail if any `.nsprc` exclusion has no notes (also fails when `--exclude` is used, as it cannot carry notes) |

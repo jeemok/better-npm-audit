@@ -1,8 +1,9 @@
+import fs from 'fs';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import * as semver from 'semver';
 import { CommandOptions } from '../../src/types';
-import handleInput, { validateRegistryUrl } from '../../src/handlers/handleInput';
+import handleInput, { validateRegistryUrl, getPackageManager } from '../../src/handlers/handleInput';
 import { getNpmVersion } from '../../src/utils/npm';
 
 describe('Flags', () => {
@@ -288,5 +289,47 @@ describe('validateRegistryUrl', () => {
     ['file:///etc/passwd', 'ftp://x.com', 'not a url', '', undefined, null].forEach((url) =>
       expect(validateRegistryUrl(url as unknown as string)).to.equal(false),
     );
+  });
+
+  describe('--package-manager', () => {
+    afterEach(() => sinon.restore());
+
+    const stubFiles = (present: string[]) => sinon.stub(fs, 'existsSync').callsFake((file) => present.includes(String(file)));
+
+    it('should default to npm, and detect pnpm only from a pnpm lockfile without an npm one', () => {
+      stubFiles([]);
+      expect(getPackageManager()).to.equal('npm');
+      sinon.restore();
+      stubFiles(['pnpm-lock.yaml']);
+      expect(getPackageManager()).to.equal('pnpm');
+      sinon.restore();
+      stubFiles(['pnpm-lock.yaml', 'package-lock.json']);
+      expect(getPackageManager()).to.equal('npm');
+    });
+
+    it('should prefer the explicit flag over detection', () => {
+      stubFiles(['pnpm-lock.yaml']);
+      expect(getPackageManager('npm')).to.equal('npm');
+    });
+
+    it('should build a pnpm audit command with mapped flags', () => {
+      const callbackStub = sinon.stub();
+      handleInput({ packageManager: 'pnpm', production: true, skipOptional: true, registry: 'https://registry.npmjs.org/' }, callbackStub);
+      expect(callbackStub.firstCall.args[0]).to.equal('pnpm audit --prod --no-optional --registry=https://registry.npmjs.org/');
+    });
+
+    it('should use pnpm when only pnpm-lock.yaml exists', () => {
+      stubFiles(['pnpm-lock.yaml']);
+      const callbackStub = sinon.stub();
+      handleInput({}, callbackStub);
+      expect(callbackStub.firstCall.args[0]).to.equal('pnpm audit');
+    });
+
+    it('should reject an unsupported package manager', () => {
+      const exitStub = sinon.stub(process, 'exit').throws(new Error('exit'));
+      sinon.stub(console, 'error');
+      expect(() => handleInput({ packageManager: 'yarn' }, sinon.stub())).to.throw('exit');
+      expect(exitStub.calledWith(1)).to.equal(true);
+    });
   });
 });
