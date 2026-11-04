@@ -2,7 +2,7 @@ import { AuditLevel, Severity } from './level';
 
 export interface CommandOptions {
   readonly exclude?: string;
-  readonly maxExpiryDays?: number;
+  readonly maxExpiryDays?: number | string;
   readonly requireNotes?: boolean;
   readonly requireExpiry?: boolean;
   readonly moduleIgnore?: string;

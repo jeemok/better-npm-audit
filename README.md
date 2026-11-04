@@ -111,7 +111,7 @@ better-npm-audit audit --level high --filter-table moderate
 | `--filter-table`    | `-f`  | Filter the vulnerability table to show only vulnerabilities at or above the specified level. Accepts a level (`info`, `low`, `moderate`, `high`, `critical`) or can be used as a boolean flag to filter by the audit level |
 | `--production`      | `-p`  | Skip the `devDependencies`                                                                            |
 | `--registry`        | `-r`  | The npm registry url to use                                                                           |
-| `--include-columns` | `-i`  | Columns to include in report                                                                          |
+| `--include-columns` | `-i`  | Columns to include in report. Available columns: `ID`, `Module`, `Title`, `Paths`, `Severity`, `URL`, `Ex.` (e.g. `-i Module,Title,Severity`) |
 
 <br />
 
@@ -126,7 +126,7 @@ better-npm-audit audit --level high --filter-table moderate
 
 ## Using `.nsprc` file to manage exceptions
 
-You may add a file `.nsprc` to your project root directory to manage the exceptions. For example:
+You may add a file `.nsprc` to your project root directory to manage the exceptions. The file can be written as JSON or YAML. For example:
 
 ```json
 {

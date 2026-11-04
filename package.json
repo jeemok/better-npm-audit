@@ -13,44 +13,45 @@
     "url": "https://github.com/jeemok/better-npm-audit"
   },
   "engines": {
-    "node": ">= 8.12"
+    "node": ">= 18"
   },
   "scripts": {
     "preaudit": "npm run build",
-    "audit": "node lib audit -x 1064843,1067245",
+    "audit": "node lib audit -p",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
     "qc": "npm run test && npm run lint",
     "clean": "rimraf lib",
     "prebuild": "npm run qc && npm run clean",
     "build": "tsc",
     "postbuild": "cp README.md lib && chmod +x ./lib/index.js",
     "publish:live": "npm run build && npm publish ./lib --tag latest",
-    "publish:next": "npm run build && npm publish ./lib --tag next"
+    "publish:next": "npm run build && npm publish ./lib --tag next",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "commander": "^8.0.0",
     "dayjs": "^1.10.6",
     "lodash.get": "^4.4.2",
     "semver": "^7.6.3",
-    "table": "^6.7.1"
+    "table": "^6.9.0",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
     "@types/lodash.get": "^4.4.6",
     "@types/mocha": "^8.2.3",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.19.130",
     "@types/semver": "^7.5.8",
     "@types/sinon": "^10.0.2",
-    "@typescript-eslint/eslint-plugin": "^4.28.2",
-    "@typescript-eslint/parser": "^4.28.2",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "chai": "^4.3.0",
-    "eslint": "^7.25.0",
+    "eslint": "^8.57.1",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "mocha": "^10.7.3",
+    "mocha": "^11.8.0",
     "prettier": "2.3.2",
     "rimraf": "^3.0.2",
     "sinon": "^9.2.4",
@@ -75,5 +76,9 @@
     "script",
     "nsp",
     "ci"
-  ]
+  ],
+  "overrides": {
+    "diff": "^9.0.0",
+    "serialize-javascript": "^7.1.3"
+  }
 }

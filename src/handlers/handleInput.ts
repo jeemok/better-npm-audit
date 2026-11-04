@@ -4,7 +4,31 @@ import { AuditLevel, CommandOptions } from 'src/types';
 import { getNpmVersion } from '../utils/npm';
 import { readFile } from '../utils/file';
 import { getExceptionsIds } from '../utils/vulnerability';
-import dayjs from 'dayjs';
+import { getExclusionPolicyErrors } from '../utils/exclusionPolicy';
+
+/**
+ * Validate registry URL to prevent command injection.
+ * Uses an allowlist of characters (the audit command is run through a shell), then checks it parses as http(s).
+ * @param {string} url - The registry URL to validate
+ * @return {boolean} True if valid URL, false otherwise
+ */
+export function validateRegistryUrl(url: string): boolean {
+  if (!url || typeof url !== 'string') {
+    return false;
+  }
+
+  // Only characters that are safe in a shell and legal in a URL
+  if (!/^[A-Za-z0-9\-._~:/?#@%+=,]+$/.test(url)) {
+    return false;
+  }
+
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Get the `npm audit` flag to audit only production dependencies.
@@ -27,12 +51,19 @@ export default function handleInput(
   options: CommandOptions,
   fn: (T1: string, T2: AuditLevel, T3: string[], T4: string[], T5: string[], T6?: AuditLevel) => void,
 ): void {
+  // Validate registry URL if provided
+  const registryOption = get(options, 'registry');
+  if (registryOption && !validateRegistryUrl(registryOption)) {
+    console.error('Error: Invalid registry URL. URL must be a valid http/https URL without shell metacharacters.');
+    process.exit(1);
+  }
+
   // Generate NPM Audit command
   const auditCommand: string = [
     'npm audit',
     // flags
     get(options, 'production') ? getProductionOnlyOption() : '',
-    get(options, 'registry') ? `--registry=${options.registry}` : '',
+    registryOption ? `--registry=${registryOption}` : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -60,7 +91,7 @@ export default function handleInput(
       process.exit(1);
     }
     if (options.requireNotes) {
-      console.error('Exclusions have been set via the commandline without without notes, use .nsprc instead or disable requireNotes');
+      console.error('Exclusions have been set via the commandline without notes, use .nsprc instead or disable requireNotes');
       process.exit(1);
     }
   }
@@ -69,41 +100,11 @@ export default function handleInput(
   const nsprc = readFile('.nsprc');
 
   if (nsprc && typeof nsprc === 'object') {
-    const exclusions = Object.entries(nsprc);
-
-    exclusions.forEach(([cve, exclusion]) => {
-      if (typeof exclusion === 'string') {
-        if (options.requireExpiry) {
-          console.error(`Exclusion ${cve} in .nsprc is missing an expiry date`);
-          process.exit(1);
-        }
-        if (options.requireNotes) {
-          console.error(`Exclusion ${cve} in .nsprc is missing notes`);
-          process.exit(1);
-        }
-      } else {
-        if (options.requireExpiry && !exclusion.expiry) {
-          console.error(`Exclusion ${cve} in .nsprc is missing an expiry date`);
-          process.exit(1);
-        }
-        if (options.requireNotes && !exclusion.notes) {
-          console.error(`Exclusion ${cve} in .nsprc is missing notes`);
-          process.exit(1);
-        }
-
-        if (options.maxExpiryDays) {
-          const dayjsNow = dayjs(Date.now());
-          const dayjsMaxExpiryDate = dayjsNow.add(options.maxExpiryDays, 'day');
-
-          if (dayjsMaxExpiryDate.isAfter(exclusion.expiry)) {
-            console.error(
-              `Exclusion ${cve} in .nsprc has an expiry too far in the future (maximum ${options.maxExpiryDays} days from today)`,
-            );
-            process.exit(1);
-          }
-        }
-      }
-    });
+    const errors = getExclusionPolicyErrors(nsprc as Record<string, unknown>, options);
+    if (errors.length) {
+      errors.forEach((error) => console.error(error));
+      process.exit(1);
+    }
   }
 
   const cmdExceptions: string[] = get(options, 'exclude', '')
