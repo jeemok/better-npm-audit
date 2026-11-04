@@ -7,7 +7,7 @@ import { DateAnalysis } from 'src/types';
  * @return  {Boolean}         Returns true if it is a valid UNIX timestamp
  */
 export function isValidDate(timestamp: string | number): boolean {
-  return new Date(timestamp).getTime() > 0;
+  return !isNaN(new Date(timestamp).getTime());
 }
 
 /**
