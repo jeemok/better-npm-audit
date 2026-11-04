@@ -1,4 +1,4 @@
-## 3.13.1 (unreleased)
+## 3.13.1 (November 4, 2026)
 
 - New `--skip-optional` flag (#94)
 - Clearer errors when `npm audit` produces no/invalid output or cannot be started (#66)
