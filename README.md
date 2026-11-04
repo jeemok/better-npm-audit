@@ -103,6 +103,7 @@ better-npm-audit audit --level high --filter-table moderate
 | `--level`           | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
 | `--filter-table`    | `-f`  | Filter the vulnerability table to show only vulnerabilities at or above the specified level. Accepts a level (`info`, `low`, `moderate`, `high`, `critical`) or can be used as a boolean flag to filter by the audit level |
 | `--production`      | `-p`  | Skip the `devDependencies`                                                                            |
+| `--skip-optional`   |       | Skip the `optionalDependencies`                                                                       |
 | `--registry`        | `-r`  | The npm registry url to use                                                                           |
 | `--include-columns` | `-i`  | Columns to include in report. Available columns: `ID`, `Module`, `Title`, `Paths`, `Severity`, `URL`, `Fix` (opt-in; `Yes`, `Major` or `No`, `N/A` on npm v6), `Ex.` (e.g. `-i Module,Title,Severity`) |
 | `--require-notes`   |       | Fail if any `.nsprc` exclusion has no notes (also fails when `--exclude` is used, as it cannot carry notes) |

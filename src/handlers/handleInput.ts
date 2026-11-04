@@ -42,6 +42,19 @@ function getProductionOnlyOption() {
   }
 }
 /**
+ * Get the `npm audit` flag to skip the optional dependencies.
+ * @return {String} The flag.
+ */
+function getSkipOptionalOption() {
+  const npmVersion = getNpmVersion();
+  if (semver.satisfies(npmVersion, '<=8.13.2')) {
+    return '--no-optional';
+  } else {
+    return '--omit=optional';
+  }
+}
+
+/**
  * Handle user's input
  * @param  {Object} options     User's command options or flags
  * @param  {Function} fn        The function to handle the inputs
@@ -62,6 +75,7 @@ export default function handleInput(
     'npm audit',
     // flags
     options.production ? getProductionOnlyOption() : '',
+    options.skipOptional ? getSkipOptionalOption() : '',
     registryOption ? `--registry=${registryOption}` : '',
   ]
     .filter(Boolean)

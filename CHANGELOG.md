@@ -8,6 +8,9 @@
 - New opt-in `Fix` column for `--include-columns` (#117)
 - Fix exception matching by substring URLs (#121) and invalid expiry never expiring (#122)
 - Run npm via `execFile` (#119); remove `lodash.get` (#110)
+- New `--skip-optional` flag (#94)
+- Clearer errors when `npm audit` produces no/invalid output or cannot be started (#66)
+- Fix `Title`/`Paths` column wrapping when using `--include-columns` (#65)
 - [#115](https://github.com/jeemok/better-npm-audit/pull/115) Bump `table` to remove the vulnerable `ajv`
 - Update dev dependencies and resolve Dependabot alerts
 
