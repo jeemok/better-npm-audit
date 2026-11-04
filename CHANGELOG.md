@@ -1,3 +1,7 @@
+## 4.1.0 (unreleased)
+
+- `.nsprc.cjs` / `.nsprc.js`: build the exceptions in JavaScript, as an object or a (sync or async) function (#103)
+
 ## 4.0.0 (November 4, 2026)
 
 - **Breaking:** require Node.js 18 or later (CI now tests 18, 20, 22 and 24)

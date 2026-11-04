@@ -3,7 +3,7 @@ import os from 'os';
 import path from 'path';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { readFile } from '../../src/utils/file';
+import { readFile, findNsprcModule, loadNsprcModule } from '../../src/utils/file';
 
 describe('File', () => {
   describe('#readFile', () => {
@@ -33,6 +33,58 @@ describe('File', () => {
       fs.writeFileSync(scalar, 'just a string');
       expect(readFile(bad)).to.equal(false);
       expect(readFile(scalar)).to.equal(false);
+    });
+  });
+
+  describe('JavaScript config', () => {
+    let dir: string;
+    beforeEach(() => (dir = fs.mkdtempSync(path.join(os.tmpdir(), 'nsprc-'))));
+    afterEach(() => {
+      sinon.restore();
+      fs.rmSync(dir, { recursive: true, force: true });
+    });
+
+    const write = (name: string, content: string) => fs.writeFileSync(path.join(dir, name), content);
+
+    it('should find .nsprc.cjs before .nsprc.js, and nothing when absent', () => {
+      expect(findNsprcModule(dir)).to.equal(undefined);
+      write('.nsprc.js', 'module.exports = {};');
+      expect(findNsprcModule(dir)).to.equal('.nsprc.js');
+      write('.nsprc.cjs', 'module.exports = {};');
+      expect(findNsprcModule(dir)).to.equal('.nsprc.cjs');
+    });
+
+    it('should load an exported object', async () => {
+      write('.nsprc.cjs', `module.exports = { 1234: { notes: 'ok' } };`);
+      expect(await loadNsprcModule('.nsprc.cjs', dir)).to.deep.equal({ '1234': { notes: 'ok' } });
+    });
+
+    it('should load a default export', async () => {
+      write('.nsprc.js', `exports.default = { 'GHSA-xxxx': 'fine' };`);
+      expect(await loadNsprcModule('.nsprc.js', dir)).to.deep.equal({ 'GHSA-xxxx': 'fine' });
+    });
+
+    it('should await an async function export', async () => {
+      write('.nsprc.cjs', `module.exports = async () => ({ 42: 'from async' });`);
+      expect(await loadNsprcModule('.nsprc.cjs', dir)).to.deep.equal({ '42': 'from async' });
+    });
+
+    it('should exit with an error when the export is not an object', async () => {
+      write('.nsprc.cjs', `module.exports = 'nope';`);
+      const exitStub = sinon.stub(process, 'exit');
+      const errorStub = sinon.stub(console, 'error');
+      await loadNsprcModule('.nsprc.cjs', dir);
+      expect(exitStub.calledWith(1)).to.equal(true);
+      expect(errorStub.args[0][0]).to.match(/must export an object/);
+    });
+
+    it('should exit with an error when the module throws', async () => {
+      write('.nsprc.cjs', `throw new Error('boom');`);
+      const exitStub = sinon.stub(process, 'exit');
+      const errorStub = sinon.stub(console, 'error');
+      await loadNsprcModule('.nsprc.cjs', dir);
+      expect(exitStub.calledWith(1)).to.equal(true);
+      expect(errorStub.args[0][0]).to.match(/boom/);
     });
   });
 });
