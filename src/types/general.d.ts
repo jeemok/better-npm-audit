@@ -7,6 +7,7 @@ export interface CommandOptions {
   readonly requireExpiry?: boolean;
   readonly moduleIgnore?: string;
   readonly production?: boolean;
+  readonly skipOptional?: boolean;
   readonly level?: AuditLevel;
   readonly filterTable?: string | boolean;
   readonly registry?: string;

@@ -1,4 +1,10 @@
-## 3.13.0 (unreleased)
+## 3.13.1 (unreleased)
+
+- New `--skip-optional` flag (#94)
+- Clearer errors when `npm audit` produces no/invalid output or cannot be started (#66)
+- Fix `Title`/`Paths` column wrapping when using `--include-columns` (#65)
+
+## 3.13.0 (November 4, 2026)
 
 - Supports Node.js 14.6 or later (the previous `>= 8.12` claim was no longer accurate for the dependencies in use); the dev toolchain needs Node 18+
 - [#108](https://github.com/jeemok/better-npm-audit/pull/108) Add `--filter-table` flag to filter the vulnerability table by level (thanks @caseyjhol); this was in the unpublished 3.12.0

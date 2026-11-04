@@ -47,8 +47,16 @@ export function callback(
   if (audit.stderr) {
     audit.stderr.on('close', () => handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude, filterLevel));
     // stderr
-    audit.stderr.on('data', console.error);
+    audit.stderr.on('data', (data: string) => {
+      console.error(data);
+    });
   }
+
+  // Failed to even start npm (e.g. not installed or not on the PATH)
+  audit.on('error', (error: Error) => {
+    console.error(`Unable to run \`${command}\`: ${error.message}`);
+    process.exit(1);
+  });
 }
 
 program.name(packageJson.name).version(packageJson.version);
@@ -67,6 +75,7 @@ program
     'Filter table to show only vulnerabilities at or above specified level (defaults to audit level if no value provided).',
   )
   .option('-p, --production', 'Skip checking the devDependencies.')
+  .option('--skip-optional', 'Skip checking the optionalDependencies.')
   .option('-r, --registry <url>', 'The npm registry url to use.')
   .option('-i, --include-columns <columnName1>,<columnName2>,..,<columnNameN>', 'Columns to include in report.')
   .action((options: CommandOptions) => handleInput(options, callback));

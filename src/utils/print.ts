@@ -41,29 +41,27 @@ export function getColumnWidth(tableData: string[][], columnIndex: number, maxWi
  * @param  {Array} columnsToInclude   List of columns to include in audit results
  */
 export function printSecurityReport(data: string[][], columnsToInclude: string[]): void {
+  let headers = DEFAULT_SECURITY_REPORT_HEADER;
+  if (columnsToInclude.length) {
+    headers = SECURITY_REPORT_HEADER.filter((h) => columnsToInclude.includes(h));
+  }
+
+  // Wrap the "Title" and "Paths" columns, wherever they are when only some columns are included
+  const columns: Record<number, { width: number; wrapWord: boolean }> = {};
+  headers.forEach((header, index) => {
+    if (header === 'Title' || header === 'Paths') {
+      columns[index] = { width: getColumnWidth(data, index), wrapWord: true };
+    }
+  });
+
   const configs: TableUserConfig = {
     singleLine: true,
     header: {
       alignment: 'center',
       content: '=== npm audit security report ===\n',
     },
-    columns: {
-      // "Title" column index
-      2: {
-        width: getColumnWidth(data, 2),
-        wrapWord: true,
-      },
-      // "Paths" column index
-      3: {
-        width: getColumnWidth(data, 3),
-        wrapWord: true,
-      },
-    },
+    columns,
   };
-  let headers = DEFAULT_SECURITY_REPORT_HEADER;
-  if (columnsToInclude.length) {
-    headers = SECURITY_REPORT_HEADER.filter((h) => columnsToInclude.includes(h));
-  }
 
   console.info(table([headers, ...data], configs));
 }
