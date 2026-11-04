@@ -1,28 +1,22 @@
 import fs from 'fs';
-import { NsprcFile } from 'src/types';
-import { getValidStatusAndType } from './common';
 import YAML from 'yaml';
+import { NsprcFile } from 'src/types';
 
 /**
- * Read file from path
+ * Read file from path. Supports both JSON and YAML (JSON is a subset of YAML).
  * @param  {String} path          File path
  * @return {(Object | Boolean)}   Returns the parsed data if found, or else returns `false`
  */
 export function readFile(path: string): NsprcFile | boolean {
   try {
     const data = fs.readFileSync(path, 'utf8');
-    const validAndType = getValidStatusAndType(data);
-
-    if (validAndType[0]) {
-      if (validAndType[1]) {
-        return YAML.parse(data);
-      } else {
-        return JSON.parse(data);
-      }
+    const parsed = YAML.parse(data);
+    if (parsed === null || typeof parsed !== 'object') {
+      return false;
     }
-
-    return false;
+    return parsed;
   } catch (err) {
+    console.log('Failed parsing .nsprc file: ' + err);
     return false;
   }
 }
