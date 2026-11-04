@@ -1,6 +1,7 @@
 ## 3.13.0 (unreleased)
 
 - Supports Node.js 14.6 or later (the previous `>= 8.12` claim was no longer accurate for the dependencies in use); the dev toolchain needs Node 18+
+- [#108](https://github.com/jeemok/better-npm-audit/pull/108) Add `--filter-table` flag to filter the vulnerability table by level (thanks @caseyjhol); this was in the unpublished 3.12.0
 - [#79](https://github.com/jeemok/better-npm-audit/pull/79) Support YAML in the `.nsprc` file
 - [#120](https://github.com/jeemok/better-npm-audit/pull/120) Validate the `--registry` URL to prevent command injection
 - [#123](https://github.com/jeemok/better-npm-audit/pull/123) Add `--require-notes`, `--require-expiry` and `--max-expiry-days` to enforce exception policies
