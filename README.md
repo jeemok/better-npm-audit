@@ -34,7 +34,7 @@ or run it without installing
 
     $ npx better-npm-audit audit
 
-Requires Node.js 18 or later.
+Requires Node.js 18 or later. For Node.js 14.6 - 16, use version 3 (`npm install better-npm-audit@3`).
 
 <br />
 
