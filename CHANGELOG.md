@@ -1,4 +1,4 @@
-## 4.0.0 (unreleased)
+## 4.0.0 (November 4, 2026)
 
 - **Breaking:** require Node.js 18 or later (CI now tests 18, 20, 22 and 24)
 - Same fixes and features as 3.13.0 (see below), on the Node 18+ line
