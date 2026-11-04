@@ -4,7 +4,7 @@ The goal of this project is to provide additional features on top of the existin
 
 [![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
 
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm downloads](https://img.shields.io/npm/d18m/better-npm-audit) ![node current](https://img.shields.io/node/v/better-npm-audit) ![node support](https://img.shields.io/badge/node-18%20%7C%2020%20%7C%2022%20%7C%2024-brightgreen) ![npm vulnerability](https://snyk.io/test/github/jeemok/better-npm-audit/badge.svg?targetFile=package.json) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm downloads](https://img.shields.io/npm/d18m/better-npm-audit) ![node current](https://img.shields.io/node/v/better-npm-audit) ![node support](https://img.shields.io/badge/node-14.6%2B-brightgreen) ![npm vulnerability](https://snyk.io/test/github/jeemok/better-npm-audit/badge.svg?targetFile=package.json) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
 
 ## NPM version 6 and 7, and 8
 
@@ -34,7 +34,7 @@ or run it without installing
 
     $ npx better-npm-audit audit
 
-Requires Node.js 18 or later.
+Requires Node.js 14.6 or later. Version 4 requires Node.js 18 or later.
 
 <br />
 
