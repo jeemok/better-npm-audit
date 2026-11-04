@@ -6,22 +6,21 @@ import { readFile } from '../utils/file';
 import { getExceptionsIds } from '../utils/vulnerability';
 
 /**
- * Validate registry URL to prevent command injection
+ * Validate registry URL to prevent command injection.
+ * Uses an allowlist of characters (the audit command is run through a shell), then checks it parses as http(s).
  * @param {string} url - The registry URL to validate
  * @return {boolean} True if valid URL, false otherwise
  */
-function validateRegistryUrl(url: string): boolean {
+export function validateRegistryUrl(url: string): boolean {
   if (!url || typeof url !== 'string') {
     return false;
   }
 
-  // Check for shell metacharacters that could enable command injection
-  const dangerousPatterns = /[;|&`$(){}[\]<>\n\r]/;
-  if (dangerousPatterns.test(url)) {
+  // Only characters that are safe in a shell and legal in a URL
+  if (!/^[A-Za-z0-9\-._~:/?#@%+=,]+$/.test(url)) {
     return false;
   }
 
-  // Validate as proper URL
   try {
     const parsed = new URL(url);
     return parsed.protocol === 'http:' || parsed.protocol === 'https:';

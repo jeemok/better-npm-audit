@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import * as semver from 'semver';
 import { CommandOptions } from '../../src/types';
-import handleInput from '../../src/handlers/handleInput';
+import handleInput, { validateRegistryUrl } from '../../src/handlers/handleInput';
 import { getNpmVersion } from '../../src/utils/npm';
 
 describe('Flags', () => {
@@ -249,5 +249,32 @@ describe('Flags', () => {
       handleInput(options, callbackStub);
       expect(callbackStub.calledWith(auditCommand, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude)).to.equal(true);
     });
+  });
+});
+
+describe('validateRegistryUrl', () => {
+  it('should accept valid http(s) registry URLs', () => {
+    ['https://registry.npmjs.org/', 'http://localhost:4873', 'https://user@host.example/npm/?a=1'].forEach((url) =>
+      expect(validateRegistryUrl(url), url).to.equal(true),
+    );
+  });
+
+  it('should reject shell metacharacters and other injection attempts', () => {
+    [
+      'https://x.com/;rm -rf /',
+      'https://x.com/$(whoami)',
+      'https://x.com/`id`',
+      'https://x.com/ && echo hi',
+      'https://x.com/|cat',
+      'https://x.com/\'',
+      'https://x.com/\nls',
+      'https://x.com/a&b',
+    ].forEach((url) => expect(validateRegistryUrl(url), url).to.equal(false));
+  });
+
+  it('should reject non-http protocols, garbage and empty values', () => {
+    ['file:///etc/passwd', 'ftp://x.com', 'not a url', '', undefined, null].forEach((url) =>
+      expect(validateRegistryUrl(url as unknown as string)).to.equal(false),
+    );
   });
 });
