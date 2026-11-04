@@ -4,20 +4,7 @@ The goal of this project is to provide additional features on top of the existin
 
 [![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
 
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm downloads](https://img.shields.io/npm/d18m/better-npm-audit) ![node current](https://img.shields.io/node/v/better-npm-audit) ![node support](https://img.shields.io/badge/node-up_to_v22-brightgreen) ![npm vulnerability](https://snyk.io/test/github/jeemok/better-npm-audit/badge.svg?targetFile=package.json) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
-
-## Looking for Collaborators
-
-Hi there! 👋
-
-I’m currently looking for collaborators to help maintain and develop this project. Due to time constraints, I haven’t been able to give it the attention it deserves, but I believe it has great potential to grow with the help of passionate contributors.
-
-Become a Collaborator
-If you’re interested in contributing on a regular basis, I’d love to have you on board as a collaborator. Whether you’re interested in fixing bugs, adding new features, or improving documentation, your contributions will be highly valued.
-
-As a collaborator, you’ll have push access to the repository and play a key role in shaping the future of the project. If this sounds like something you’d be interested in, please reach out! You can open an issue titled “Interested in Collaborating” or contact me directly via email.
-
-Let’s work together to make this project even better!
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm downloads](https://img.shields.io/npm/d18m/better-npm-audit) ![node current](https://img.shields.io/node/v/better-npm-audit) ![node support](https://img.shields.io/badge/node-18%20%7C%2020%20%7C%2022%20%7C%2024-brightgreen) ![npm vulnerability](https://snyk.io/test/github/jeemok/better-npm-audit/badge.svg?targetFile=package.json) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
 
 ## NPM version 6 and 7, and 8
 
@@ -42,6 +29,12 @@ You may find the sample JSON outputs for each NPM versions in our codebase: [v6]
 or
 
     $ npm install -g better-npm-audit
+
+or run it without installing
+
+    $ npx better-npm-audit audit
+
+Requires Node.js 18 or later.
 
 <br />
 
@@ -129,7 +122,7 @@ better-npm-audit audit --level high --filter-table moderate
 
 ## Using `.nsprc` file to manage exceptions
 
-You may add a file `.nsprc` to your project root directory to manage the exceptions. The file can be written as JSON or YAML. For example:
+You may add a file `.nsprc` to your project root directory to manage the exceptions. The file can be written as JSON or YAML (`.nsprc` is read as YAML, which also accepts JSON). For example:
 
 ```json
 {
@@ -146,6 +139,16 @@ You may add a file `.nsprc` to your project root directory to manage the excepti
   "GHSA-ww39-953v-wcq6": "GHSA ID is acceptable",
   "https://npmjs.com/advisories/1213": "Full or partial URL is acceptable too"
 }
+```
+
+The same exceptions in YAML:
+
+```yaml
+'1337':
+  active: true
+  notes: Ignored since we don't use xxx method
+  expiry: '2025-12-31'
+CWE-471: CWE ID is acceptable
 ```
 
 ### Fields
@@ -174,7 +177,7 @@ You can find the changelog [here](https://github.com/jeemok/better-npm-audit/blo
 
 ## Contributors
 
-[Ian Wright](https://github.com/IPWright83), [Edwin Taylor](https://github.com/alertme-edwin), [Maarten Hus](https://github.com/MrHus), [Alex Burkowsky](https://github.com/alexburkowskypolysign), [David M. Lee](https://github.com/leedm777), [Kyle Clark](https://github.com/kyle-clark1824), [Guillermo Pincay](https://github.com/guillermaster), [Grzegorz Pawłowski](https://github.com/GrzesiekP), [CSLTech](https://github.com/CSLTech), [Paul Clarkin](https://github.com/paulclarkin), [mgdodge](https://github.com/mgdodge), [Ricky Sullivan](https://github.com/rickysullivan), [Sam Gregory](https://github.com/samgregory88), [Tristan WAGNER](https://github.com/tristanwagner), [Zak](https://github.com/ZedLove), [Eric Cornelissen](https://github.com/ericcornelissen), [Gaurav Chinavle](https://github.com/GauravChinavle)
+[Ian Wright](https://github.com/IPWright83), [Edwin Taylor](https://github.com/alertme-edwin), [Maarten Hus](https://github.com/MrHus), [Alex Burkowsky](https://github.com/alexburkowskypolysign), [David M. Lee](https://github.com/leedm777), [Kyle Clark](https://github.com/kyle-clark1824), [Guillermo Pincay](https://github.com/guillermaster), [Grzegorz Pawłowski](https://github.com/GrzesiekP), [CSLTech](https://github.com/CSLTech), [Paul Clarkin](https://github.com/paulclarkin), [mgdodge](https://github.com/mgdodge), [Ricky Sullivan](https://github.com/rickysullivan), [Sam Gregory](https://github.com/samgregory88), [Tristan WAGNER](https://github.com/tristanwagner), [Zak](https://github.com/ZedLove), [Eric Cornelissen](https://github.com/ericcornelissen), [Gaurav Chinavle](https://github.com/GauravChinavle), [WhittJS](https://github.com/WhittJS), [Suraj Balwani](https://github.com/surajbalwani), [BL4CK570RM](https://github.com/BL4CK570RM), [PersonligaPersson](https://github.com/PersonligaPersson), [FreddieDev](https://github.com/FreddieDev)
 
 <br />
 
