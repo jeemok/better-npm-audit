@@ -71,6 +71,12 @@ export interface ReportedVulnerability {
   readonly excepted: boolean;
 }
 
+/** Extra data that some options need; each field is only filled in when it is used */
+export interface AuditContext {
+  /** `packages` of `package-lock.json`, used to find installed versions (`--module-ignore pkg@version`) */
+  readonly lockfilePackages?: { readonly [path: string]: { readonly version?: string } };
+}
+
 export interface ProcessedResult {
   readonly unhandledIds: string[];
   readonly vulnerabilityIds: string[]; // Currently unused, but very valuable info so leave it here for now

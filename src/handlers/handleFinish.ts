@@ -1,6 +1,7 @@
 import { AuditLevel } from 'src/types';
+import { readLockfilePackages } from '../utils/file';
 import { printSecurityReport } from '../utils/print';
-import { processAuditJson, handleUnusedExceptions } from '../utils/vulnerability';
+import { processAuditJson, handleUnusedExceptions, parseModulePattern } from '../utils/vulnerability';
 
 /**
  * Write a JSON document to stdout, then exit once it has been flushed
@@ -37,6 +38,8 @@ export default function handleFinish(
     exceptionModules,
     columnsToInclude,
     filterLevel,
+    // Only versioned module patterns (e.g. `pkg@1.2.3`) need the installed versions
+    exceptionModules.some((pattern) => parseModulePattern(pattern).range !== undefined) ? { lockfilePackages: readLockfilePackages() } : {},
   );
 
   // If unable to process the audit JSON

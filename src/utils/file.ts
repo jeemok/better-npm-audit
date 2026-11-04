@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import YAML from 'yaml';
-import { NsprcFile } from 'src/types';
+import { NsprcFile, AuditContext } from 'src/types';
 
 /**
  * Read file from path. Supports both JSON and YAML (JSON is a subset of YAML).
@@ -60,4 +60,24 @@ export async function loadNsprcModule(fileName: string, dir = '.'): Promise<Nspr
     console.error(`Failed loading ${fileName}: ${err}`);
   }
   return process.exit(1);
+}
+
+/**
+ * Read the `packages` of the npm lockfile (lockfile version 2 or 3), to look up installed versions by install path.
+ * @param  {String} dir   Directory of the lockfile
+ * @return {Object}       The `packages`, or `undefined` if there is no usable lockfile
+ */
+export function readLockfilePackages(dir = '.'): AuditContext['lockfilePackages'] {
+  for (const name of ['package-lock.json', 'npm-shrinkwrap.json']) {
+    try {
+      const file = path.join(dir, name);
+      if (fs.existsSync(file)) {
+        const { packages } = JSON.parse(fs.readFileSync(file, 'utf8'));
+        return isObject(packages) ? (packages as AuditContext['lockfilePackages']) : undefined;
+      }
+    } catch (err) {
+      console.error(`Failed reading ${name}: ${err}`);
+    }
+  }
+  return undefined;
 }

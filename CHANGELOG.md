@@ -1,5 +1,6 @@
 ## 4.1.0 (unreleased)
 
+- `--module-ignore` accepts a version or range, e.g. `lodash@4.17.20`, so ignores stop applying after an upgrade (#72)
 - `.nsprc.cjs` / `.nsprc.js`: build the exceptions in JavaScript, as an object or a (sync or async) function (#103)
 - New `--json` flag: print the result as a JSON document on stdout (#82); thanks @eliasm307 for the earlier proposal in #104
 
