@@ -72,6 +72,18 @@ export function getPackageManager(requested?: string): string {
 }
 
 /**
+ * Get the audit command for production dependencies only, used for the `Scope` column.
+ * @param  {String} auditCommand  The audit command that was built from the options
+ * @return {String}               The command, or `undefined` if the audit command already covers production only
+ */
+export function getProductionAuditCommand(auditCommand: string): string | undefined {
+  if (/(^| )(--prod|--production|--omit=dev)( |$)/.test(auditCommand)) {
+    return undefined;
+  }
+  return auditCommand.startsWith('pnpm') ? `${auditCommand} --prod` : `${auditCommand} ${getProductionOnlyOption()}`;
+}
+
+/**
  * Handle user's input
  * @param  {Object} options     User's command options or flags
  * @param  {Function} fn        The function to handle the inputs

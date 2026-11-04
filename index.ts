@@ -5,7 +5,7 @@ import { execFile } from 'child_process';
 
 import { AuditLevel, CommandOptions } from 'src/types';
 
-import handleInput from './src/handlers/handleInput';
+import handleInput, { getProductionAuditCommand } from './src/handlers/handleInput';
 import handleFinish from './src/handlers/handleFinish';
 
 import packageJson from './package.json';
@@ -32,6 +32,29 @@ export function callback(
   filterLevel?: AuditLevel,
   outputJson?: boolean,
 ): void {
+  const finish = (jsonBuffer: string, prodJsonBuffer?: string) =>
+    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude, filterLevel, outputJson, prodJsonBuffer);
+
+  runAudit(auditCommand, true, (jsonBuffer) => {
+    if (!columnsToInclude.includes('Scope')) {
+      return finish(jsonBuffer);
+    }
+    // The `Scope` column needs a second audit of the production dependencies only
+    const prodCommand = getProductionAuditCommand(auditCommand);
+    if (!prodCommand) {
+      return finish(jsonBuffer, jsonBuffer);
+    }
+    runAudit(prodCommand, false, (prodJsonBuffer) => finish(jsonBuffer, prodJsonBuffer));
+  });
+}
+
+/**
+ * Run an audit command and hand over its JSON output
+ * @param  {String}   auditCommand  The audit command (without `--json`)
+ * @param  {Boolean}  showStderr    Whether to show the command's stderr (off for the second, production-only run)
+ * @param  {Function} onDone        Called with the JSON string buffer once the command has finished
+ */
+function runAudit(auditCommand: string, showStderr: boolean, onDone: (jsonBuffer: string) => void): void {
   // Increase the default max buffer size (1 MB)
   // Run npm directly without a shell, so no argument can be interpreted as a shell command.
   // Windows needs a shell to run `npm.cmd`; the only user-provided argument (the registry URL) is allowlist-validated.
@@ -47,16 +70,16 @@ export function callback(
 
   // Once the stdout has completed, process the output
   if (audit.stderr) {
-    audit.stderr.on('close', () =>
-      handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude, filterLevel, outputJson),
-    );
+    audit.stderr.on('close', () => onDone(jsonBuffer));
     // stderr
     audit.stderr.on('data', (data: string) => {
-      console.error(data);
+      if (showStderr) {
+        console.error(data);
+      }
     });
   }
 
-  // Failed to even start npm (e.g. not installed or not on the PATH)
+  // Failed to even start the package manager (e.g. not installed or not on the PATH)
   audit.on('error', (error: Error) => {
     console.error(`Unable to run \`${command}\`: ${error.message}`);
     process.exit(1);

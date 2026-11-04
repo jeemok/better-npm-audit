@@ -1,5 +1,6 @@
 ## 4.1.0 (unreleased)
 
+- New opt-in `Scope` column (`--include-columns`) showing whether a vulnerability is in production (`prod`) or dev-only dependencies (`dev`) (#67)
 - `--module-ignore` accepts a version or range, e.g. `lodash@4.17.20`, so ignores stop applying after an upgrade (#72)
 - pnpm support (#116): runs `pnpm audit` when the project has a `pnpm-lock.yaml` and no npm lockfile, or with `--package-manager pnpm`
 - `.nsprc.cjs` / `.nsprc.js`: build the exceptions in JavaScript, as an object or a (sync or async) function (#103)

@@ -190,7 +190,7 @@ describe('Events handling', () => {
       expect(doc.passed).to.equal(false);
       expect(doc.unhandledIds.length).to.be.greaterThan(0);
       expect(doc.summary.total).to.equal(doc.vulnerabilities.length);
-      expect(doc.vulnerabilities[0]).to.have.all.keys('id', 'module', 'title', 'paths', 'severity', 'url', 'fix', 'excepted');
+      expect(doc.vulnerabilities[0]).to.have.all.keys('id', 'module', 'title', 'paths', 'severity', 'url', 'fix', 'scope', 'excepted');
       expect(doc.vulnerabilities[0].paths).to.be.an('array');
       expect(exitCode).to.equal(1);
     });
