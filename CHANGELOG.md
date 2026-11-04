@@ -1,3 +1,12 @@
+## Unreleased
+
+- **Breaking:** require Node.js 18 or later (CI now tests 18, 20, 22 and 24)
+- [#79](https://github.com/jeemok/better-npm-audit/pull/79) Support YAML in the `.nsprc` file
+- [#120](https://github.com/jeemok/better-npm-audit/pull/120) Validate the `--registry` URL to prevent command injection
+- [#123](https://github.com/jeemok/better-npm-audit/pull/123) Add `--require-notes`, `--require-expiry` and `--max-expiry-days` to enforce exception policies
+- [#115](https://github.com/jeemok/better-npm-audit/pull/115) Bump `table` to remove the vulnerable `ajv`
+- Update dev dependencies and resolve Dependabot alerts
+
 ## 3.11.0 (September 9, 2024)
 
 - [#102](https://github.com/jeemok/better-npm-audit/pull/102) Respect the `NO_COLOR` environment variable
