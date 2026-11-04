@@ -2,6 +2,7 @@ import { AuditLevel, Severity } from './level';
 
 export interface CommandOptions {
   readonly exclude?: string;
+  readonly json?: boolean;
   readonly maxExpiryDays?: number | string;
   readonly requireNotes?: boolean;
   readonly requireExpiry?: boolean;
@@ -59,11 +60,23 @@ export interface v7VulnerabilityVia {
   readonly dependency: string;
 }
 
+export interface ReportedVulnerability {
+  readonly id: string;
+  readonly module: string;
+  readonly title: string;
+  readonly paths: string[];
+  readonly severity: string;
+  readonly url: string;
+  readonly fix: string;
+  readonly excepted: boolean;
+}
+
 export interface ProcessedResult {
   readonly unhandledIds: string[];
   readonly vulnerabilityIds: string[]; // Currently unused, but very valuable info so leave it here for now
   readonly vulnerabilityModules: string[]; // Currently unused, but very valuable info so leave it here for now
   readonly report: string[][];
+  readonly vulnerabilities: ReportedVulnerability[]; // Every vulnerability found, unaffected by the table filters
   readonly failed?: boolean;
   unusedExceptionIds: string[];
   unusedExceptionModules: string[];
