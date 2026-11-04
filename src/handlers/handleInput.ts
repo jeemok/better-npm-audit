@@ -1,7 +1,7 @@
 import semver from 'semver';
-import { AuditLevel, CommandOptions } from 'src/types';
+import { AuditLevel, CommandOptions, NsprcFile } from 'src/types';
 import { getNpmVersion } from '../utils/npm';
-import { readFile } from '../utils/file';
+import { readFile, findNsprcModule, loadNsprcModule } from '../utils/file';
 import { getExceptionsIds } from '../utils/vulnerability';
 import { getExclusionPolicyErrors } from '../utils/exclusionPolicy';
 
@@ -115,27 +115,34 @@ export default function handleInput(
     }
   }
 
-  // Get the exceptions
-  const nsprc = readFile('.nsprc');
-
-  if (nsprc && typeof nsprc === 'object') {
-    const errors = getExclusionPolicyErrors(nsprc as Record<string, unknown>, options);
-    if (errors.length) {
-      errors.forEach((error) => console.error(error));
-      process.exit(1);
+  // Get the exceptions, from a JavaScript module (possibly async) or the static `.nsprc` file
+  const run = (nsprc: NsprcFile | boolean): void => {
+    if (nsprc && typeof nsprc === 'object') {
+      const errors = getExclusionPolicyErrors(nsprc as Record<string, unknown>, options);
+      if (errors.length) {
+        errors.forEach((error) => console.error(error));
+        process.exit(1);
+      }
     }
+
+    const cmdExceptions: string[] = (options.exclude ?? '')
+      .split(',')
+      .map((each) => each.trim())
+      .filter((each) => each !== '');
+    const exceptionIds: string[] = getExceptionsIds(nsprc, cmdExceptions);
+    const cmdModuleIgnore: string[] = (options.moduleIgnore ?? '').split(',');
+    const cmdIncludeColumns: string[] = (options.includeColumns ?? '')
+      .split(',')
+      .map((each: string) => each.trim())
+      .filter((each: string) => !!each);
+
+    fn(auditCommand, auditLevel, exceptionIds, cmdModuleIgnore, cmdIncludeColumns, filterLevel, Boolean(options.json));
+  };
+
+  const nsprcModule = findNsprcModule();
+  if (nsprcModule) {
+    loadNsprcModule(nsprcModule).then(run);
+  } else {
+    run(readFile('.nsprc'));
   }
-
-  const cmdExceptions: string[] = (options.exclude ?? '')
-    .split(',')
-    .map((each) => each.trim())
-    .filter((each) => each !== '');
-  const exceptionIds: string[] = getExceptionsIds(nsprc, cmdExceptions);
-  const cmdModuleIgnore: string[] = (options.moduleIgnore ?? '').split(',');
-  const cmdIncludeColumns: string[] = (options.includeColumns ?? '')
-    .split(',')
-    .map((each: string) => each.trim())
-    .filter((each: string) => !!each);
-
-  fn(auditCommand, auditLevel, exceptionIds, cmdModuleIgnore, cmdIncludeColumns, filterLevel, Boolean(options.json));
 }

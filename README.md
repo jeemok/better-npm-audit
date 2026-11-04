@@ -203,6 +203,20 @@ The same exceptions in YAML:
 CWE-471: CWE ID is acceptable
 ```
 
+### Generating exceptions with JavaScript
+
+Instead of a static `.nsprc`, you can put a `.nsprc.cjs` (or `.nsprc.js`) file in your project root. It exports an object with the same structure, or a function (sync or async) that returns one, so you can build the exceptions from an API or another file:
+
+```js
+// .nsprc.cjs
+module.exports = async () => {
+  const response = await fetch('https://example.com/approved-advisories.json');
+  return await response.json(); // { "1337": { "notes": "...", "expiry": "2026-12-31" }, ... }
+};
+```
+
+If both exist, the JavaScript file wins and `.nsprc` is ignored. The file is run with your user's permissions, so only use it in a project you trust. If it throws, or doesn't return an object, the audit exits with an error.
+
 ### Fields
 
 | Attribute | Type             | Description                                               | Default | Examples                                                                                                                                                                                                                                                                                                                     |
