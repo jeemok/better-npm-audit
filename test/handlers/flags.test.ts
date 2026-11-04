@@ -266,7 +266,7 @@ describe('validateRegistryUrl', () => {
       'https://x.com/`id`',
       'https://x.com/ && echo hi',
       'https://x.com/|cat',
-      'https://x.com/\'',
+      `https://x.com/'`,
       'https://x.com/\nls',
       'https://x.com/a&b',
     ].forEach((url) => expect(validateRegistryUrl(url), url).to.equal(false));
