@@ -31,6 +31,15 @@ export default function handleFinish(
   // If unable to process the audit JSON
   if (failed) {
     console.error('Unable to process the JSON buffer string.');
+    if (jsonBuffer.trim()) {
+      console.error(
+        '`npm audit --json` returned output that is not valid JSON. Check the message above, and that your registry is reachable.',
+      );
+    } else {
+      console.error(
+        '`npm audit --json` returned no output. Check the message above, that a lockfile exists, and that the registry is reachable.',
+      );
+    }
     // Exit failed
     process.exit(1);
     return;

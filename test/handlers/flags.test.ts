@@ -107,6 +107,18 @@ describe('Flags', () => {
     });
   });
 
+  describe('--skip-optional', () => {
+    it('should be able to skip optional dependencies from the command flag correctly', () => {
+      const callbackStub = sinon.stub();
+      const options = { skipOptional: true };
+      const flag = semver.satisfies(getNpmVersion(), '<=8.13.2') ? '--no-optional' : '--omit=optional';
+      const auditCommand = `npm audit ${flag}`;
+
+      handleInput(options, callbackStub);
+      expect(callbackStub.calledWith(auditCommand, 'info', [])).to.equal(true);
+    });
+  });
+
   describe('--registry', () => {
     it('should be able to set registry from the command flag correctly', () => {
       const callbackStub = sinon.stub();

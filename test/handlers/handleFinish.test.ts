@@ -26,6 +26,7 @@ describe('Events handling', () => {
 
     expect(consoleStub.called).to.equal(true);
     expect(consoleStub.calledWith('Unable to process the JSON buffer string.')).to.equal(true);
+    expect(consoleStub.args.some(([message]) => /returned/.test(message))).to.equal(true);
 
     processStub.restore();
     consoleStub.restore();
