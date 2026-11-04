@@ -1,6 +1,6 @@
-## Unreleased
+## 3.13.0 (unreleased)
 
-- **Breaking:** require Node.js 18 or later (CI now tests 18, 20, 22 and 24)
+- Supports Node.js 14.6 or later (the previous `>= 8.12` claim was no longer accurate for the dependencies in use); the dev toolchain needs Node 18+
 - [#79](https://github.com/jeemok/better-npm-audit/pull/79) Support YAML in the `.nsprc` file
 - [#120](https://github.com/jeemok/better-npm-audit/pull/120) Validate the `--registry` URL to prevent command injection
 - [#123](https://github.com/jeemok/better-npm-audit/pull/123) Add `--require-notes`, `--require-expiry` and `--max-expiry-days` to enforce exception policies
