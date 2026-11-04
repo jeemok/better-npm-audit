@@ -118,6 +118,16 @@ better-npm-audit audit -m lodash@4.17.20,@myscope/*@^2.0.0
 
 The ignore applies only if **every** installed copy of the vulnerable module satisfies the range. The installed versions come from the audit report on npm 6 and pnpm, and from `package-lock.json` on npm 7+ (lockfile version 2 or 3). If a version can't be determined, the ignore is not applied and it is listed as an unused exception.
 
+### Ignore a package and its dependencies
+
+`--ignore-dependencies-of` ignores a package and the vulnerable modules that it brings in, for example a build tool you've judged safe:
+
+```bash
+better-npm-audit audit --ignore-dependencies-of node-sass
+```
+
+A vulnerable module is ignored only if **every** way it is installed goes through one of the named packages. If your project also depends on it directly, or through another package, it is still reported. The package itself is ignored too. Names can use `*` wildcards and be comma separated; versions (as in `--module-ignore`) are not supported here. It does not appear in the unused exceptions message when nothing matches, so check the table after you add it.
+
 ### Production or dev dependency
 
 Add the `Scope` column to see whether each vulnerability is reachable from your production dependencies (`prod`) or only from `devDependencies` (`dev`):
@@ -174,6 +184,7 @@ If your project has a `pnpm-lock.yaml` and no `package-lock.json`, `better-npm-a
 | ------------------- | ----- | ----------------------------------------------------------------------------------------------------- |
 | `--exclude`         | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
 | `--module-ignore`   | `-m`  | Names of modules to exclude; supports `*` wildcards, e.g. `@myscope/*`, and an installed version or range, e.g. `lodash@4.17.20` (see below)                                                                           |
+| `--ignore-dependencies-of` |  | Ignore vulnerabilities in modules that are only installed through these packages (see below); supports `*` wildcards |
 | `--level`           | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
 | `--filter-table`    | `-f`  | Filter the vulnerability table to show only vulnerabilities at or above the specified level. Accepts a level (`info`, `low`, `moderate`, `high`, `critical`) or can be used as a boolean flag to filter by the audit level |
 | `--production`      | `-p`  | Skip the `devDependencies`                                                                            |

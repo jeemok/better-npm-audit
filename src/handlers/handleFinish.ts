@@ -16,10 +16,11 @@ function writeJson(payload: Record<string, unknown>, exitCode: number): void {
  * Gather the extra data that some options need
  * @param  {Array}  exceptionModules  The `--module-ignore` patterns
  * @param  {String} prodJsonBuffer    NPM audit JSON of the production dependencies only, if the `Scope` column was requested
+ * @param  {Array} ignoreDependenciesOf Packages whose dependency subtree is ignored
  * @return {Object}                   The audit context
  */
-function getContext(exceptionModules: string[], prodJsonBuffer?: string): AuditContext {
-  const context: { -readonly [K in keyof AuditContext]: AuditContext[K] } = {};
+function getContext(exceptionModules: string[], prodJsonBuffer?: string, ignoreDependenciesOf: string[] = []): AuditContext {
+  const context: { -readonly [K in keyof AuditContext]: AuditContext[K] } = { ignoreDependenciesOf };
   // Only versioned module patterns (e.g. `pkg@1.2.3`) need the installed versions
   if (exceptionModules.some((pattern) => parseModulePattern(pattern).range !== undefined)) {
     context.lockfilePackages = readLockfilePackages();
@@ -45,6 +46,7 @@ function getContext(exceptionModules: string[], prodJsonBuffer?: string): AuditC
  * @param  {String} filterLevel       Optional level to filter table display
  * @param  {Boolean} outputJson       Print the result as a JSON document on stdout
  * @param  {String} prodJsonBuffer    NPM audit JSON of the production dependencies only (for the `Scope` column)
+ * @param  {Array} ignoreDependenciesOf Packages whose dependency subtree is ignored
  */
 export default function handleFinish(
   jsonBuffer: string,
@@ -55,6 +57,7 @@ export default function handleFinish(
   filterLevel?: AuditLevel,
   outputJson = false,
   prodJsonBuffer?: string,
+  ignoreDependenciesOf: string[] = [],
 ): void {
   const { unhandledIds, report, vulnerabilities, failed, unusedExceptionIds, unusedExceptionModules } = processAuditJson(
     jsonBuffer,
@@ -63,7 +66,7 @@ export default function handleFinish(
     exceptionModules,
     columnsToInclude,
     filterLevel,
-    getContext(exceptionModules, prodJsonBuffer),
+    getContext(exceptionModules, prodJsonBuffer, ignoreDependenciesOf),
   );
 
   // If unable to process the audit JSON

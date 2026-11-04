@@ -1,5 +1,6 @@
 ## 4.1.0 (unreleased)
 
+- New `--ignore-dependencies-of <packages>` flag: ignore a package and the vulnerable modules that are only installed through it (#75)
 - New opt-in `Scope` column (`--include-columns`) showing whether a vulnerability is in production (`prod`) or dev-only dependencies (`dev`) (#67)
 - `--module-ignore` accepts a version or range, e.g. `lodash@4.17.20`, so ignores stop applying after an upgrade (#72)
 - pnpm support (#116): runs `pnpm audit` when the project has a `pnpm-lock.yaml` and no npm lockfile, or with `--package-manager pnpm`

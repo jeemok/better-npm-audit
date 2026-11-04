@@ -22,6 +22,7 @@ const program = new Command();
  * @param  {Array} columnsToInclude List of columns to include in audit results
  * @param  {String} filterLevel     Optional level to filter table display
  * @param  {Boolean} outputJson     Print the result as a JSON document on stdout
+ * @param  {Array} ignoreDependenciesOf Packages whose dependency subtree is ignored
  */
 export function callback(
   auditCommand: string,
@@ -31,9 +32,20 @@ export function callback(
   columnsToInclude: string[],
   filterLevel?: AuditLevel,
   outputJson?: boolean,
+  ignoreDependenciesOf: string[] = [],
 ): void {
   const finish = (jsonBuffer: string, prodJsonBuffer?: string) =>
-    handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude, filterLevel, outputJson, prodJsonBuffer);
+    handleFinish(
+      jsonBuffer,
+      auditLevel,
+      exceptionIds,
+      modulesToIgnore,
+      columnsToInclude,
+      filterLevel,
+      outputJson,
+      prodJsonBuffer,
+      ignoreDependenciesOf,
+    );
 
   runAudit(auditCommand, true, (jsonBuffer) => {
     if (!columnsToInclude.includes('Scope')) {
@@ -96,6 +108,10 @@ program
   .option('--require-notes', 'Fails audit if exclusions do not have a note')
   .option('--require-expiry', 'Fails audit if exclusions do not have an expiry date')
   .option('-m, --module-ignore <moduleNames>', 'Names of modules to ignore.')
+  .option(
+    '--ignore-dependencies-of <packageNames>',
+    'Ignore vulnerabilities in modules that are only installed through these packages (comma separated, supports * wildcards).',
+  )
   .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
   .option(
     '-f, --filter-table [level]',
