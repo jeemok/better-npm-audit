@@ -108,6 +108,40 @@ better-npm-audit audit --level high --filter-table moderate
 
 **Note:** The `--filter-table` flag only affects what vulnerabilities are displayed in the table. The audit level (`--level`) still controls the exit behavior and vulnerability counting.
 
+### JSON output
+
+Use `--json` to get the result as a single JSON document on stdout, for example to feed a dashboard or another script. The table and all other messages go to stderr, and the exit code is unchanged (`1` if there are unhandled vulnerabilities, otherwise `0`).
+
+```bash
+better-npm-audit audit --json > audit.json
+better-npm-audit audit --json 2>/dev/null | jq '.summary'
+```
+
+```json
+{
+  "passed": false,
+  "auditLevel": "info",
+  "summary": { "total": 2, "unhandled": 1, "bySeverity": { "moderate": 1, "critical": 1 } },
+  "unhandledIds": ["1097677"],
+  "unusedExceptionIds": [],
+  "unusedExceptionModules": [],
+  "vulnerabilities": [
+    {
+      "id": "1097677",
+      "module": "minimist",
+      "title": "Prototype Pollution in minimist",
+      "paths": ["minimist"],
+      "severity": "critical",
+      "url": "https://github.com/advisories/GHSA-xvch-5gv4-984h",
+      "fix": "Major",
+      "excepted": false
+    }
+  ]
+}
+```
+
+`vulnerabilities` always lists everything found; `--filter-table` and `--include-columns` only affect the table. If the audit output can't be processed, the document is `{ "passed": false, "error": "..." }` and the exit code is `1`.
+
 <br />
 
 ## Options
@@ -120,6 +154,7 @@ better-npm-audit audit --level high --filter-table moderate
 | `--filter-table`    | `-f`  | Filter the vulnerability table to show only vulnerabilities at or above the specified level. Accepts a level (`info`, `low`, `moderate`, `high`, `critical`) or can be used as a boolean flag to filter by the audit level |
 | `--production`      | `-p`  | Skip the `devDependencies`                                                                            |
 | `--skip-optional`   |       | Skip the `optionalDependencies`                                                                       |
+| `--json`            |       | Print the result as JSON on stdout; the table and other messages go to stderr |
 | `--registry`        | `-r`  | The npm registry url to use                                                                           |
 | `--include-columns` | `-i`  | Columns to include in report. Available columns: `ID`, `Module`, `Title`, `Paths`, `Severity`, `URL`, `Fix` (opt-in; `Yes`, `Major` or `No`, `N/A` on npm v6), `Ex.` (e.g. `-i Module,Title,Severity`) |
 | `--require-notes`   |       | Fail if any `.nsprc` exclusion has no notes (also fails when `--exclude` is used, as it cannot carry notes) |
@@ -187,8 +222,10 @@ If both exist, the JavaScript file wins and `.nsprc` is ignored. The file is run
 | Attribute | Type             | Description                                               | Default | Examples                                                                                                                                                                                                                                                                                                                     |
 | --------- | ---------------- | --------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `active`  | Boolean          | If the tool should use it for exception                   | `true`  | `true`                                                                                                                                                                                                                                                                                                                       |
-| `expiry`  | String \| Number | Human-readable date, or milliseconds since the UNIX Epoch |         | - `'2020-01-31'` <br> - `'2020/01/31'` <br> - `'01/31/2021, 11:03:58'` <br> - `'1 March 2016 15:00'` <br> - `'1 March 2016 3:00 pm'` <br> - `'2012-01-26T13:51:50.417-07:00'` <br> - `'Sun, 11 Jul 2021 03:03:13 GMT'` <br> - `'Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)'` <br> - `327611110417` |
+| `expiry`  | String \| Number | Human-readable date string, or a number of **milliseconds** (not seconds) since the UNIX Epoch |         | - `"2020-01-31"` <br> - `"2020/01/31"` <br> - `"01/31/2021, 11:03:58"` <br> - `"1 March 2016 15:00"` <br> - `"1 March 2016 3:00 pm"` <br> - `"2012-01-26T13:51:50.417-07:00"` <br> - `"Sun, 11 Jul 2021 03:03:13 GMT"` <br> - `"Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)"` <br> - `1615462134681` |
 | `notes`   | String           | Notes related to the vulnerability.                       |         |
+
+> Note: the `expiry` examples above are shown as JSON, so date strings must be double-quoted (YAML is more relaxed, e.g. `expiry: '2025-12-31'`). A numeric value is read as milliseconds since the epoch, so a Unix timestamp in seconds (10 digits) will be treated as a date in January 1970 and the exception will count as expired.
 
 <br />
 

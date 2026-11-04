@@ -21,6 +21,7 @@ const program = new Command();
  * @param  {Array} modulesToIgnore  List of vulnerable modules to ignore in audit results
  * @param  {Array} columnsToInclude List of columns to include in audit results
  * @param  {String} filterLevel     Optional level to filter table display
+ * @param  {Boolean} outputJson     Print the result as a JSON document on stdout
  */
 export function callback(
   auditCommand: string,
@@ -29,6 +30,7 @@ export function callback(
   modulesToIgnore: string[],
   columnsToInclude: string[],
   filterLevel?: AuditLevel,
+  outputJson?: boolean,
 ): void {
   // Increase the default max buffer size (1 MB)
   // Run npm directly without a shell, so no argument can be interpreted as a shell command.
@@ -45,7 +47,9 @@ export function callback(
 
   // Once the stdout has completed, process the output
   if (audit.stderr) {
-    audit.stderr.on('close', () => handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude, filterLevel));
+    audit.stderr.on('close', () =>
+      handleFinish(jsonBuffer, auditLevel, exceptionIds, modulesToIgnore, columnsToInclude, filterLevel, outputJson),
+    );
     // stderr
     audit.stderr.on('data', (data: string) => {
       console.error(data);
@@ -76,6 +80,7 @@ program
   )
   .option('-p, --production', 'Skip checking the devDependencies.')
   .option('--skip-optional', 'Skip checking the optionalDependencies.')
+  .option('--json', 'Print the result as JSON on stdout (all other output goes to stderr).')
   .option('-r, --registry <url>', 'The npm registry url to use.')
   .option('-i, --include-columns <columnName1>,<columnName2>,..,<columnNameN>', 'Columns to include in report.')
   .action((options: CommandOptions) => handleInput(options, callback));

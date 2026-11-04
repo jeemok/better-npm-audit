@@ -1,6 +1,7 @@
 ## 4.1.0 (unreleased)
 
 - `.nsprc.cjs` / `.nsprc.js`: build the exceptions in JavaScript, as an object or a (sync or async) function (#103)
+- New `--json` flag: print the result as a JSON document on stdout (#82); thanks @eliasm307 for the earlier proposal in #104
 
 ## 4.0.0 (November 4, 2026)
 

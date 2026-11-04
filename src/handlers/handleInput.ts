@@ -61,8 +61,14 @@ function getSkipOptionalOption() {
  */
 export default function handleInput(
   options: CommandOptions,
-  fn: (T1: string, T2: AuditLevel, T3: string[], T4: string[], T5: string[], T6?: AuditLevel) => void,
+  fn: (T1: string, T2: AuditLevel, T3: string[], T4: string[], T5: string[], T6?: AuditLevel, T7?: boolean) => void,
 ): void {
+  // In JSON mode stdout carries only the JSON document, so all human-readable output goes to stderr
+  if (options.json) {
+    console.log = console.error;
+    console.info = console.error;
+  }
+
   // Validate registry URL if provided
   const registryOption = options.registry;
   if (registryOption && !validateRegistryUrl(registryOption)) {
@@ -130,7 +136,7 @@ export default function handleInput(
       .map((each: string) => each.trim())
       .filter((each: string) => !!each);
 
-    fn(auditCommand, auditLevel, exceptionIds, cmdModuleIgnore, cmdIncludeColumns, filterLevel);
+    fn(auditCommand, auditLevel, exceptionIds, cmdModuleIgnore, cmdIncludeColumns, filterLevel, Boolean(options.json));
   };
 
   const nsprcModule = findNsprcModule();
