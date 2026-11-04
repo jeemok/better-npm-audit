@@ -126,7 +126,7 @@ better-npm-audit audit --level high --filter-table moderate
 
 ## Using `.nsprc` file to manage exceptions
 
-You may add a file `.nsprc` to your project root directory to manage the exceptions. For example:
+You may add a file `.nsprc` to your project root directory to manage the exceptions. The file can be written as JSON or YAML. For example:
 
 ```json
 {
