@@ -3,7 +3,7 @@ import os from 'os';
 import path from 'path';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { readFile, findNsprcModule, loadNsprcModule } from '../../src/utils/file';
+import { readFile, findNsprcModule, loadNsprcModule, readLockfilePackages } from '../../src/utils/file';
 
 describe('File', () => {
   describe('#readFile', () => {
@@ -85,6 +85,26 @@ describe('File', () => {
       await loadNsprcModule('.nsprc.cjs', dir);
       expect(exitStub.calledWith(1)).to.equal(true);
       expect(errorStub.args[0][0]).to.match(/boom/);
+    });
+  });
+
+  describe('#readLockfilePackages', () => {
+    let dir: string;
+    beforeEach(() => (dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lock-'))));
+    afterEach(() => fs.rmSync(dir, { recursive: true, force: true }));
+
+    it('should return the packages of package-lock.json', () => {
+      fs.writeFileSync(
+        path.join(dir, 'package-lock.json'),
+        JSON.stringify({ lockfileVersion: 3, packages: { 'node_modules/a': { version: '1.0.0' } } }),
+      );
+      expect(readLockfilePackages(dir)).to.deep.equal({ 'node_modules/a': { version: '1.0.0' } });
+    });
+
+    it('should return undefined when there is no lockfile, or no packages field (lockfile v1)', () => {
+      expect(readLockfilePackages(dir)).to.equal(undefined);
+      fs.writeFileSync(path.join(dir, 'package-lock.json'), JSON.stringify({ lockfileVersion: 1, dependencies: {} }));
+      expect(readLockfilePackages(dir)).to.equal(undefined);
     });
   });
 });
