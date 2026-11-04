@@ -1,7 +1,9 @@
 import { table, TableUserConfig } from 'table';
 import { SecurityReportHeader, ExceptionReportHeader } from 'src/types';
 
-const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Severity', 'URL', 'Ex.'];
+const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Severity', 'URL', 'Fix', 'Ex.'];
+// The `Fix` column is opt-in via `--include-columns`
+const DEFAULT_SECURITY_REPORT_HEADER = SECURITY_REPORT_HEADER.filter((h) => h !== 'Fix');
 const EXCEPTION_REPORT_HEADER: ExceptionReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes'];
 
 // TODO: Add unit tests
@@ -58,7 +60,10 @@ export function printSecurityReport(data: string[][], columnsToInclude: string[]
       },
     },
   };
-  const headers = columnsToInclude.length ? SECURITY_REPORT_HEADER.filter((h) => columnsToInclude.includes(h)) : SECURITY_REPORT_HEADER;
+  let headers = DEFAULT_SECURITY_REPORT_HEADER;
+  if (columnsToInclude.length) {
+    headers = SECURITY_REPORT_HEADER.filter((h) => columnsToInclude.includes(h));
+  }
 
   console.info(table([headers, ...data], configs));
 }
