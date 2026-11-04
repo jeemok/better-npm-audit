@@ -1,4 +1,4 @@
-import { AuditLevel } from 'src/types';
+import { AuditLevel, AuditContext } from 'src/types';
 import { readLockfilePackages } from '../utils/file';
 import { printSecurityReport } from '../utils/print';
 import { processAuditJson, handleUnusedExceptions, parseModulePattern } from '../utils/vulnerability';
@@ -13,6 +13,29 @@ function writeJson(payload: Record<string, unknown>, exitCode: number): void {
 }
 
 /**
+ * Gather the extra data that some options need
+ * @param  {Array}  exceptionModules  The `--module-ignore` patterns
+ * @param  {String} prodJsonBuffer    NPM audit JSON of the production dependencies only, if the `Scope` column was requested
+ * @return {Object}                   The audit context
+ */
+function getContext(exceptionModules: string[], prodJsonBuffer?: string): AuditContext {
+  const context: { -readonly [K in keyof AuditContext]: AuditContext[K] } = {};
+  // Only versioned module patterns (e.g. `pkg@1.2.3`) need the installed versions
+  if (exceptionModules.some((pattern) => parseModulePattern(pattern).range !== undefined)) {
+    context.lockfilePackages = readLockfilePackages();
+  }
+  if (prodJsonBuffer !== undefined) {
+    const prod = processAuditJson(prodJsonBuffer);
+    if (prod.failed) {
+      console.error('Unable to process the production-only audit, so the Scope column will show N/A.');
+    } else {
+      context.prodVulnerabilityIds = prod.vulnerabilityIds;
+    }
+  }
+  return context;
+}
+
+/**
  * Process and analyze the NPM audit JSON
  * @param  {String} jsonBuffer        NPM audit stringified JSON payload
  * @param  {Number} auditLevel        The level of vulnerabilities we care about
@@ -21,6 +44,7 @@ function writeJson(payload: Record<string, unknown>, exitCode: number): void {
  * @param  {Array} columnsToInclude   List of columns to include in audit results
  * @param  {String} filterLevel       Optional level to filter table display
  * @param  {Boolean} outputJson       Print the result as a JSON document on stdout
+ * @param  {String} prodJsonBuffer    NPM audit JSON of the production dependencies only (for the `Scope` column)
  */
 export default function handleFinish(
   jsonBuffer: string,
@@ -30,6 +54,7 @@ export default function handleFinish(
   columnsToInclude: string[],
   filterLevel?: AuditLevel,
   outputJson = false,
+  prodJsonBuffer?: string,
 ): void {
   const { unhandledIds, report, vulnerabilities, failed, unusedExceptionIds, unusedExceptionModules } = processAuditJson(
     jsonBuffer,
@@ -38,8 +63,7 @@ export default function handleFinish(
     exceptionModules,
     columnsToInclude,
     filterLevel,
-    // Only versioned module patterns (e.g. `pkg@1.2.3`) need the installed versions
-    exceptionModules.some((pattern) => parseModulePattern(pattern).range !== undefined) ? { lockfilePackages: readLockfilePackages() } : {},
+    getContext(exceptionModules, prodJsonBuffer),
   );
 
   // If unable to process the audit JSON

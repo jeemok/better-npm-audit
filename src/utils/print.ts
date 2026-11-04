@@ -1,9 +1,9 @@
 import { table, TableUserConfig } from 'table';
 import { SecurityReportHeader, ExceptionReportHeader } from 'src/types';
 
-const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Severity', 'URL', 'Fix', 'Ex.'];
-// The `Fix` column is opt-in via `--include-columns`
-const DEFAULT_SECURITY_REPORT_HEADER = SECURITY_REPORT_HEADER.filter((h) => h !== 'Fix');
+const SECURITY_REPORT_HEADER: SecurityReportHeader[] = ['ID', 'Module', 'Title', 'Paths', 'Severity', 'URL', 'Fix', 'Scope', 'Ex.'];
+// The `Fix` and `Scope` columns are opt-in via `--include-columns`
+const DEFAULT_SECURITY_REPORT_HEADER = SECURITY_REPORT_HEADER.filter((h) => h !== 'Fix' && h !== 'Scope');
 const EXCEPTION_REPORT_HEADER: ExceptionReportHeader[] = ['ID', 'Status', 'Expiry', 'Notes'];
 
 // TODO: Add unit tests

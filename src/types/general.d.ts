@@ -69,11 +69,14 @@ export interface ReportedVulnerability {
   readonly severity: string;
   readonly url: string;
   readonly fix: string;
+  readonly scope: string; // `prod`, `dev`, or `N/A` when the production audit was not run
   readonly excepted: boolean;
 }
 
 /** Extra data that some options need; each field is only filled in when it is used */
 export interface AuditContext {
+  /** IDs found when auditing production dependencies only (`Scope` column) */
+  readonly prodVulnerabilityIds?: string[];
   /** `packages` of `package-lock.json`, used to find installed versions (`--module-ignore pkg@version`) */
   readonly lockfilePackages?: { readonly [path: string]: { readonly version?: string } };
 }

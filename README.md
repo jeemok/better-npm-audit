@@ -118,6 +118,16 @@ better-npm-audit audit -m lodash@4.17.20,@myscope/*@^2.0.0
 
 The ignore applies only if **every** installed copy of the vulnerable module satisfies the range. The installed versions come from the audit report on npm 6 and pnpm, and from `package-lock.json` on npm 7+ (lockfile version 2 or 3). If a version can't be determined, the ignore is not applied and it is listed as an unused exception.
 
+### Production or dev dependency
+
+Add the `Scope` column to see whether each vulnerability is reachable from your production dependencies (`prod`) or only from `devDependencies` (`dev`):
+
+```bash
+better-npm-audit audit --include-columns Module,Severity,Scope
+```
+
+To work this out, the tool runs a second audit with `--omit=dev` (`--prod` on pnpm) and marks everything that appears in it as `prod`. That doubles the audit time, which is why the column is opt-in. With `--production` every vulnerability is `prod` and no second audit runs. The scope is also in the `--json` output.
+
 ### JSON output
 
 Use `--json` to get the result as a single JSON document on stdout, for example to feed a dashboard or another script. The table and all other messages go to stderr, and the exit code is unchanged (`1` if there are unhandled vulnerabilities, otherwise `0`).
@@ -171,7 +181,7 @@ If your project has a `pnpm-lock.yaml` and no `package-lock.json`, `better-npm-a
 | `--json`            |       | Print the result as JSON on stdout; the table and other messages go to stderr |
 | `--package-manager` |       | `npm` or `pnpm`; detected from the lockfile by default |
 | `--registry`        | `-r`  | The npm registry url to use                                                                           |
-| `--include-columns` | `-i`  | Columns to include in report. Available columns: `ID`, `Module`, `Title`, `Paths`, `Severity`, `URL`, `Fix` (opt-in; `Yes`, `Major` or `No`, `N/A` on npm v6), `Ex.` (e.g. `-i Module,Title,Severity`) |
+| `--include-columns` | `-i`  | Columns to include in report. Available columns: `ID`, `Module`, `Title`, `Paths`, `Severity`, `URL`, `Fix` (opt-in; `Yes`, `Major` or `No`, `N/A` on npm v6), `Scope` (opt-in; `prod` or `dev`, see below), `Ex.` (e.g. `-i Module,Title,Severity`) |
 | `--require-notes`   |       | Fail if any `.nsprc` exclusion has no notes (also fails when `--exclude` is used, as it cannot carry notes) |
 | `--require-expiry`  |       | Fail if any `.nsprc` exclusion has no expiry date (also fails when `--exclude` is used) |
 | `--max-expiry-days` |       | Fail if any `.nsprc` exclusion expires more than this many days from today |

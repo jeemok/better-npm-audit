@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import * as semver from 'semver';
 import { CommandOptions } from '../../src/types';
-import handleInput, { validateRegistryUrl, getPackageManager } from '../../src/handlers/handleInput';
+import handleInput, { validateRegistryUrl, getPackageManager, getProductionAuditCommand } from '../../src/handlers/handleInput';
 import { getNpmVersion } from '../../src/utils/npm';
 
 describe('Flags', () => {
@@ -330,6 +330,16 @@ describe('validateRegistryUrl', () => {
       sinon.stub(console, 'error');
       expect(() => handleInput({ packageManager: 'yarn' }, sinon.stub())).to.throw('exit');
       expect(exitStub.calledWith(1)).to.equal(true);
+    });
+  });
+
+  describe('getProductionAuditCommand', () => {
+    it('should add the production flag, or return undefined if the audit is already production only', () => {
+      const flag = semver.satisfies(getNpmVersion(), '<=8.13.2') ? '--production' : '--omit=dev';
+      expect(getProductionAuditCommand('npm audit')).to.equal(`npm audit ${flag}`);
+      expect(getProductionAuditCommand(`npm audit ${flag}`)).to.equal(undefined);
+      expect(getProductionAuditCommand('pnpm audit')).to.equal('pnpm audit --prod');
+      expect(getProductionAuditCommand('pnpm audit --prod')).to.equal(undefined);
     });
   });
 });
