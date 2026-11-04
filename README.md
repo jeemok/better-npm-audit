@@ -22,6 +22,22 @@ You may find the sample JSON outputs for each NPM versions in our codebase: [v6]
 
 <br />
 
+## Version support
+
+| Version | Node.js        | Status                              | Install                                  |
+| ------- | -------------- | ----------------------------------- | ---------------------------------------- |
+| 4.x     | 18 or later    | Active: new features and fixes      | `npm i better-npm-audit@next` (will become `latest`) |
+| 3.x     | 14.6 or later  | Maintenance: security and critical fixes only | `npm i better-npm-audit@3`               |
+| 2.x and older | -        | End of life, no fixes               | -                                        |
+
+**What is different between 3.x and 4.x?** Only the supported Node.js versions. Version 4.0.0 has the same features and fixes as 3.13.0, and drops Node.js 14 - 16 (both are end-of-life upstream), which lets the project use current tooling and dependencies. New features land in 4.x only.
+
+**End of life for 3.x:** version 3 will receive security fixes until six months after 4.x becomes the `latest` release on npm, and then reach end of life. Please plan to upgrade to Node.js 18+ and 4.x before then.
+
+Moving from 3.x to 4.x only requires Node.js 18 or later. See the [changelog](https://github.com/jeemok/better-npm-audit/blob/master/CHANGELOG.md) for details.
+
+<br />
+
 ## Installation
 
     $ npm install --save better-npm-audit
