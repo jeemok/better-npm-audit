@@ -1,3 +1,4 @@
+import fs from 'fs';
 import semver from 'semver';
 import { AuditLevel, CommandOptions, NsprcFile } from 'src/types';
 import { getNpmVersion } from '../utils/npm';
@@ -7,7 +8,7 @@ import { getExclusionPolicyErrors } from '../utils/exclusionPolicy';
 
 /**
  * Validate registry URL to prevent command injection.
- * Uses an allowlist of characters (the audit command is run through a shell), then checks it parses as http(s).
+ * Uses an allowlist of characters (the audit command may run through a shell), then checks it parses as http(s).
  * @param {string} url - The registry URL to validate
  * @return {boolean} True if valid URL, false otherwise
  */
@@ -54,6 +55,22 @@ function getSkipOptionalOption() {
   }
 }
 
+const PACKAGE_MANAGERS = ['npm', 'pnpm'];
+
+/**
+ * Work out which package manager's audit to run. An explicit `--package-manager` wins; otherwise a `pnpm-lock.yaml`
+ * without an npm lockfile means pnpm, and anything else means npm.
+ * @param  {String} requested   Value of `--package-manager`, if given
+ * @return {String}             `npm` or `pnpm`
+ */
+export function getPackageManager(requested?: string): string {
+  if (requested) {
+    return requested;
+  }
+  const hasNpmLockfile = fs.existsSync('package-lock.json') || fs.existsSync('npm-shrinkwrap.json');
+  return fs.existsSync('pnpm-lock.yaml') && !hasNpmLockfile ? 'pnpm' : 'npm';
+}
+
 /**
  * Handle user's input
  * @param  {Object} options     User's command options or flags
@@ -76,16 +93,34 @@ export default function handleInput(
     process.exit(1);
   }
 
-  // Generate NPM Audit command
-  const auditCommand: string = [
-    'npm audit',
-    // flags
-    options.production ? getProductionOnlyOption() : '',
-    options.skipOptional ? getSkipOptionalOption() : '',
-    registryOption ? `--registry=${registryOption}` : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
+  if (options.packageManager && !PACKAGE_MANAGERS.includes(options.packageManager)) {
+    console.error(`Error: Unsupported package manager "${options.packageManager}". Use one of: ${PACKAGE_MANAGERS.join(', ')}.`);
+    process.exit(1);
+  }
+  const packageManager = getPackageManager(options.packageManager);
+
+  // Generate the audit command
+  let auditCommand: string;
+  if (packageManager === 'pnpm') {
+    // pnpm audit reports in the same format as npm v6, and has no npm-version dependent flags
+    auditCommand = [
+      'pnpm audit',
+      options.production ? '--prod' : '',
+      options.skipOptional ? '--no-optional' : '',
+      registryOption ? `--registry=${registryOption}` : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+  } else {
+    auditCommand = [
+      'npm audit',
+      options.production ? getProductionOnlyOption() : '',
+      options.skipOptional ? getSkipOptionalOption() : '',
+      registryOption ? `--registry=${registryOption}` : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+  }
 
   // Taking the audit level from the command or environment variable
   const envVar = process.env.NPM_CONFIG_AUDIT_LEVEL as AuditLevel;
