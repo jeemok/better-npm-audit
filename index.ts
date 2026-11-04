@@ -54,6 +54,9 @@ program
   .command('audit')
   .description('execute npm audit')
   .option('-x, --exclude <ids>', 'Exceptions or the vulnerabilities ID(s) to exclude.')
+  .option('--max-expiry-days <days>', 'Fails the audit if an exclusion expires more than this many days in the future')
+  .option('--require-notes', 'Fails audit if exclusions do not have a note')
+  .option('--require-expiry', 'Fails audit if exclusions do not have an expiry date')
   .option('-m, --module-ignore <moduleNames>', 'Names of modules to ignore.')
   .option('-l, --level <auditLevel>', 'The minimum audit level to validate.')
   .option(

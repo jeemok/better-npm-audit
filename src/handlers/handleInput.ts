@@ -4,6 +4,7 @@ import { AuditLevel, CommandOptions } from 'src/types';
 import { getNpmVersion } from '../utils/npm';
 import { readFile } from '../utils/file';
 import { getExceptionsIds } from '../utils/vulnerability';
+import { getExclusionPolicyErrors } from '../utils/exclusionPolicy';
 
 /**
  * Validate registry URL to prevent command injection.
@@ -84,8 +85,28 @@ export default function handleInput(
     }
   }
 
+  if (options.exclude) {
+    if (options.requireExpiry) {
+      console.error('Exclusions have been set via the commandline without expiry dates, use .nsprc instead or disable requireExpiry');
+      process.exit(1);
+    }
+    if (options.requireNotes) {
+      console.error('Exclusions have been set via the commandline without notes, use .nsprc instead or disable requireNotes');
+      process.exit(1);
+    }
+  }
+
   // Get the exceptions
   const nsprc = readFile('.nsprc');
+
+  if (nsprc && typeof nsprc === 'object') {
+    const errors = getExclusionPolicyErrors(nsprc as Record<string, unknown>, options);
+    if (errors.length) {
+      errors.forEach((error) => console.error(error));
+      process.exit(1);
+    }
+  }
+
   const cmdExceptions: string[] = get(options, 'exclude', '')
     .split(',')
     .map((each) => each.trim())

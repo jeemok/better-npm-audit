@@ -112,6 +112,9 @@ better-npm-audit audit --level high --filter-table moderate
 | `--production`      | `-p`  | Skip the `devDependencies`                                                                            |
 | `--registry`        | `-r`  | The npm registry url to use                                                                           |
 | `--include-columns` | `-i`  | Columns to include in report. Available columns: `ID`, `Module`, `Title`, `Paths`, `Severity`, `URL`, `Ex.` (e.g. `-i Module,Title,Severity`) |
+| `--require-notes`   |       | Fail if any `.nsprc` exclusion has no notes (also fails when `--exclude` is used, as it cannot carry notes) |
+| `--require-expiry`  |       | Fail if any `.nsprc` exclusion has no expiry date (also fails when `--exclude` is used) |
+| `--max-expiry-days` |       | Fail if any `.nsprc` exclusion expires more than this many days from today |
 
 <br />
 

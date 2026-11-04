@@ -26,7 +26,8 @@
     "build": "tsc",
     "postbuild": "cp README.md lib && chmod +x ./lib/index.js",
     "publish:live": "npm run build && npm publish ./lib --tag latest",
-    "publish:next": "npm run build && npm publish ./lib --tag next"
+    "publish:next": "npm run build && npm publish ./lib --tag next",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "commander": "^8.0.0",
