@@ -99,12 +99,12 @@ better-npm-audit audit --level high --filter-table moderate
 | Flag                | Short | Description                                                                                           |
 | ------------------- | ----- | ----------------------------------------------------------------------------------------------------- |
 | `--exclude`         | `-x`  | Exceptions or the vulnerabilities ID(s) to exclude; the ID can be the numeric ID, CVE, CWE or GHSA ID |
-| `--module-ignore`   | `-m`  | Names of modules to exclude                                                                           |
+| `--module-ignore`   | `-m`  | Names of modules to exclude; supports `*` wildcards, e.g. `@myscope/*`                                                                           |
 | `--level`           | `-l`  | The minimum audit level to validate; Same as the original `--audit-level` flag                        |
 | `--filter-table`    | `-f`  | Filter the vulnerability table to show only vulnerabilities at or above the specified level. Accepts a level (`info`, `low`, `moderate`, `high`, `critical`) or can be used as a boolean flag to filter by the audit level |
 | `--production`      | `-p`  | Skip the `devDependencies`                                                                            |
 | `--registry`        | `-r`  | The npm registry url to use                                                                           |
-| `--include-columns` | `-i`  | Columns to include in report. Available columns: `ID`, `Module`, `Title`, `Paths`, `Severity`, `URL`, `Ex.` (e.g. `-i Module,Title,Severity`) |
+| `--include-columns` | `-i`  | Columns to include in report. Available columns: `ID`, `Module`, `Title`, `Paths`, `Severity`, `URL`, `Fix` (opt-in; `Yes`, `Major` or `No`, `N/A` on npm v6), `Ex.` (e.g. `-i Module,Title,Severity`) |
 | `--require-notes`   |       | Fail if any `.nsprc` exclusion has no notes (also fails when `--exclude` is used, as it cannot carry notes) |
 | `--require-expiry`  |       | Fail if any `.nsprc` exclusion has no expiry date (also fails when `--exclude` is used) |
 | `--max-expiry-days` |       | Fail if any `.nsprc` exclusion expires more than this many days from today |

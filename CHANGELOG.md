@@ -4,6 +4,10 @@
 - [#79](https://github.com/jeemok/better-npm-audit/pull/79) Support YAML in the `.nsprc` file
 - [#120](https://github.com/jeemok/better-npm-audit/pull/120) Validate the `--registry` URL to prevent command injection
 - [#123](https://github.com/jeemok/better-npm-audit/pull/123) Add `--require-notes`, `--require-expiry` and `--max-expiry-days` to enforce exception policies
+- `--module-ignore` supports `*` wildcards (#109)
+- New opt-in `Fix` column for `--include-columns` (#117)
+- Fix exception matching by substring URLs (#121) and invalid expiry never expiring (#122)
+- Run npm via `execFile` (#119); remove `lodash.get` (#110)
 - [#115](https://github.com/jeemok/better-npm-audit/pull/115) Bump `table` to remove the vulnerable `ajv`
 - Update dev dependencies and resolve Dependabot alerts
 

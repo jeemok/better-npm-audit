@@ -45,6 +45,7 @@ export interface v7Vulnerability {
   readonly name: string;
   readonly via: v7VulnerabilityVia[] | string[];
   readonly nodes: string[];
+  readonly fixAvailable?: boolean | { readonly name: string; readonly version: string; readonly isSemVerMajor: boolean };
 }
 
 export interface v7VulnerabilityVia {
