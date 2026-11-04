@@ -156,4 +156,58 @@ describe('Events handling', () => {
     consoleWarnStub.restore();
     consoleInfoStub.restore();
   });
+
+  describe('JSON output', () => {
+    // Capture the JSON document written to stdout and run the exit callback immediately
+    const run = (jsonBuffer: string, exceptionIds: string[] = []) => {
+      const written: string[] = [];
+      const exitStub = sinon.stub(process, 'exit');
+      const writeStub = sinon.stub(process.stdout, 'write').callsFake(((chunk: string, cb?: () => void) => {
+        if (chunk.startsWith('{')) written.push(chunk);
+        if (cb) cb();
+        return true;
+      }) as never);
+      const infoStub = sinon.stub(console, 'info');
+      const errorStub = sinon.stub(console, 'error');
+      handleFinish(jsonBuffer, 'info', exceptionIds, [], [], undefined, true);
+      const exitCode = exitStub.lastCall?.args[0];
+      const infoCalls = infoStub.callCount;
+      [exitStub, writeStub, infoStub, errorStub].forEach((stub) => stub.restore());
+      return { doc: JSON.parse(written.join('')), exitCode, infoCalls };
+    };
+
+    it('should print a passing document and exit 0 when nothing is vulnerable', () => {
+      const { doc, exitCode, infoCalls } = run(JSON.stringify(V6_JSON_BUFFER_EMPTY));
+      expect(doc.passed).to.equal(true);
+      expect(doc.vulnerabilities).to.eql([]);
+      expect(doc.summary.total).to.equal(0);
+      expect(exitCode).to.equal(0);
+      expect(infoCalls).to.equal(0);
+    });
+
+    it('should list every vulnerability and exit 1 when unhandled ones exist', () => {
+      const { doc, exitCode } = run(JSON.stringify(V6_JSON_BUFFER));
+      expect(doc.passed).to.equal(false);
+      expect(doc.unhandledIds.length).to.be.greaterThan(0);
+      expect(doc.summary.total).to.equal(doc.vulnerabilities.length);
+      expect(doc.vulnerabilities[0]).to.have.all.keys('id', 'module', 'title', 'paths', 'severity', 'url', 'fix', 'excepted');
+      expect(doc.vulnerabilities[0].paths).to.be.an('array');
+      expect(exitCode).to.equal(1);
+    });
+
+    it('should mark excepted vulnerabilities and pass when all are excepted', () => {
+      const ids = (run(JSON.stringify(V6_JSON_BUFFER)).doc.vulnerabilities as { id: string }[]).map(({ id }) => id);
+      const { doc, exitCode } = run(JSON.stringify(V6_JSON_BUFFER), ids);
+      expect(doc.passed).to.equal(true);
+      expect(doc.vulnerabilities.every((v: { excepted: boolean }) => v.excepted)).to.equal(true);
+      expect(exitCode).to.equal(0);
+    });
+
+    it('should print an error document and exit 1 when the audit output is invalid', () => {
+      const { doc, exitCode } = run('not json');
+      expect(doc.passed).to.equal(false);
+      expect(doc.error).to.be.a('string');
+      expect(exitCode).to.equal(1);
+    });
+  });
 });

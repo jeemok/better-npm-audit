@@ -3,6 +3,15 @@ import { printSecurityReport } from '../utils/print';
 import { processAuditJson, handleUnusedExceptions } from '../utils/vulnerability';
 
 /**
+ * Write a JSON document to stdout, then exit once it has been flushed
+ * @param  {Object} payload   The document
+ * @param  {Number} exitCode  Process exit code
+ */
+function writeJson(payload: Record<string, unknown>, exitCode: number): void {
+  process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`, () => process.exit(exitCode));
+}
+
+/**
  * Process and analyze the NPM audit JSON
  * @param  {String} jsonBuffer        NPM audit stringified JSON payload
  * @param  {Number} auditLevel        The level of vulnerabilities we care about
@@ -10,6 +19,7 @@ import { processAuditJson, handleUnusedExceptions } from '../utils/vulnerability
  * @param  {Array} exceptionModules   List of vulnerable modules to ignore in audit results
  * @param  {Array} columnsToInclude   List of columns to include in audit results
  * @param  {String} filterLevel       Optional level to filter table display
+ * @param  {Boolean} outputJson       Print the result as a JSON document on stdout
  */
 export default function handleFinish(
   jsonBuffer: string,
@@ -18,8 +28,9 @@ export default function handleFinish(
   exceptionModules: string[],
   columnsToInclude: string[],
   filterLevel?: AuditLevel,
+  outputJson = false,
 ): void {
-  const { unhandledIds, report, failed, unusedExceptionIds, unusedExceptionModules } = processAuditJson(
+  const { unhandledIds, report, vulnerabilities, failed, unusedExceptionIds, unusedExceptionModules } = processAuditJson(
     jsonBuffer,
     auditLevel,
     exceptionIds,
@@ -41,7 +52,34 @@ export default function handleFinish(
       );
     }
     // Exit failed
-    process.exit(1);
+    if (outputJson) {
+      writeJson({ passed: false, error: 'Unable to process the `npm audit --json` output.' }, 1);
+    } else {
+      process.exit(1);
+    }
+    return;
+  }
+
+  if (outputJson) {
+    const bySeverity: Record<string, number> = {};
+    vulnerabilities.forEach(({ severity }) => (bySeverity[severity] = (bySeverity[severity] || 0) + 1));
+    // Human-readable output (table, unused exceptions) still goes to stderr
+    if (report.length) {
+      printSecurityReport(report, columnsToInclude);
+    }
+    handleUnusedExceptions(unusedExceptionIds, unusedExceptionModules);
+    writeJson(
+      {
+        passed: unhandledIds.length === 0,
+        auditLevel,
+        summary: { total: vulnerabilities.length, unhandled: unhandledIds.length, bySeverity },
+        unhandledIds,
+        unusedExceptionIds,
+        unusedExceptionModules: unusedExceptionModules.filter(Boolean),
+        vulnerabilities,
+      },
+      unhandledIds.length ? 1 : 0,
+    );
     return;
   }
 

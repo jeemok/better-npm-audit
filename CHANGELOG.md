@@ -1,3 +1,7 @@
+## 4.1.0 (unreleased)
+
+- New `--json` flag: print the result as a JSON document on stdout (#82); thanks @eliasm307 for the earlier proposal in #104
+
 ## 4.0.0 (November 4, 2026)
 
 - **Breaking:** require Node.js 18 or later (CI now tests 18, 20, 22 and 24)
