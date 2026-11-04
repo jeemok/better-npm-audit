@@ -90,7 +90,7 @@ export function getProductionAuditCommand(auditCommand: string): string | undefi
  */
 export default function handleInput(
   options: CommandOptions,
-  fn: (T1: string, T2: AuditLevel, T3: string[], T4: string[], T5: string[], T6?: AuditLevel, T7?: boolean) => void,
+  fn: (T1: string, T2: AuditLevel, T3: string[], T4: string[], T5: string[], T6?: AuditLevel, T7?: boolean, T8?: string[]) => void,
 ): void {
   // In JSON mode stdout carries only the JSON document, so all human-readable output goes to stderr
   if (options.json) {
@@ -178,12 +178,25 @@ export default function handleInput(
       .filter((each) => each !== '');
     const exceptionIds: string[] = getExceptionsIds(nsprc, cmdExceptions);
     const cmdModuleIgnore: string[] = (options.moduleIgnore ?? '').split(',');
+    const cmdIgnoreDependenciesOf: string[] = (options.ignoreDependenciesOf ?? '')
+      .split(',')
+      .map((each) => each.trim())
+      .filter((each) => each !== '');
     const cmdIncludeColumns: string[] = (options.includeColumns ?? '')
       .split(',')
       .map((each: string) => each.trim())
       .filter((each: string) => !!each);
 
-    fn(auditCommand, auditLevel, exceptionIds, cmdModuleIgnore, cmdIncludeColumns, filterLevel, Boolean(options.json));
+    fn(
+      auditCommand,
+      auditLevel,
+      exceptionIds,
+      cmdModuleIgnore,
+      cmdIncludeColumns,
+      filterLevel,
+      Boolean(options.json),
+      cmdIgnoreDependenciesOf,
+    );
   };
 
   const nsprcModule = findNsprcModule();

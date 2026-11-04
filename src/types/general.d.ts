@@ -3,6 +3,7 @@ import { AuditLevel, Severity } from './level';
 export interface CommandOptions {
   readonly exclude?: string;
   readonly json?: boolean;
+  readonly ignoreDependenciesOf?: string;
   readonly packageManager?: string;
   readonly maxExpiryDays?: number | string;
   readonly requireNotes?: boolean;
@@ -48,6 +49,8 @@ export interface v7Vulnerability {
   readonly name: string;
   readonly via: v7VulnerabilityVia[] | string[];
   readonly nodes: string[];
+  readonly isDirect?: boolean;
+  readonly effects?: string[];
   readonly fixAvailable?: boolean | { readonly name: string; readonly version: string; readonly isSemVerMajor: boolean };
 }
 
@@ -75,6 +78,8 @@ export interface ReportedVulnerability {
 
 /** Extra data that some options need; each field is only filled in when it is used */
 export interface AuditContext {
+  /** Packages whose whole dependency subtree is ignored (`--ignore-dependencies-of`) */
+  readonly ignoreDependenciesOf?: string[];
   /** IDs found when auditing production dependencies only (`Scope` column) */
   readonly prodVulnerabilityIds?: string[];
   /** `packages` of `package-lock.json`, used to find installed versions (`--module-ignore pkg@version`) */
