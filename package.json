@@ -32,14 +32,12 @@
   "dependencies": {
     "commander": "^8.0.0",
     "dayjs": "^1.10.6",
-    "lodash.get": "^4.4.2",
     "semver": "^7.6.3",
     "table": "^6.9.0",
     "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
-    "@types/lodash.get": "^4.4.6",
     "@types/mocha": "^8.2.3",
     "@types/node": "^18.19.130",
     "@types/semver": "^7.5.8",
