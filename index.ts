@@ -67,7 +67,7 @@ program.name(packageJson.name).version(packageJson.version);
 
 program
   .command('audit')
-  .description('execute npm audit')
+  .description('execute npm audit (or pnpm audit)')
   .option('-x, --exclude <ids>', 'Exceptions or the vulnerabilities ID(s) to exclude.')
   .option('--max-expiry-days <days>', 'Fails the audit if an exclusion expires more than this many days in the future')
   .option('--require-notes', 'Fails audit if exclusions do not have a note')
@@ -81,6 +81,7 @@ program
   .option('-p, --production', 'Skip checking the devDependencies.')
   .option('--skip-optional', 'Skip checking the optionalDependencies.')
   .option('--json', 'Print the result as JSON on stdout (all other output goes to stderr).')
+  .option('--package-manager <name>', 'Package manager to audit with: npm or pnpm (default: detected from the lockfile).')
   .option('-r, --registry <url>', 'The npm registry url to use.')
   .option('-i, --include-columns <columnName1>,<columnName2>,..,<columnNameN>', 'Columns to include in report.')
   .action((options: CommandOptions) => handleInput(options, callback));
