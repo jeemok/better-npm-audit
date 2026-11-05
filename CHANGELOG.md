@@ -1,6 +1,7 @@
-## 4.2.0 (unreleased)
+## 4.2.0 (November 5, 2026)
 
 - `expiry` in `.nsprc` accepts a UNIX timestamp in seconds (10 digits) as well as milliseconds (13 digits); previously a seconds value was read as a date in 1970 and counted as expired (#51)
+- README section for scripts and AI agents (exit codes, `--json` fields, triage practice) and an `AGENTS.md` for agents working on the code
 
 ## 4.1.0 (November 5, 2026)
 
