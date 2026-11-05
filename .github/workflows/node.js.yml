@@ -29,3 +29,26 @@ jobs:
     - run: npm run lint
     - run: npm run test
     - run: npm run audit
+  # Catch changes to `npm audit` output early: run against the newest npm on the newest Node
+  npm-latest:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 24.x
+    - run: npm install -g npm@latest
+    - run: npm --version
+    - run: npm ci
+    - run: npm run build
+    - run: npm run test
+    - name: Audit a project with a known vulnerability, in table and JSON form
+      run: |
+        mkdir /tmp/vuln && cd /tmp/vuln
+        npm init -y > /dev/null
+        npm install minimist@1.2.0
+        if node "$GITHUB_WORKSPACE/lib" audit; then echo "expected the audit to fail"; exit 1; fi
+        node "$GITHUB_WORKSPACE/lib" audit --json > out.json || true
+        node -e "const r = require('./out.json'); if (r.passed !== false || r.summary.total < 1) { console.error(r); process.exit(1); }"
