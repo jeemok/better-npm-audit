@@ -1,4 +1,4 @@
-## 4.1.0 (unreleased)
+## 4.1.0 (November 5, 2026)
 
 - New `--ignore-dependencies-of <packages>` flag: ignore a package and the vulnerable modules that are only installed through it (#75)
 - New opt-in `Scope` column (`--include-columns`) showing whether a vulnerability is in production (`prod`) or dev-only dependencies (`dev`) (#67)
