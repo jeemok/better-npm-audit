@@ -1,3 +1,4 @@
+import { normalizeExpiry } from './date';
 import dayjs from 'dayjs';
 
 export interface ExclusionPolicy {
@@ -30,7 +31,7 @@ export function getExclusionPolicyErrors(nsprc: Record<string, unknown>, policy:
     if (policy.requireExpiry && !entry.expiry) {
       errors.push(`Exclusion ${id} in .nsprc is missing an expiry date`);
     }
-    if (latestAllowed && entry.expiry && dayjs(entry.expiry).isAfter(latestAllowed)) {
+    if (latestAllowed && entry.expiry && dayjs(normalizeExpiry(entry.expiry)).isAfter(latestAllowed)) {
       errors.push(`Exclusion ${id} in .nsprc expires too far in the future (maximum ${maxDays} days from today)`);
     }
   });

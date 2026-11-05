@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { isValidDate, analyzeExpiry } from '../../src/utils/date';
+import { isValidDate, analyzeExpiry, normalizeExpiry } from '../../src/utils/date';
 
 describe('Date utils', () => {
   describe('#isValidDate', () => {
@@ -86,6 +86,22 @@ describe('Date utils', () => {
       expect(analyzeExpiry('2020-01-31', '2021-01-01')).to.deep.equal({ valid: true, expired: true, years: 0 });
       expect(analyzeExpiry('2020-01-31', '2021-01-31')).to.deep.equal({ valid: true, expired: true, years: 1 });
       expect(analyzeExpiry('2020-01-31', '2025-10-10')).to.deep.equal({ valid: true, expired: true, years: 5 });
+    });
+  });
+
+  describe('#normalizeExpiry', () => {
+    it('should read numbers below 100 billion as seconds and larger ones as milliseconds', () => {
+      expect(normalizeExpiry(1615462134)).to.equal(1615462134000);
+      expect(normalizeExpiry(1615462134681)).to.equal(1615462134681);
+      expect(normalizeExpiry('2025-12-31')).to.equal('2025-12-31');
+      expect(normalizeExpiry(undefined)).to.equal(undefined);
+    });
+
+    it('should give the same expiry analysis for seconds and milliseconds', () => {
+      const now = '2021-03-10';
+      expect(analyzeExpiry(1615462134, now)).to.deep.equal(analyzeExpiry(1615462134000, now));
+      expect(analyzeExpiry(1615462134, now).expired).to.equal(false);
+      expect(analyzeExpiry(1615462134, '2021-03-13').expired).to.equal(true);
     });
   });
 });
