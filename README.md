@@ -1,87 +1,41 @@
 # Better NPM Audit
 
-The goal of this project is to provide additional features on top of the existing npm audit options. We hope to encourage more people to do security audits for their projects.
+`npm audit` fails your build on every known vulnerability, including the ones you have already reviewed and can't fix yet. `better-npm-audit` wraps `npm audit` (and `pnpm audit`) so you can accept a vulnerability with a reason and an expiry date, and the build only fails on what is new.
 
-[![NPM](https://nodei.co/npm/better-npm-audit.png)](https://npmjs.org/package/better-npm-audit)
+[![npm version](https://img.shields.io/npm/v/better-npm-audit?style=flat-square)](https://www.npmjs.com/package/better-npm-audit) [![npm downloads](https://img.shields.io/npm/dm/better-npm-audit?style=flat-square)](https://www.npmjs.com/package/better-npm-audit) [![CI](https://img.shields.io/github/actions/workflow/status/jeemok/better-npm-audit/node.js.yml?branch=master&style=flat-square)](https://github.com/jeemok/better-npm-audit/actions/workflows/node.js.yml) ![node support](https://img.shields.io/badge/node-18%20%7C%2020%20%7C%2022%20%7C%2024-brightgreen?style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
 
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square) ![npm downloads](https://img.shields.io/npm/d18m/better-npm-audit) ![node current](https://img.shields.io/node/v/better-npm-audit) ![node support](https://img.shields.io/badge/node-18%20%7C%2020%20%7C%2022%20%7C%2024-brightgreen) ![npm vulnerability](https://snyk.io/test/github/jeemok/better-npm-audit/badge.svg?targetFile=package.json) ![GitHub issues](https://img.shields.io/github/issues/jeemok/better-npm-audit?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/better-npm-audit?style=flat-square) ![Languages](https://img.shields.io/github/languages/top/jeemok/better-npm-audit?style=flat-square)
+- Accept a vulnerability by ID, module name (with wildcards or a version range) or dependency tree, with notes and an expiry date
+- Fail only on vulnerabilities at or above a severity level
+- Machine-readable `--json` output and stable exit codes, for CI and AI agents
+- Works with npm and pnpm
 
-## NPM version 6 and 7, and 8
-
-NPM has upgraded to version 7 in late 2020 and has breaking changes on the `npm audit`. The output of npm audit has significantly changed both in the human-readable and `--json` output styles. Even more unfortunately, when NPM changed the JSON output in npm v7, they removed many of the other useful identifiers (`cves`, `cwe`, `github_advisory_id`) and the only thing left is the URL. We are trying our best to handle each version and provide consistent functionality to all of them. Related docs on v6 and v7 changes:
-
-| Docs                       | Link                                                                                       |
-| -------------------------- | ------------------------------------------------------------------------------------------ |
-| NPM v6 & v7 changes        | https://github.blog/2020-10-13-presenting-v7-0-0-of-the-npm-cli/                           |
-| NPM v7 blog post           | https://blog.npmjs.org/post/626173315965468672/npm-v7-series-beta-release-and-semver-major |
-| Official NPM v6 audit docs | https://docs.npmjs.com/cli/v6/commands/npm-audit                                           |
-| Official NPM v7 audit docs | https://docs.npmjs.com/cli/v7/commands/npm-audit                                           |
-| Dealing with new npm audit | https://uko.codes/dealing-with-npm-v7-audit-changes                                        |
-
-You may find the sample JSON outputs for each NPM versions in our codebase: [v6](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/v6-json-buffer.json), [v7](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/v7-json-buffer.json) & [v8](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/v8-json-buffer.json).
-
-<br />
-
-## Version support
-
-| Version       | Node.js       | Status                                                          | Install                           |
-| ------------- | ------------- | --------------------------------------------------------------- | --------------------------------- |
-| 4.x           | 18 or later   | **Current.** New features and fixes. This is the `latest` release | `npm i better-npm-audit`          |
-| 3.x           | 14.6 or later | Maintenance: security and critical fixes only, until May 2027   | `npm i better-npm-audit@3`        |
-| 2.x and older | -             | End of life, no fixes                                           | -                                 |
-
-### Should I use 4.x?
-
-Yes, if you run Node.js 18 or later (check with `node -v`). 4.x is where all development happens and it is what `npm i better-npm-audit` installs.
-
-If you are on Node.js 14.6 - 16, pin version 3 so you don't get 4.x by accident, for example `npm i -D better-npm-audit@3` or `npx better-npm-audit@3 audit`. Node.js 14 and 16 are end-of-life upstream, so we recommend upgrading Node.js.
-
-### What changed from 3.x to 4.x?
-
-**Breaking:** 4.x requires Node.js 18 or later. That is the only breaking change. Flags, the `.nsprc` format, output and exit codes are the same as in 3.13.1, so upgrading is a matter of updating Node.js and the version in your `package.json` or CI script.
-
-**Only in 4.x** (3.x will not get these):
-
-| Since | Feature                                                                                      |
-| ----- | -------------------------------------------------------------------------------------------- |
-| 4.1.0 | `--json` output                                                                              |
-| 4.1.0 | pnpm support (`pnpm audit`, detected from the lockfile)                                      |
-| 4.1.0 | JavaScript exceptions config (`.nsprc.cjs` / `.nsprc.js`)                                    |
-| 4.1.0 | `--module-ignore pkg@version`, `--ignore-dependencies-of`, and the `Scope` column            |
-
-3.13 and 4.0 have the same features: YAML `.nsprc`, `--filter-table`, `--skip-optional`, `--module-ignore` wildcards, the `Fix` column and the exception policy flags (`--require-notes`, `--require-expiry`, `--max-expiry-days`). The [changelog](https://github.com/jeemok/better-npm-audit/blob/master/CHANGELOG.md) has the full list.
-
-### End of life for 3.x
-
-Version 3 gets security and critical fixes until **May 2027**, six months after 4.x became `latest` on npm (November 2026). After that it is end of life and the `v3` branch is archived. Please plan to move to Node.js 18+ and 4.x before then.
-
-<br />
-
-## Installation
-
-    $ npm install --save better-npm-audit
-
-or
-
-    $ npm install -g better-npm-audit
-
-or run it without installing
-
-    $ npx better-npm-audit audit
-
-Requires Node.js 18 or later. For Node.js 14.6 - 16, use version 3 (`npm install better-npm-audit@3`).
-
-<br />
-
-## Usage
-
-### Run global
+## Quick start
 
 ```bash
-better-npm-audit audit
+npx better-npm-audit audit
 ```
 
-### Run with exceptions
+Or add it to your project, so it runs in your CI:
+
+```bash
+npm install --save-dev better-npm-audit
+```
+
+```json
+{
+  "scripts": {
+    "audit": "better-npm-audit audit"
+  }
+}
+```
+
+`npm run audit` exits `0` when nothing unhandled is found at or above `--level` (default `info`), and `1` otherwise. To accept a vulnerability you have reviewed, add its ID to a [`.nsprc` file](#managing-exceptions-with-nsprc) with a note and an expiry, or ignore a module with `-m`. You can also install it globally (`npm install -g better-npm-audit`).
+
+Requires Node.js 18 or later. On Node.js 14.6 - 16, use version 3: see [Version support](#version-support).
+
+<br />
+
+## What it looks like
 
 <img src="./.README/all_good.png" alt="Demo of table displaying the security report" />
 
@@ -93,22 +47,74 @@ Unused exceptions will be notified:
 
 <img src="./.README/unused_exception.png" alt="Demo of displaying the unused exception" />
 
-### Add into package scripts
+<br />
 
-```JSON
+## Managing exceptions with `.nsprc`
+
+You may add a file `.nsprc` to your project root directory to manage the exceptions. The file can be written as JSON or YAML (`.nsprc` is read as YAML, which also accepts JSON). For example:
+
+```json
 {
-  "scripts": {
-    "prepush": "npm run test && npm run audit",
-    "audit": "better-npm-audit audit"
-  }
+  "1337": {
+    "active": true,
+    "notes": "Ignored since we don't use xxx method",
+    "expiry": 1615462134681
+  },
+  "4501": {
+    "active": false,
+    "notes": "Ignored since we don't use xxx method"
+  },
+  "CWE-471": "CWE ID is acceptable",
+  "GHSA-ww39-953v-wcq6": "GHSA ID is acceptable",
+  "https://npmjs.com/advisories/1213": "Full or partial URL is acceptable too"
 }
 ```
 
-Now you can run locally or in your CI pipeline:
+The same exceptions in YAML:
 
-```bash
-npm run audit
+```yaml
+'1337':
+  active: true
+  notes: Ignored since we don't use xxx method
+  expiry: '2025-12-31'
+CWE-471: CWE ID is acceptable
 ```
+
+### Generating exceptions with JavaScript
+
+Instead of a static `.nsprc`, you can put a `.nsprc.cjs` (or `.nsprc.js`) file in your project root. It exports an object with the same structure, or a function (sync or async) that returns one, so you can build the exceptions from an API or another file:
+
+```js
+// .nsprc.cjs
+module.exports = async () => {
+  const response = await fetch('https://example.com/approved-advisories.json');
+  return await response.json(); // { "1337": { "notes": "...", "expiry": "2026-12-31" }, ... }
+};
+```
+
+If both exist, the JavaScript file wins and `.nsprc` is ignored. The file is run with your user's permissions, so only use it in a project you trust. If it throws, or doesn't return an object, the audit exits with an error.
+
+### Fields
+
+| Attribute | Type             | Description                                               | Default | Examples                                                                                                                                                                                                                                                                                                                     |
+| --------- | ---------------- | --------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `active`  | Boolean          | If the tool should use it for exception                   | `true`  | `true`                                                                                                                                                                                                                                                                                                                       |
+| `expiry`  | String \| Number | Human-readable date string, or a UNIX timestamp in seconds or milliseconds |         | - `"2020-01-31"` <br> - `"2020/01/31"` <br> - `"01/31/2021, 11:03:58"` <br> - `"1 March 2016 15:00"` <br> - `"1 March 2016 3:00 pm"` <br> - `"2012-01-26T13:51:50.417-07:00"` <br> - `"Sun, 11 Jul 2021 03:03:13 GMT"` <br> - `"Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)"` <br> - `1615462134681` |
+| `notes`   | String           | Notes related to the vulnerability.                       |         |
+
+> Note: the `expiry` examples above are shown as JSON, so date strings must be double-quoted (YAML is more relaxed, e.g. `expiry: '2025-12-31'`). A number is read as seconds since the epoch if it is below 100 billion (any 10-digit Unix timestamp), and as milliseconds otherwise (13 digits). Before 4.2.0, numbers were always read as milliseconds.
+
+<br />
+
+When using a `.nsprc` file, a report will be displayed when it starts running:
+
+<img src="./.README/exceptions_table.png" alt="Demo of table displaying a list of exceptions" />
+
+> Note: the expiry date will be styled in yellow and red color if it is detected more than one or five years ago.
+
+<br />
+
+## Usage
 
 ### Filter vulnerability table
 
@@ -204,7 +210,7 @@ better-npm-audit audit --json -l high 2>/dev/null
 - **Each vulnerability** has `id`, `module`, `title`, `paths`, `severity`, `url`, `fix` (`Yes`, `Major`, `No`, `N/A`), `scope` (`prod`, `dev`, or `N/A`; add `-i Scope` to fill it) and `excepted`. `fix: "Yes"` means `npm audit fix` can resolve it, `Major` means it needs a breaking upgrade.
 - **Triage order:** fix what you can (`fix` is `Yes`), then decide on the rest. Ignore a finding only when you know it doesn't apply, and record why in `.nsprc` with `notes` and an `expiry` (`--require-notes --require-expiry` makes the audit fail when they're missing). Prefer `-m pkg@version` over `-m pkg` so the ignore ends when the package changes.
 - **Don't** put exceptions on the command line (`-x`, `-m`) for anything that should last: they leave no note or expiry. Edit `.nsprc` (or `.nsprc.cjs`) instead.
-- Run `better-npm-audit audit --help` for the current flags.
+- Run `better-npm-audit audit --help` for the current flags. A short machine-readable summary of this section is in [`llms.txt`](https://github.com/jeemok/better-npm-audit/blob/master/llms.txt).
 
 ### pnpm
 
@@ -242,68 +248,51 @@ If your project has a `pnpm-lock.yaml` and no `package-lock.json`, `better-npm-a
 
 <br />
 
-## Using `.nsprc` file to manage exceptions
+## Version support
 
-You may add a file `.nsprc` to your project root directory to manage the exceptions. The file can be written as JSON or YAML (`.nsprc` is read as YAML, which also accepts JSON). For example:
+| Version       | Node.js       | Status                                                          | Install                           |
+| ------------- | ------------- | --------------------------------------------------------------- | --------------------------------- |
+| 4.x           | 18 or later   | **Current.** New features and fixes. This is the `latest` release | `npm i better-npm-audit`          |
+| 3.x           | 14.6 or later | Maintenance: security and critical fixes only, until May 2027   | `npm i better-npm-audit@3`        |
+| 2.x and older | -             | End of life, no fixes                                           | -                                 |
 
-```json
-{
-  "1337": {
-    "active": true,
-    "notes": "Ignored since we don't use xxx method",
-    "expiry": 1615462134681
-  },
-  "4501": {
-    "active": false,
-    "notes": "Ignored since we don't use xxx method"
-  },
-  "CWE-471": "CWE ID is acceptable",
-  "GHSA-ww39-953v-wcq6": "GHSA ID is acceptable",
-  "https://npmjs.com/advisories/1213": "Full or partial URL is acceptable too"
-}
-```
+### Should I use 4.x?
 
-The same exceptions in YAML:
+Yes, if you run Node.js 18 or later (check with `node -v`). 4.x is where all development happens and it is what `npm i better-npm-audit` installs.
 
-```yaml
-'1337':
-  active: true
-  notes: Ignored since we don't use xxx method
-  expiry: '2025-12-31'
-CWE-471: CWE ID is acceptable
-```
+If you are on Node.js 14.6 - 16, pin version 3 so you don't get 4.x by accident, for example `npm i -D better-npm-audit@3` or `npx better-npm-audit@3 audit`. Node.js 14 and 16 are end-of-life upstream, so we recommend upgrading Node.js.
 
-### Generating exceptions with JavaScript
+### What changed from 3.x to 4.x?
 
-Instead of a static `.nsprc`, you can put a `.nsprc.cjs` (or `.nsprc.js`) file in your project root. It exports an object with the same structure, or a function (sync or async) that returns one, so you can build the exceptions from an API or another file:
+**Breaking:** 4.x requires Node.js 18 or later. That is the only breaking change. Flags, the `.nsprc` format, output and exit codes are the same as in 3.13.1, so upgrading is a matter of updating Node.js and the version in your `package.json` or CI script.
 
-```js
-// .nsprc.cjs
-module.exports = async () => {
-  const response = await fetch('https://example.com/approved-advisories.json');
-  return await response.json(); // { "1337": { "notes": "...", "expiry": "2026-12-31" }, ... }
-};
-```
+**Only in 4.x** (3.x will not get these):
 
-If both exist, the JavaScript file wins and `.nsprc` is ignored. The file is run with your user's permissions, so only use it in a project you trust. If it throws, or doesn't return an object, the audit exits with an error.
+| Since | Feature                                                                                      |
+| ----- | -------------------------------------------------------------------------------------------- |
+| 4.1.0 | `--json` output                                                                              |
+| 4.1.0 | pnpm support (`pnpm audit`, detected from the lockfile)                                      |
+| 4.1.0 | JavaScript exceptions config (`.nsprc.cjs` / `.nsprc.js`)                                    |
+| 4.1.0 | `--module-ignore pkg@version`, `--ignore-dependencies-of`, and the `Scope` column            |
 
-### Fields
+3.13 and 4.0 have the same features: YAML `.nsprc`, `--filter-table`, `--skip-optional`, `--module-ignore` wildcards, the `Fix` column and the exception policy flags (`--require-notes`, `--require-expiry`, `--max-expiry-days`). The [changelog](https://github.com/jeemok/better-npm-audit/blob/master/CHANGELOG.md) has the full list.
 
-| Attribute | Type             | Description                                               | Default | Examples                                                                                                                                                                                                                                                                                                                     |
-| --------- | ---------------- | --------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `active`  | Boolean          | If the tool should use it for exception                   | `true`  | `true`                                                                                                                                                                                                                                                                                                                       |
-| `expiry`  | String \| Number | Human-readable date string, or a UNIX timestamp in seconds or milliseconds |         | - `"2020-01-31"` <br> - `"2020/01/31"` <br> - `"01/31/2021, 11:03:58"` <br> - `"1 March 2016 15:00"` <br> - `"1 March 2016 3:00 pm"` <br> - `"2012-01-26T13:51:50.417-07:00"` <br> - `"Sun, 11 Jul 2021 03:03:13 GMT"` <br> - `"Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)"` <br> - `1615462134681` |
-| `notes`   | String           | Notes related to the vulnerability.                       |         |
+### End of life for 3.x
 
-> Note: the `expiry` examples above are shown as JSON, so date strings must be double-quoted (YAML is more relaxed, e.g. `expiry: '2025-12-31'`). A number is read as seconds since the epoch if it is below 100 billion (any 10-digit Unix timestamp), and as milliseconds otherwise (13 digits). Before 4.2.0, numbers were always read as milliseconds.
+Version 3 gets security and critical fixes until **May 2027**, six months after 4.x became `latest` on npm (November 2026). After that it is end of life and the `v3` branch is archived. Please plan to move to Node.js 18+ and 4.x before then.
 
 <br />
 
-When using a `.nsprc` file, a report will be displayed when it starts running:
+## npm audit formats
 
-<img src="./.README/exceptions_table.png" alt="Demo of table displaying a list of exceptions" />
+npm 7 (2020) changed the `npm audit` output, in both the table and `--json`, and dropped identifiers such as `cves`, `cwe` and `github_advisory_id`, leaving mostly the advisory URL. `better-npm-audit` reads both formats: v6 (`advisories`) and v7 and later (`vulnerabilities`), plus the v6-style output of `pnpm audit`. CI runs the tests and a real audit against the latest npm on every change, so a new npm release that changes the output shows up quickly.
 
-> Note: the expiry date will be styled in yellow and red color if it is detected more than one or five years ago.
+| Docs                       | Link                                                                         |
+| -------------------------- | ---------------------------------------------------------------------------- |
+| npm 7 release notes        | https://github.blog/2020-10-13-presenting-v7-0-0-of-the-npm-cli/            |
+| Official `npm audit` docs  | https://docs.npmjs.com/cli/commands/npm-audit                                |
+
+Sample JSON outputs of each format are in the codebase: [v6](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/v6-json-buffer.json), [v7](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/v7-json-buffer.json), [v8](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/v8-json-buffer.json) and [pnpm](https://github.com/jeemok/better-npm-audit/blob/master/test/__mocks__/pnpm-json-buffer.json).
 
 <br />
 
