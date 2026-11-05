@@ -33,4 +33,4 @@ Run lint, tests and build before pushing. CI runs them on Node 18, 20, 22 and 24
 - `master` is 4.x (Node 18+), where features go. `v3` is 3.x maintenance (Node 14.6+): security and critical fixes only, backported from `master`.
 - Work in a branch and open a PR; wait for green CI, merge, then check the PR is really `MERGED`.
 - Keep `CHANGELOG.md` up to date with each change (under the unreleased heading).
-- Follow `RELEASING.md` to release. Publishing to npm needs the maintainer's OTP: never publish, tag or delete releases without being asked.
+- Follow `RELEASING.md` to release. Pushing a `v*` tag publishes to npm (the `Release` workflow), so never push a tag, publish or delete releases without being asked.

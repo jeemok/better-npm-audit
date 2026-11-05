@@ -40,33 +40,50 @@ npm pack ./lib --dry-run     # expected files only
 
 For `v3`, also smoke-test `node lib audit` on Node 14 and 16 (CI's `compat` job does this).
 
-## 4. Publish
+## 4. Publish (automated)
 
-Needs `npm login` and a **fresh OTP for every publish or dist-tag command** (a code works once).
+Publishing is done by the `Release` workflow (`.github/workflows/release.yml`) using npm trusted publishing, so there is no OTP and no npm token. Push an annotated tag on the merged release commit:
 
 ```sh
-git checkout <branch> && git pull
-npm ci
-npm run publish:live -- --otp=<code>   # on master (4.x): tag latest
-npm run publish:next -- --otp=<code>   # on master, for a pre-release you do not want as latest: tag next
-npm run publish:maintenance -- --otp=<code>   # on v3 (3.x): tag maintenance, never latest
+git checkout <branch> && git pull          # master for 4.x, v3 for 3.x
+git log -1 --oneline                        # confirm this is the merged release commit
+git tag -a vX.Y.Z -m "X.Y.Z" && git push origin vX.Y.Z
 ```
 
-`publish:*` runs the build first and publishes `./lib`. They do not run lint or tests, so do step 3 first.
+Pushing the tag is what publishes, so treat it like running `npm publish`. The workflow then:
 
-After publishing:
+1. checks the tag equals `package.json`'s version and that the commit is on `master` (4.x) or `v3` (3.x);
+2. runs `npm run build` (lint, tests, build) and `npm publish ./lib --provenance` with the dist-tag from the version: `latest` for 4.x, `maintenance` for 3.x, `next` for anything with a `-` pre-release suffix;
+3. waits for the registry and smoke-tests `npx better-npm-audit@<version> --version`;
+4. creates the GitHub release with the changelog section as notes (Latest for 4.x, not Latest for 3.x, pre-release for `next`).
 
-- [ ] Wait until `npm view better-npm-audit dist-tags` shows the new version (the registry can lag several minutes; do not re-publish).
-- [ ] Smoke test the real package: `npx better-npm-audit@<version> --version` and an `audit` run in a scratch project.
-- [ ] Check `npm view better-npm-audit dist-tags`: `latest` is the newest 4.x and `maintenance` is the newest 3.x.
-- [ ] If a 4.x release was published with the wrong tag: `npm dist-tag add better-npm-audit@4.x.y latest --otp=<code>`.
+Watch the run: `gh run watch`. If a step fails after the publish, don't push the tag again; fix forward (see "If something goes wrong").
 
-## 5. Tag and release on GitHub
+To rehearse without publishing: Actions > Release > Run workflow on the branch. It runs everything except the publish, and does a `npm publish --dry-run`.
 
-- [ ] Annotated tag on the commit that was published: `git tag -a vX.Y.Z <sha> -m "X.Y.Z" && git push origin vX.Y.Z`.
-- [ ] `gh release create vX.Y.Z --verify-tag --target <branch> --title vX.Y.Z --notes "..."`, notes taken from the changelog.
-- [ ] Mark the right release **Latest** (the one matching npm `latest`); mark pre-releases (published with `--tag next`) as pre-release.
-- [ ] Delete stale draft releases.
+### One-time setup (maintainer)
+
+- On npmjs.com: the `better-npm-audit` package > Settings > Trusted Publisher > GitHub Actions: owner `jeemok`, repository `better-npm-audit`, workflow `release.yml`, environment blank.
+- `release.yml` must exist on the tagged commit, so it is on both `master` and `v3`.
+- Optional: in the package's publishing access settings, require 2FA and disallow tokens once trusted publishing works.
+
+### Manual fallback
+
+If the workflow can't be used, publish by hand. This needs `npm login` and a **fresh OTP for every publish or dist-tag command**:
+
+```sh
+git checkout <branch> && git pull && npm ci
+npm run publish:live -- --otp=<code>          # master (4.x): tag latest
+npm run publish:next -- --otp=<code>          # master pre-release: tag next
+npm run publish:maintenance -- --otp=<code>   # v3 (3.x): tag maintenance, never latest
+```
+
+Then by hand: wait for `npm view better-npm-audit dist-tags` to show the version, smoke test `npx better-npm-audit@<version> --version`, push the annotated tag, and `gh release create vX.Y.Z --verify-tag --title vX.Y.Z --notes-file <notes>` (mark Latest only for 4.x). If a 4.x release got the wrong tag: `npm dist-tag add better-npm-audit@4.x.y latest --otp=<code>`.
+
+## 5. After the release
+
+- [ ] `npm view better-npm-audit dist-tags`: `latest` is the newest 4.x and `maintenance` the newest 3.x.
+- [ ] The GitHub release exists and the right one is marked Latest. Delete stale draft releases.
 
 ## 6. Close the loop
 
@@ -77,6 +94,6 @@ After publishing:
 
 ## If something goes wrong
 
-- Never re-publish a version; bump the patch version instead.
+- Never re-publish a version; bump the patch version instead. A tag that triggered a failed publish stays; the fix is a new patch version and a new tag.
 - A bad release: `npm deprecate better-npm-audit@<version> "<message>"` and ship a fixed version. Unpublish only within the npm policy window and only if nothing depends on it.
 - Wrong dist-tag: `npm dist-tag add better-npm-audit@<good version> <tag>`.
