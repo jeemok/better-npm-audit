@@ -65,11 +65,11 @@ To rehearse without publishing: Actions > Release > Run workflow on the branch. 
 
 - On npmjs.com: the `better-npm-audit` package > Settings > Trusted Publisher > GitHub Actions: owner `jeemok`, repository `better-npm-audit`, workflow `release.yml`, environment blank.
 - `release.yml` must exist on the tagged commit, so it is on both `master` and `v3`.
-- Optional: in the package's publishing access settings, require 2FA and disallow tokens once trusted publishing works.
+- Done after the 4.2.1 release: the package's Publishing access is set to "Require two-factor authentication and disallow tokens". Trusted publishing (OIDC) is not affected.
 
 ### Manual fallback
 
-If the workflow can't be used, publish by hand. This needs `npm login` and a **fresh OTP for every publish or dist-tag command**:
+If the workflow can't be used, publish by hand. This needs `npm login` and a **fresh OTP for every publish or dist-tag command**. Publishing access disallows tokens, so log in as a maintainer with 2FA; an access token will be rejected:
 
 ```sh
 git checkout <branch> && git pull && npm ci
