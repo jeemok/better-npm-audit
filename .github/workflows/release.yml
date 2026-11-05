@@ -78,6 +78,8 @@ jobs:
           npm view "better-npm-audit@$version" version > /dev/null 2>&1 && break
           sleep 15
         done
+        # Not in the checkout: its package has the same name, so npx would look for a local binary
+        cd "$(mktemp -d)"
         npx --yes "better-npm-audit@$version" --version | grep -x "$version"
     - name: Create the GitHub release
       if: github.event_name == 'push'
