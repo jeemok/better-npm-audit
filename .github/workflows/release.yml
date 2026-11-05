@@ -1,0 +1,97 @@
+# Publishes to npm when a version tag (vX.Y.Z) is pushed, using npm trusted publishing (OIDC):
+# there is no npm token or OTP. See RELEASING.md for the one-time npm setup and the steps around it.
+#
+# 4.x (master)  -> dist-tag `latest`
+# 3.x (v3)      -> dist-tag `maintenance`
+# any x.y.z-*   -> dist-tag `next`, GitHub pre-release
+#
+# Run it by hand (Actions > Release > Run workflow) for a dry run: it does everything except publish.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 24.x
+        registry-url: https://registry.npmjs.org
+    # Trusted publishing needs npm 11.5.1 or later
+    - run: npm install -g npm@latest
+    - name: Check the tag and work out the dist-tag
+      id: meta
+      run: |
+        version=$(node -p "require('./package.json').version")
+        major=${version%%.*}
+        case "$major" in
+          4) branch=master ;;
+          3) branch=v3 ;;
+          *) echo "No release rule for version $version"; exit 1 ;;
+        esac
+        case "$version" in
+          *-*) disttag=next ;;
+          *) if [ "$major" = 4 ]; then disttag=latest; else disttag=maintenance; fi ;;
+        esac
+        if [ "$GITHUB_EVENT_NAME" = push ]; then
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $version"; exit 1
+          fi
+          if ! git merge-base --is-ancestor HEAD "origin/$branch"; then
+            echo "Tagged commit is not on $branch (merge the release PR first)"; exit 1
+          fi
+        fi
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+        echo "disttag=$disttag" >> "$GITHUB_OUTPUT"
+        echo "Releasing $version with dist-tag $disttag"
+    - run: npm ci
+    # The build also runs lint and the tests
+    - run: npm run build
+    - name: Publish
+      if: github.event_name == 'push'
+      run: npm publish ./lib --tag "${{ steps.meta.outputs.disttag }}" --provenance --access public
+    - name: Dry run
+      if: github.event_name != 'push'
+      run: |
+        npm pack ./lib --dry-run
+        if npm view "better-npm-audit@${{ steps.meta.outputs.version }}" version > /dev/null 2>&1; then
+          echo "Version ${{ steps.meta.outputs.version }} is already on npm, so there is nothing to publish; packaging checked above."
+        else
+          npm publish ./lib --tag "${{ steps.meta.outputs.disttag }}" --dry-run
+        fi
+    - name: Smoke test the published package
+      if: github.event_name == 'push'
+      run: |
+        version=${{ steps.meta.outputs.version }}
+        for i in $(seq 1 40); do
+          npm view "better-npm-audit@$version" version > /dev/null 2>&1 && break
+          sleep 15
+        done
+        npx --yes "better-npm-audit@$version" --version | grep -x "$version"
+    - name: Create the GitHub release
+      if: github.event_name == 'push'
+      env:
+        GH_TOKEN: ${{ github.token }}
+        VERSION: ${{ steps.meta.outputs.version }}
+        DISTTAG: ${{ steps.meta.outputs.disttag }}
+      run: |
+        awk -v v="$VERSION" '/^## /{f = (index($0, "## " v " ") == 1)} f && !/^## /' CHANGELOG.md > notes.md
+        if [ ! -s notes.md ]; then echo "See the [changelog](https://github.com/$GITHUB_REPOSITORY/blob/master/CHANGELOG.md)." > notes.md; fi
+        if gh release view "v$VERSION" > /dev/null 2>&1; then echo "Release v$VERSION already exists"; exit 0; fi
+        case "$DISTTAG" in
+          latest) flag=--latest ;;
+          next) flag=--prerelease ;;
+          *) flag=--latest=false ;;
+        esac
+        gh release create "v$VERSION" --verify-tag --title "v$VERSION" --notes-file notes.md $flag

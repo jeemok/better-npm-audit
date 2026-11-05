@@ -1,0 +1,41 @@
+# Weekly audit of the project's own production dependencies, on both maintained branches.
+# Opens an issue when it finds something, so a new advisory is noticed between pushes.
+name: Scheduled audit
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: [master, v3]
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ matrix.branch }}
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+    - run: npm ci
+    - run: npx tsc
+    - name: Audit production dependencies with the tool itself
+      run: node lib audit -p
+    - name: Open an issue
+      if: failure()
+      env:
+        GH_TOKEN: ${{ github.token }}
+        TITLE: Scheduled audit failed on ${{ matrix.branch }}
+      run: |
+        existing=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number')
+        if [ -z "$existing" ]; then
+          gh issue create --title "$TITLE" --body "The weekly audit of production dependencies failed on \`${{ matrix.branch }}\`. See the run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+        fi
