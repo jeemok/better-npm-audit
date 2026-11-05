@@ -15,8 +15,18 @@
 
 ## 4.0.0 (November 4, 2026)
 
-- **Breaking:** require Node.js 18 or later (CI now tests 18, 20, 22 and 24)
-- Same fixes and features as 3.13.0 (see below), on the Node 18+ line
+- **Breaking:** require Node.js 18 or later (CI now tests 18, 20, 22 and 24). This is the only breaking change.
+- Same features and fixes as 3.13.1; see the 3.13.1 and 3.13.0 entries below for the list
+
+## 3.13.1 (November 4, 2026)
+
+- New `--skip-optional` flag (#94)
+- Clearer errors when `npm audit` produces no/invalid output or cannot be started (#66)
+- Fix `Title`/`Paths` column wrapping when using `--include-columns` (#65)
+
+## 3.13.0 (November 4, 2026)
+
+- Supports Node.js 14.6 or later (the previous `>= 8.12` claim was no longer accurate for the dependencies in use); the dev toolchain needs Node 18+
 - [#108](https://github.com/jeemok/better-npm-audit/pull/108) Add `--filter-table` flag to filter the vulnerability table by level (thanks @caseyjhol); this was in the unpublished 3.12.0
 - [#79](https://github.com/jeemok/better-npm-audit/pull/79) Support YAML in the `.nsprc` file
 - [#120](https://github.com/jeemok/better-npm-audit/pull/120) Validate the `--registry` URL to prevent command injection
@@ -25,9 +35,6 @@
 - New opt-in `Fix` column for `--include-columns` (#117)
 - Fix exception matching by substring URLs (#121) and invalid expiry never expiring (#122)
 - Run npm via `execFile` (#119); remove `lodash.get` (#110)
-- New `--skip-optional` flag (#94)
-- Clearer errors when `npm audit` produces no/invalid output or cannot be started (#66)
-- Fix `Title`/`Paths` column wrapping when using `--include-columns` (#65)
 - [#115](https://github.com/jeemok/better-npm-audit/pull/115) Bump `table` to remove the vulnerable `ajv`
 - Update dev dependencies and resolve Dependabot alerts
 
