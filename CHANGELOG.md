@@ -1,5 +1,6 @@
-## Unreleased
+## 4.2.1 (November 5, 2026)
 
+- Releases are now published from GitHub Actions with npm trusted publishing, so the package carries provenance
 - README reorganised: quick start first, then exceptions, then the rest. Added `llms.txt` (also shipped in the package) as a short summary for AI agents
 
 ## 4.2.0 (November 5, 2026)
