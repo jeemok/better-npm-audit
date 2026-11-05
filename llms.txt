@@ -1,0 +1,21 @@
+# better-npm-audit
+
+> A CLI that wraps `npm audit` and `pnpm audit`. It lets a project accept known vulnerabilities with a reason and an expiry date, so a CI build fails only on new ones. Node.js 18 or later (version 3 for Node 14.6 - 16).
+
+Run it in a project that has a lockfile: `npx better-npm-audit audit --json`.
+
+- Exit code `0`: nothing unhandled at or above `--level`. Exit code `1`: unhandled vulnerabilities, or the audit could not run.
+- With `--json`, stdout is one JSON document and nothing else (the table and messages go to stderr). Read `passed`, then `unhandledIds`. A failure is `{ "passed": false, "error": "..." }`.
+- Accept a reviewed vulnerability in `.nsprc` (JSON or YAML) with `notes` and an `expiry`, not on the command line. `-m pkg@version` ignores a module only at that version. `--ignore-dependencies-of pkg` ignores what a package brings in.
+- Auto-detects pnpm from `pnpm-lock.yaml`; use `--package-manager npm|pnpm` to choose.
+
+## Docs
+
+- [README](https://github.com/jeemok/better-npm-audit/blob/master/README.md): install, every flag, `.nsprc` format, `--json` fields, version support
+- [Using it from scripts and AI agents](https://github.com/jeemok/better-npm-audit/blob/master/README.md#using-it-from-scripts-and-ai-agents): exit codes, JSON fields, triage order
+- [Changelog](https://github.com/jeemok/better-npm-audit/blob/master/CHANGELOG.md): what changed in each release
+
+## For contributors and coding agents
+
+- [AGENTS.md](https://github.com/jeemok/better-npm-audit/blob/master/AGENTS.md): commands, code map, gotchas, branch rules
+- [RELEASING.md](https://github.com/jeemok/better-npm-audit/blob/master/RELEASING.md): how a release is cut (maintainer only)

@@ -1,3 +1,7 @@
+## Unreleased
+
+- README reorganised: quick start first, then exceptions, then the rest. Added `llms.txt` (also shipped in the package) as a short summary for AI agents
+
 ## 4.2.0 (November 5, 2026)
 
 - `expiry` in `.nsprc` accepts a UNIX timestamp in seconds (10 digits) as well as milliseconds (13 digits); previously a seconds value was read as a date in 1970 and counted as expired (#51)
