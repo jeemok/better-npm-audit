@@ -1,5 +1,6 @@
-## 4.1.0 (unreleased)
+## 4.1.0 (November 5, 2026)
 
+- 4.x is now the `latest` release on npm; 3.x moves to the `maintenance` tag (`npm i better-npm-audit@3`) and gets security and critical fixes until May 2027. See "Version support" in the README
 - New `--ignore-dependencies-of <packages>` flag: ignore a package and the vulnerable modules that are only installed through it (#75)
 - New opt-in `Scope` column (`--include-columns`) showing whether a vulnerability is in production (`prod`) or dev-only dependencies (`dev`) (#67)
 - `--module-ignore` accepts a version or range, e.g. `lodash@4.17.20`, so ignores stop applying after an upgrade (#72)
