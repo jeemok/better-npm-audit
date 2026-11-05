@@ -63,7 +63,13 @@ jobs:
       run: npm publish ./lib --tag "${{ steps.meta.outputs.disttag }}" --provenance --access public
     - name: Dry run
       if: github.event_name != 'push'
-      run: npm publish ./lib --tag "${{ steps.meta.outputs.disttag }}" --dry-run
+      run: |
+        npm pack ./lib --dry-run
+        if npm view "better-npm-audit@${{ steps.meta.outputs.version }}" version > /dev/null 2>&1; then
+          echo "Version ${{ steps.meta.outputs.version }} is already on npm, so there is nothing to publish; packaging checked above."
+        else
+          npm publish ./lib --tag "${{ steps.meta.outputs.disttag }}" --dry-run
+        fi
     - name: Smoke test the published package
       if: github.event_name == 'push'
       run: |
