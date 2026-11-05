@@ -191,6 +191,21 @@ better-npm-audit audit --json 2>/dev/null | jq '.summary'
 
 `vulnerabilities` always lists everything found; `--filter-table` and `--include-columns` only affect the table. If the audit output can't be processed, the document is `{ "passed": false, "error": "..." }` and the exit code is `1`.
 
+### Using it from scripts and AI agents
+
+Everything an agent needs is in `--json`, the exit code and `--help`:
+
+```bash
+better-npm-audit audit --json -l high 2>/dev/null
+```
+
+- **Exit code:** `0` means nothing unhandled at or above `--level`; `1` means unhandled vulnerabilities, or the audit could not run (no lockfile, registry unreachable, invalid config).
+- **stdout** has one JSON document and nothing else; the table and messages are on stderr. Read `passed` first, then `unhandledIds`. A failure to audit is `{ "passed": false, "error": "..." }`.
+- **Each vulnerability** has `id`, `module`, `title`, `paths`, `severity`, `url`, `fix` (`Yes`, `Major`, `No`, `N/A`), `scope` (`prod`, `dev`, or `N/A`; add `-i Scope` to fill it) and `excepted`. `fix: "Yes"` means `npm audit fix` can resolve it, `Major` means it needs a breaking upgrade.
+- **Triage order:** fix what you can (`fix` is `Yes`), then decide on the rest. Ignore a finding only when you know it doesn't apply, and record why in `.nsprc` with `notes` and an `expiry` (`--require-notes --require-expiry` makes the audit fail when they're missing). Prefer `-m pkg@version` over `-m pkg` so the ignore ends when the package changes.
+- **Don't** put exceptions on the command line (`-x`, `-m`) for anything that should last: they leave no note or expiry. Edit `.nsprc` (or `.nsprc.cjs`) instead.
+- Run `better-npm-audit audit --help` for the current flags.
+
 ### pnpm
 
 If your project has a `pnpm-lock.yaml` and no `package-lock.json`, `better-npm-audit` runs `pnpm audit` instead of `npm audit`, and everything else (exceptions, `--level`, `--json`, ...) works the same. `pnpm` must be installed. To choose explicitly, use `--package-manager pnpm` (or `npm`). `--production` becomes `--prod` and `--skip-optional` becomes `--no-optional`. This was tested with pnpm 10; Yarn is not supported.
