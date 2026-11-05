@@ -48,7 +48,7 @@ export function findNsprcModule(dir = '.'): string | undefined {
  */
 export async function loadNsprcModule(fileName: string, dir = '.'): Promise<NsprcFile> {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const loaded = require(path.resolve(dir, fileName));
     const exported = loaded && loaded.default !== undefined ? loaded.default : loaded;
     const value = typeof exported === 'function' ? await exported() : exported;
