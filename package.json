@@ -25,7 +25,7 @@
     "prebuild": "npm run qc && npm run clean",
     "build": "tsc",
     "postbuild": "cp README.md lib && chmod +x ./lib/index.js",
-    "publish:live": "npm run build && npm publish ./lib --tag latest",
+    "publish:maintenance": "npm run build && npm publish ./lib --tag maintenance",
     "publish:next": "npm run build && npm publish ./lib --tag next",
     "lint:fix": "eslint . --fix"
   },
