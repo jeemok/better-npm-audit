@@ -1,6 +1,6 @@
-## Unreleased
+## 4.2.2 (November 25, 2026)
 
-- The security report table now fits the terminal width: the Title and Paths columns shrink first, then the URL column wraps. Output is unchanged when stdout is not a terminal (#162)
+- The security report table now fits the terminal width: the Title and Paths columns shrink first, then the URL column wraps. Output is unchanged when stdout is not a terminal (#162, thanks @MarlonTuckerAareon for the report)
 - Windows: no more `DEP0190` deprecation warning on Node 24+ when running the audit command (#162)
 
 ## 4.2.1 (November 5, 2026)
