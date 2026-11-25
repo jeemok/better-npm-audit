@@ -95,7 +95,7 @@ export default function handleFinish(
     vulnerabilities.forEach(({ severity }) => (bySeverity[severity] = (bySeverity[severity] || 0) + 1));
     // Human-readable output (table, unused exceptions) still goes to stderr
     if (report.length) {
-      printSecurityReport(report, columnsToInclude);
+      printSecurityReport(report, columnsToInclude, process.stdout.columns);
     }
     handleUnusedExceptions(unusedExceptionIds, unusedExceptionModules);
     writeJson(
@@ -115,7 +115,7 @@ export default function handleFinish(
 
   // Print the security report
   if (report.length) {
-    printSecurityReport(report, columnsToInclude);
+    printSecurityReport(report, columnsToInclude, process.stdout.columns);
   }
 
   // Handle unused exceptions

@@ -69,9 +69,16 @@ export function callback(
 function runAudit(auditCommand: string, showStderr: boolean, onDone: (jsonBuffer: string) => void): void {
   // Increase the default max buffer size (1 MB)
   // Run npm directly without a shell, so no argument can be interpreted as a shell command.
-  // Windows needs a shell to run `npm.cmd`; the only user-provided argument (the registry URL) is allowlist-validated.
-  const [command, ...args] = `${auditCommand} --json`.split(' ');
-  const audit = execFile(command, args, { maxBuffer: MAX_BUFFER_SIZE, shell: process.platform === 'win32' });
+  // Windows needs a shell to run `npm.cmd`, so there the whole command line is passed as one string: giving a shell
+  // an args array is deprecated (DEP0190). The only user-provided argument (the registry URL) is allowlist-validated.
+  const fullCommand = `${auditCommand} --json`;
+  const [command, ...args] = fullCommand.split(' ');
+  let audit;
+  if (process.platform === 'win32') {
+    audit = execFile(fullCommand, { maxBuffer: MAX_BUFFER_SIZE, shell: true });
+  } else {
+    audit = execFile(command, args, { maxBuffer: MAX_BUFFER_SIZE });
+  }
 
   // Grab the data in chunks and buffer it as we're unable to parse JSON straight from stdout
   let jsonBuffer = '';
