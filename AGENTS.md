@@ -24,7 +24,7 @@ Run lint, tests and build before pushing. CI runs them on Node 18, 20, 22 and 24
 ## Gotchas
 
 - eslint-config-google and prettier disagree on some style (ternary line breaks, escaped quotes, line length). Use `if/else`, template strings and shorter lines rather than fighting the formatter.
-- Audit commands are run with `execFile`, never a shell string; keep user input (like `--registry`) validated.
+- Audit commands are run with `execFile` and an args array, no shell. Only on Windows (`npm.cmd`) a shell is needed, and there the command is one string (a shell plus an args array is deprecated, DEP0190), so keep user input (like `--registry`) validated.
 - Stdout in `--json` mode must contain only the JSON document; send anything else to stderr.
 - Exit codes are part of the contract: `0` pass, `1` fail or error.
 
