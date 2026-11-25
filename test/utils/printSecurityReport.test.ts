@@ -24,4 +24,49 @@ describe('printSecurityReport', () => {
     const output: string = infoStub.firstCall.args[0];
     longTitle.split(' ').forEach((word) => expect(output).to.include(word));
   });
+
+  describe('terminal width', () => {
+    const row = [
+      '1',
+      'ansi-regex',
+      longTitle,
+      'some-package > another-package > ansi-regex\nsome-package > yet-another-package > ansi-regex',
+      'high',
+      'https://github.com/advisories/GHSA-93q8-gq69-wqmw',
+      'n',
+    ];
+    // eslint-disable-next-line no-control-regex
+    const strip = (text: string) => text.replace(/\u001b\[[0-9;]*m/g, '');
+    const render = (width: number | undefined) => {
+      const infoStub = sinon.stub(console, 'info');
+      printSecurityReport([row], [], width);
+      const output: string = infoStub.firstCall.args[0];
+      infoStub.restore();
+      return output;
+    };
+
+    [80, 121].forEach((width) => {
+      it(`should keep every line within ${width} columns`, () => {
+        render(width)
+          .split('\n')
+          .forEach((line) => expect(strip(line).length).to.be.at.most(width));
+      });
+    });
+
+    it('should keep every word and the whole URL on one line when there is room', () => {
+      const output = render(1000);
+      longTitle.split(' ').forEach((word) => expect(output).to.include(word));
+      expect(output).to.include('https://github.com/advisories/GHSA-93q8-gq69-wqmw');
+    });
+
+    it('should still fit a very narrow terminal by breaking up the URL', () => {
+      render(100)
+        .split('\n')
+        .forEach((line) => expect(strip(line).length).to.be.at.most(100));
+    });
+
+    it('should not change the output when the width is unknown', () => {
+      expect(render(undefined)).to.equal(render(1000));
+    });
+  });
 });
